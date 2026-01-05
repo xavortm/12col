@@ -1,0 +1,69 @@
+---
+// Route: /projects/sliders
+import Layout from '../../layouts/Layout.astro';
+import SliderControl from '../../projects/sliders/components/SliderControl.astro';
+import SliderDisplay from '../../projects/sliders/components/SliderDisplay.astro';
+import '../../projects/sliders/styles/sliders.css';
+---
+
+<Layout>
+	<div class="sliders-page">
+		<header>
+			<a href="/">← Back to Home</a>
+			<h1>Interactive Sliders</h1>
+			<p>Explore different slider controls and interactions</p>
+		</header>
+
+		<main>
+			<SliderControl />
+			<SliderDisplay />
+		</main>
+	</div>
+</Layout>
+
+<script>
+	import '../../projects/sliders/scripts/sliders.ts';
+</script>
+
+<style>
+	.sliders-page {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+
+	header {
+		padding: 2rem;
+		border-bottom: 1px solid #eee;
+	}
+
+	header a {
+		text-decoration: none;
+		color: #0066cc;
+		font-size: 0.9rem;
+		margin-bottom: 1rem;
+		display: inline-block;
+	}
+
+	header a:hover {
+		text-decoration: underline;
+	}
+
+	header h1 {
+		margin: 0.5rem 0 0.25rem 0;
+		font-size: 2rem;
+	}
+
+	header p {
+		margin: 0;
+		color: #666;
+	}
+
+	main {
+		flex: 1;
+		padding: 2rem;
+		max-width: 1200px;
+		margin: 0 auto;
+		width: 100%;
+	}
+</style>
