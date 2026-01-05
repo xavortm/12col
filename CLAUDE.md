@@ -28,12 +28,28 @@ All commands should be run from the project root:
 
 ```
 /
-├── public/          # Static assets (favicon, images, etc.)
+├── public/
+│   └── favicon.svg
 ├── src/
-│   ├── assets/      # Processed assets (optimized by Astro)
-│   ├── components/  # Reusable Astro components
-│   ├── layouts/     # Page layout templates
-│   └── pages/       # File-based routing (each file = route)
+│   ├── assets/
+│   │   └── astro.svg
+│   ├── components/
+│   │   └── Welcome.astro
+│   ├── layouts/
+│   │   └── Layout.astro
+│   ├── pages/
+│   │   ├── index.astro              # Welcome page
+│   │   └── projects/
+│   │       └── [name].astro         # Individual project routes
+│   └── projects/                    # 👈 Standalone projects
+│       └── [name]/
+│           ├── components/          # Project-specific components
+│           ├── scripts/             # TypeScript/JavaScript
+│           ├── styles/              # CSS files
+│           └── assets/              # Images, fonts, etc.
+├── PROJECTS.md                      # Guide for creating projects
+├── CLAUDE.md                        # Project instructions
+└── package.json
 ```
 
 ### Astro Component Format

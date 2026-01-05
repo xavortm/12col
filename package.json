@@ -6,7 +6,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check-docs": "node scripts/check-docs.mjs",
+    "setup-hooks": "bash scripts/setup-hooks.sh"
   },
   "dependencies": {
     "astro": "^5.16.6"
