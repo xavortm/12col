@@ -47,6 +47,9 @@ Astro components use the `.astro` extension with a structure of:
 
 The project uses Astro's strict TypeScript configuration (`astro/tsconfigs/strict`). Type definitions are auto-generated in `.astro/types.d.ts`.
 
+Any generated JS code must be good typescript code - types, structs, generics, anything needed to make it robust.
+Any repeated or reusable types can be shared across files in a project, but rarely or never between separate projects.
+
 ### Routing
 
 Astro uses file-based routing where files in `src/pages/` map directly to routes:
