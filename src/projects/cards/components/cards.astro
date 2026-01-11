@@ -1,0 +1,59 @@
+---
+import Card from './card.astro';
+import { shuffleArray } from '../scripts/shuffle';
+
+interface Props {
+    count: number;
+}
+
+interface GameCard {
+    url: string;
+    alt: string;
+}
+
+const { count } = Astro.props;
+
+const imageParams = `?q=30&w=500&h=500&auto=format&fit=crop`
+
+const gameCards: GameCard[] = [
+    {
+        url: 'https://images.unsplash.com/photo-1559703248-dcaaec9fab78',
+        alt: 'icecream',
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1559181567-c3190ca9959b',
+        alt: 'cherry',
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1557180295-76eee20ae8aa',
+        alt: 'old phone',
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578',
+        alt: 'avocado',
+    },
+];
+
+// Create pairs of cards for memory game and shuffle them
+const outputCards = shuffleArray(gameCards.concat(gameCards)).map((card) => ({
+    ...card,
+    url: card.url + imageParams,
+}));
+
+---
+
+<div class="cards-grid">
+    {outputCards.map((card) => (
+        <Card url={card.url} alt={card.alt} />
+    ))}
+</div>
+
+<style>
+
+    .cards-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+</style>

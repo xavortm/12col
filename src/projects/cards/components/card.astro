@@ -1,0 +1,43 @@
+---
+// Each card on it's own
+
+interface Props {
+    url: string;
+    alt: string;
+}
+
+const { url, alt } = Astro.props;
+---
+
+<button data-state="default" data-pair={alt} type="button">
+    <img src={url} alt={alt} draggable="false" />
+</button>
+
+<style>
+    button {
+        appearance: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        transition: transform 0.1s ease-in-out, opacity 0.3s ease-in-out;
+
+        & :global(img) {
+            display: block;
+            width: 100%;
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+    }
+
+    [data-state="solved"] {
+        opacity: 0;
+    }
+
+    [data-state="open"] {
+        transform: scale(0.95);
+    }
+</style>

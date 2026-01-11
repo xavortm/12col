@@ -1,0 +1,28 @@
+---
+---
+
+<div class="controls">
+	<div class="clock" id="game-clock" data-started="false">
+		<span class="clock__label">Time:</span>
+		<span class="clock__time">00:00:00</span>
+	</div>
+</div>
+
+<style>
+	.controls {
+		display: flex;
+		justify-content: center;
+		margin-block: 1.5rem;
+	}
+
+	.clock {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+	}
+
+	.clock__time {
+		font-variant-numeric: tabular-nums;
+		min-width: 5ch;
+	}
+</style>

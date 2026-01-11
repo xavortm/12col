@@ -73,12 +73,57 @@ Astro uses file-based routing where files in `src/pages/` map directly to routes
 - `src/pages/about.astro` → `/about`
 - `src/pages/projects/[slug].astro` → `/projects/:slug` (dynamic routes)
 
+### Shared Layout Pattern
+
+The `src/layouts/Layout.astro` file provides minimal shared infrastructure:
+- HTML boilerplate (doctype, html, head, body)
+- Common meta tags (charset, viewport, favicon, generator)
+- Title prop
+- Minimal global CSS resets
+
+**What NOT to include in shared layout:**
+- Project-specific components (headers, footers, navigation)
+- Project-specific styles
+- Any visual or structural elements
+
+Projects import the shared layout and build their own structure inside:
+```astro
+import Layout from '../../layouts/Layout.astro';
+import MyHeader from '../../projects/myproject/components/MyHeader.astro';
+
+<Layout title="My Project">
+  <MyHeader />
+  <main>...</main>
+</Layout>
+```
+
+This ensures projects remain isolated while sharing only essential HTML structure.
+
+### CSS Architecture
+
+Projects can organize CSS using cascade layers for predictable specificity:
+
+```css
+@layer normalize, base, layout;
+
+@import url('./vendor/normalize.css');   /* Third-party resets */
+@import url('./base/colors.css');        /* Design tokens */
+@import url('./base/core-styles.css');   /* Base styles */
+@import url('./layout/main.css');        /* Layout styles */
+```
+
+This pattern:
+- Ensures predictable cascade order
+- Prevents specificity conflicts
+- Makes it clear what each CSS file's purpose is
+- Keeps vendor code separate from custom code
+
 ### Packages and libraries
 
 Since each project is standalone, we don't worry on compounding packages. Like React and Vue can work together if they are in different /projects/[project]/ folder easily. But there are some goals:
 
 - Do not use a package unless it's really needed.
-- Add npm packages carefully, only if they are truly beneficial. 
+- Add npm packages carefully, only if they are truly beneficial.
 - Approach any problem with native solution first - browser APIs
 - A11y is a hard requirement, so never use a package that has bad accessibility.
 - We try to serve as little JS as possible and keep pages lightweight.

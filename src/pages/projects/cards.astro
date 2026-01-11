@@ -1,25 +1,40 @@
 ---
-// Route: /projects/sliders
+// Route: /projects/cards
 import Layout from '../../layouts/Layout.astro';
-
-// Load components like:
-// import SliderControl from '../../projects/sliders/components/SliderControl.astro';
+import SiteHeader from '../../projects/cards/components/site-header.astro';
+import SiteFooter from '../../projects/cards/components/site-footer.astro';
+import Cards from '../../projects/cards/components/cards.astro';
+import Controls from '../../projects/cards/components/controls.astro';
 
 import '../../projects/cards/styles/cards.css';
 ---
 
-<Layout>
-	<div class="cards-page">
-		<header>
-			<a href="/">← Back to Home</a>
-			<h1>Cards?</h1>
-		</header>
-
-		<main>
-		</main>
+<Layout title="Cards Demo">
+	<div class="site-container">
+		<SiteHeader title="Cards Demo" subtitle="Testing out card layouts" />
+		<div class="site-container__main">
+			<main class="container">
+				<Controls />
+				<Cards count="2" />
+			</main>
+		</div>
+		<SiteFooter />
 	</div>
 </Layout>
 
 <script>
+	import '../../projects/cards/scripts/clock.ts';
 	import '../../projects/cards/scripts/cards.ts';
 </script>
+
+<style>
+	.site-container {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+
+	.site-container__main {
+		flex-grow: 1;
+	}
+</style>
