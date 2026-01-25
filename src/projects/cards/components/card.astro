@@ -10,7 +10,13 @@ const { url, alt } = Astro.props;
 ---
 
 <button data-state="default" data-pair={alt} type="button">
-    <img src={url} alt={alt} draggable="false" />
+    <div class="inner">
+        <div class="front"></div>
+
+        <div class="back">
+            <img src={url} alt={alt} draggable="false" />
+        </div>
+    </div>
 </button>
 
 <style>
@@ -19,25 +25,58 @@ const { url, alt } = Astro.props;
         border: none;
         padding: 0;
         margin: 0;
-        overflow: hidden;
-        border-radius: 0.5rem;
         transition: transform 0.1s ease-in-out, opacity 0.3s ease-in-out;
+        background: transparent;
+
+        /* The rotation part */
+        perspective: 1000px;
 
         & :global(img) {
             display: block;
             width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        &:active {
-            transform: scale(0.95);
+        &:active {}
+    }
+
+    [data-state="default"] {
+        & .inner {
+            transform: rotateY(0deg);
         }
     }
 
+    [data-state="open"],
     [data-state="solved"] {
-        opacity: 0;
+        & .inner {
+            transform: rotateY(180deg);
+        }
     }
 
-    [data-state="open"] {
-        transform: scale(0.95);
+    .inner {
+        transition: transform var(--card-flip-duration);
+        transform-style: preserve-3d;
+        position: relative;
+        aspect-ratio: 3 / 4;
+    }
+
+    .front,
+    .back {
+        backface-visibility: hidden;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+    .back {
+        transform: rotateY(180deg);
+    }
+
+    .front {
+        background: rgba(255 255 255 / 10%);
     }
 </style>

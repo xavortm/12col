@@ -1,4 +1,5 @@
 let clickCounter = 0;
+let TIME_WAIT_FLIP = 1000; // Default fallback
 
 const canClickOnCard = (card: HTMLElement): boolean => {
 	return card.dataset.state === "default";
@@ -37,21 +38,48 @@ const markCardSolved = (card: HTMLElement) => {
 	sibling.setAttribute("disabled", "");
 };
 
+const disableAllCards = () => {
+	const cards = document.querySelectorAll<HTMLElement>(
+		".cards-grid > button",
+	);
+
+	cards.forEach((card) => {
+		card.setAttribute("disabled", "");
+	});
+};
+
+const enableAllCards = () => {
+	const cards = document.querySelectorAll<HTMLElement>(
+		".cards-grid > button",
+	);
+
+	cards.forEach((card) => {
+		card.removeAttribute("disabled");
+	});
+};
+
 const handleCardClick = (card: HTMLElement) => {
 	clickCounter += 1;
-
-	const sibling = getCardSibling(card);
 
 	if (card.dataset.state === "default") {
 		card.dataset.state = "open";
 	}
 
 	if (clickCounter == 2) {
-		if (clickSolvesCard(card)) {
-			markCardSolved(card);
-		} else {
-			closeOpenCards();
-		}
+		disableAllCards();
+		const isSolved = clickSolvesCard(card);
+		const waitTime = isSolved ? 0 : TIME_WAIT_FLIP;
+
+		// Wait for the flip animation to complete before checking the match
+		setTimeout(() => {
+			if (isSolved) {
+				markCardSolved(card);
+			} else {
+				closeOpenCards();
+			}
+
+			enableAllCards();
+		}, waitTime);
 
 		clickCounter = 0;
 
@@ -63,6 +91,19 @@ document.addEventListener("DOMContentLoaded", () => {
 	const cards = document.querySelectorAll<HTMLElement>(
 		".cards-grid button[data-state]",
 	);
+
+	// Read the CSS variable to sync with animation duration
+	if (cards.length > 0) {
+		const firstCard = cards[0];
+		const style = getComputedStyle(firstCard);
+		const duration = style.getPropertyValue("--card-flip-duration").trim();
+		const durationMs = Number.parseFloat(duration);
+
+		if (!Number.isNaN(durationMs)) {
+			// Add 200ms buffer to the animation duration
+			TIME_WAIT_FLIP = durationMs + 200;
+		}
+	}
 
 	cards.forEach((card) => {
 		card.addEventListener("click", () => {

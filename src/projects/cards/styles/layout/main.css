@@ -1,7 +1,13 @@
 @layer layout {
 
     .container {
-        width: min(calc(100% - var(--site-gutter, 1rem) * 2), var(--site-max-width, 100%));
+        --max-width: var(--site-max-width, 100%);
+
+        width: min(calc(100% - var(--site-gutter, 1rem) * 2), var(--max-width));
         margin-inline: auto;
+    }
+
+    .container--wide {
+        --max-width: var(--site-max-width--wide, 100%);
     }
 }

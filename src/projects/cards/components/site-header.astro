@@ -9,19 +9,35 @@ const { title, subtitle } = Astro.props;
 ---
 
 
-<header class="container">
-    <h1>{title}</h1>
-    {subtitle && <p>{subtitle}</p>}
+<header class="site-header">
+    <div class="container container--wide">
+        <div class="site-header__inner">
+            <h1>{title}</h1>
+            {subtitle && <p>{subtitle}</p>}
 
-    <slot />
+            <slot />
+        </div>
+    </div>
 </header>
 
 <style>
 
-header {
-    padding-block: 2rem;
-    margin-block-end: 2rem;
+.site-header {
+    padding-block: 1em;
     border-bottom: 1px solid var(--color-stroke);
+
+    & h1 {
+        font-size: 1em;
+        border-inline-end: 1px solid var(--color-stroke);
+        padding-inline-end: 1em;
+    }
+}
+
+.site-header__inner {
+    gap: 1em;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
 
 </style>
