@@ -1,3 +1,5 @@
+import { playSound, increasePitch, resetPitch } from "./audio";
+
 let clickCounter = 0;
 let TIME_WAIT_FLIP = 1000; // Default fallback
 let currentScore = 0;
@@ -86,6 +88,7 @@ const handleCardClick = (card: HTMLElement) => {
 
 	if (card.dataset.state === "default") {
 		card.dataset.state = "open";
+		playSound("flip");
 	}
 
 	if (clickCounter == 2) {
@@ -97,6 +100,7 @@ const handleCardClick = (card: HTMLElement) => {
 		setTimeout(() => {
 			if (isSolved) {
 				markCardSolved(card);
+				increasePitch();
 			} else {
 				closeOpenCards();
 			}
@@ -140,6 +144,7 @@ function bindCardHandlers(): void {
 	clickCounter = 0;
 	currentScore = 0;
 	updateScoreDisplay();
+	resetPitch();
 }
 
 // Bind on game init event (fired by game-init.ts)

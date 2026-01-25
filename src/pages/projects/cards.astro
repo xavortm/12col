@@ -5,13 +5,16 @@ import SiteHeader from '../../projects/cards/components/site-header.astro';
 import SiteFooter from '../../projects/cards/components/site-footer.astro';
 import CardGrid from '../../projects/cards/components/cards.astro';
 import Controls from '../../projects/cards/components/controls.astro';
+import MuteButton from '../../projects/cards/components/mute-button.astro';
 
 import '../../projects/cards/styles/cards.css';
 ---
 
 <Layout title="Cards Demo">
 	<div class="site-container">
-		<SiteHeader title="Cards Demo" subtitle="Testing out card layouts" />
+		<SiteHeader title="Cards Demo" subtitle="Testing out card layouts">
+			<MuteButton />
+		</SiteHeader>
 		<div class="site-container__main">
 			<main class="container container--wide">
 				<Controls />

@@ -1,0 +1,84 @@
+---
+---
+
+<button
+    type="button"
+    class="mute-button"
+    id="mute-button"
+    aria-label="Mute sound"
+    aria-pressed="false"
+    data-ready="false"
+>
+    <svg class="mute-button__icon mute-button__icon--unmuted" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+    </svg>
+    <svg class="mute-button__icon mute-button__icon--muted" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <line x1="23" y1="9" x2="17" y2="15"></line>
+        <line x1="17" y1="9" x2="23" y2="15"></line>
+    </svg>
+</button>
+
+<style>
+.mute-button {
+    margin-inline-start: auto;
+    padding: 0.5em;
+    background: transparent;
+    border: 1px solid var(--color-stroke);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    transition: background-color 0.15s ease;
+
+    &[data-ready="false"] {
+        visibility: hidden;
+    }
+
+    &:hover {
+        background-color: var(--color-stroke);
+    }
+
+    &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+    }
+}
+
+.mute-button__icon--muted {
+    display: none;
+}
+
+.mute-button[aria-pressed="true"] {
+    .mute-button__icon--unmuted {
+        display: none;
+    }
+    .mute-button__icon--muted {
+        display: block;
+    }
+}
+</style>
+
+<script>
+    import { toggleMute, isMuted } from '../scripts/audio';
+
+    const button = document.getElementById('mute-button');
+
+    if (button) {
+        // Sync initial state then reveal button
+        const muted = isMuted();
+        button.setAttribute('aria-pressed', String(muted));
+        button.setAttribute('aria-label', muted ? 'Unmute sound' : 'Mute sound');
+        button.dataset.ready = 'true';
+
+        button.addEventListener('click', () => {
+            const muted = toggleMute();
+            button.setAttribute('aria-pressed', String(muted));
+            button.setAttribute('aria-label', muted ? 'Unmute sound' : 'Mute sound');
+        });
+    }
+</script>
