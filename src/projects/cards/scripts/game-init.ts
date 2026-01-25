@@ -56,6 +56,11 @@ function createCardHTML(url: string, alt: string): string {
 	`;
 }
 
+function shouldShuffle(): boolean {
+	const params = new URLSearchParams(window.location.search);
+	return params.get('shuffle') !== 'false';
+}
+
 function renderCards(packId: string, cardCount: number): void {
 	const grid = document.getElementById('cards-grid');
 	if (!grid) return;
@@ -74,9 +79,9 @@ function renderCards(packId: string, cardCount: number): void {
 		url: card.url + IMAGE_PARAMS,
 	}));
 
-	const shuffledCards = shuffleArray(cardPairs);
+	const orderedCards = shouldShuffle() ? shuffleArray(cardPairs) : cardPairs;
 
-	grid.innerHTML = shuffledCards.map((card) => createCardHTML(card.url, card.alt)).join('');
+	grid.innerHTML = orderedCards.map((card) => createCardHTML(card.url, card.alt)).join('');
 }
 
 function updateCountSelector(cardCount: ValidCount): void {

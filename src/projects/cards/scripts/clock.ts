@@ -11,12 +11,12 @@ const clockState: ClockState = {
 	intervalId: null,
 };
 
-interface TimeFormat {
+export interface TimeFormat {
 	display: string;
 	iso8601: string;
 }
 
-function formatTime(seconds: number): TimeFormat {
+export function formatTime(seconds: number): TimeFormat {
 	const hours = Math.floor(seconds / 3600);
 	const minutes = Math.floor((seconds % 3600) / 60);
 	const secs = seconds % 60;
@@ -100,8 +100,11 @@ function initClock(): void {
 	bindClockHandlers();
 }
 
-// Bind on game init event (fired by game-init.ts)
-window.addEventListener("game:init", initClock);
+// Browser-only initialization
+if (typeof window !== "undefined") {
+	// Bind on game init event (fired by game-init.ts)
+	window.addEventListener("game:init", initClock);
 
-// Also bind on initial load in case game:init fires before this script loads
-document.addEventListener("DOMContentLoaded", initClock);
+	// Also bind on initial load in case game:init fires before this script loads
+	document.addEventListener("DOMContentLoaded", initClock);
+}

@@ -1,7 +1,7 @@
 // Grid layout calculator - determines optimal column count to fit all cards
 // Sets --cards-per-row CSS variable, letting CSS handle the actual sizing
 
-interface GridConfig {
+export interface GridConfig {
 	aspectRatio: number; // card width / height (3:4 = 0.75)
 	gapPx: number;
 }
@@ -11,7 +11,7 @@ const CONFIG: GridConfig = {
 	gapPx: 16, // 1rem = 16px
 };
 
-function calculateOptimalColumns(
+export function calculateOptimalColumns(
 	containerWidth: number,
 	containerHeight: number,
 	cardCount: number,
@@ -92,9 +92,11 @@ function initGridLayout(): void {
 	updateGridLayout();
 }
 
-// Initialize on DOM ready
-if (document.readyState === 'loading') {
-	document.addEventListener('DOMContentLoaded', initGridLayout);
-} else {
-	initGridLayout();
+// Browser-only initialization
+if (typeof document !== "undefined") {
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", initGridLayout);
+	} else {
+		initGridLayout();
+	}
 }

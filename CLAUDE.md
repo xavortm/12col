@@ -21,6 +21,9 @@ All commands should be run from the project root:
 - `pnpm build` - Build production site to `./dist/`
 - `pnpm preview` - Preview production build locally
 - `pnpm astro ...` - Run Astro CLI commands (e.g., `pnpm astro add`, `pnpm astro check`)
+- `pnpm test` - Run unit tests in watch mode
+- `pnpm test:run` - Run unit tests once
+- `pnpm test:e2e` - Run E2E tests
 
 ## Architecture
 
@@ -135,3 +138,34 @@ Since each project is standalone, we don't worry on compounding packages. Like R
 - Approach any problem with native solution first - browser APIs
 - A11y is a hard requirement, so never use a package that has bad accessibility.
 - We try to serve as little JS as possible and keep pages lightweight.
+
+## Testing
+
+### Test Commands
+
+- `pnpm test` - Run unit tests in watch mode
+- `pnpm test:run` - Run unit tests once
+- `pnpm test:e2e` - Run E2E tests
+- `pnpm test:e2e --headed` - Run E2E tests with visible browser
+- `pnpm test:e2e --ui` - Run E2E tests in interactive UI mode
+
+### Core Principle: Tests Are the Source of Truth
+
+**CRITICAL:** When tests fail, fix the implementation - NOT the tests.
+
+Tests define expected behavior. They should only be modified when:
+- Selectors changed in the UI (class names, IDs, data attributes)
+- HTML structure legitimately changed as part of a feature
+- New feature requires new test coverage
+
+Use `/test` skill to run tests and handle failures properly.
+
+### Test Structure
+
+- **Unit tests** (`src/**/*.test.ts`): Test pure functions like `formatTime()`, `calculateOptimalColumns()`
+- **E2E tests** (`e2e/*.spec.ts`): Test user interactions in the browser
+
+### Deterministic E2E Testing
+
+Use `?shuffle=false` URL parameter for predictable card positions in tests.
+Cards appear in order with pairs at positions `(i, i + pairCount)`.

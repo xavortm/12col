@@ -1,4 +1,4 @@
-import { playSound, increasePitch, resetPitch } from "./audio";
+import { increasePitch, playSound, resetPitch } from "./audio";
 
 let clickCounter = 0;
 let TIME_WAIT_FLIP = 1000; // Default fallback

@@ -87,6 +87,9 @@ All commands are run from the root of the project, from a terminal:
 | `pnpm preview`            | Preview your build locally, before deploying     |
 | `pnpm astro ...`          | Run CLI commands like `astro add`, `astro check` |
 | `pnpm astro -- --help`    | Get help using the Astro CLI                     |
+| `pnpm test`               | Run unit tests in watch mode                     |
+| `pnpm test:run`           | Run unit tests once                              |
+| `pnpm test:e2e`           | Run E2E tests with Playwright                    |
 | `pnpm check-docs`         | Check if documentation is up to date             |
 | `pnpm setup-hooks`        | Install git hooks for automatic doc checking     |
 
