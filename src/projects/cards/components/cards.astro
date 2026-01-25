@@ -8,27 +8,19 @@
 
 <style>
     .cards-grid {
-        container: cards-grid / inline-size;
+        /* Fill available space so grid-layout.ts can calculate dimensions */
+        flex: 1;
+        min-height: 0;
     }
 
     .cards-grid__inner {
         --card-flip-duration: 800ms;
-        --cards-per-row: 3;
+        --cards-per-row: 4; /* Default, overridden by grid-layout.ts */
 
         display: grid;
         gap: 1rem;
         grid-template-columns: repeat(var(--cards-per-row), 1fr);
-
-        @container cards-grid (width > 32rem) {
-            --cards-per-row: 4;
-        }
-
-        @container cards-grid (width > 48rem) {
-            --cards-per-row: 5;
-        }
-
-        @container cards-grid (width > 60rem) {
-            --cards-per-row: 9;
-        }
+        height: 100%;
+        align-content: start;
     }
 </style>

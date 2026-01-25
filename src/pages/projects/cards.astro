@@ -29,16 +29,28 @@ import '../../projects/cards/styles/cards.css';
 	import '../../projects/cards/scripts/game-init.ts';
 	import '../../projects/cards/scripts/clock.ts';
 	import '../../projects/cards/scripts/cards.ts';
+	import '../../projects/cards/scripts/grid-layout.ts';
 </script>
 
 <style>
 	.site-container {
 		display: flex;
 		flex-direction: column;
-		min-height: 100vh;
+		height: 100vh;
 	}
 
 	.site-container__main {
-		flex-grow: 1;
+		flex: 1;
+		min-height: 0;
+		display: flex;
+		flex-direction: column;
+		padding-block: 1rem;
+	}
+
+	.site-container__main > .container {
+		flex: 1;
+		min-height: 0;
+		display: flex;
+		flex-direction: column;
 	}
 </style>
