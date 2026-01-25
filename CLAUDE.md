@@ -118,6 +118,14 @@ This pattern:
 - Makes it clear what each CSS file's purpose is
 - Keeps vendor code separate from custom code
 
+### CSS Naming Conventions
+
+Use logical properties terminology for directional class names:
+- Use `__start` / `__end` instead of `__left` / `__right`
+- Use `__block-start` / `__block-end` instead of `__top` / `__bottom`
+
+This aligns with CSS logical properties and supports RTL layouts.
+
 ### Packages and libraries
 
 Since each project is standalone, we don't worry on compounding packages. Like React and Vue can work together if they are in different /projects/[project]/ folder easily. But there are some goals:
