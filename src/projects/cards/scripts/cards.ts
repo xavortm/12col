@@ -139,7 +139,11 @@ function bindCardHandlers(): void {
 	// Reset game state
 	clickCounter = 0;
 	currentScore = 0;
+	updateScoreDisplay();
 }
 
 // Bind on game init event (fired by game-init.ts)
 window.addEventListener("game:init", bindCardHandlers);
+
+// Also bind on initial load in case game:init fires before this script loads
+document.addEventListener("DOMContentLoaded", bindCardHandlers);

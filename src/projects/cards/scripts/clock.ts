@@ -64,14 +64,44 @@ function startClock(): void {
 	clockState.intervalId = window.setInterval(updateClock, 1000);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-	// Select all card figures
-	const cards = document.querySelectorAll<HTMLElement>(".cards-grid figure");
+function resetClock(): void {
+	if (clockState.intervalId !== null) {
+		clearInterval(clockState.intervalId);
+		clockState.intervalId = null;
+	}
+	clockState.startTime = 0;
 
-	// Add click listener to each card
+	const clockElement = document.getElementById("game-clock");
+	const timeDisplay = clockElement?.querySelector<HTMLTimeElement>(".clock__time");
+
+	if (clockElement) {
+		clockElement.dataset.started = "false";
+	}
+	if (timeDisplay) {
+		timeDisplay.textContent = "00:00:00";
+		timeDisplay.dateTime = "PT0S";
+	}
+}
+
+function bindClockHandlers(): void {
+	const cards = document.querySelectorAll<HTMLElement>(
+		".cards-grid button[data-state]",
+	);
+
 	cards.forEach((card) => {
 		card.addEventListener("click", () => {
 			startClock();
 		});
 	});
-});
+}
+
+function initClock(): void {
+	resetClock();
+	bindClockHandlers();
+}
+
+// Bind on game init event (fired by game-init.ts)
+window.addEventListener("game:init", initClock);
+
+// Also bind on initial load in case game:init fires before this script loads
+document.addEventListener("DOMContentLoaded", initClock);

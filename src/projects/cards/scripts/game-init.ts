@@ -26,8 +26,20 @@ function getStateFromURL(): GameState {
 
 function updateURL(state: GameState): void {
 	const url = new URL(window.location.href);
-	url.searchParams.set('pack', state.packId);
-	url.searchParams.set('count', String(state.cardCount));
+
+	// Only add params that differ from defaults, remove ones that match
+	if (state.packId !== DEFAULT_PACK_ID) {
+		url.searchParams.set('pack', state.packId);
+	} else {
+		url.searchParams.delete('pack');
+	}
+
+	if (state.cardCount !== DEFAULT_COUNT) {
+		url.searchParams.set('count', String(state.cardCount));
+	} else {
+		url.searchParams.delete('count');
+	}
+
 	window.history.replaceState({}, '', url.toString());
 }
 
@@ -90,25 +102,20 @@ function updateScorePointsPerPair(cardCount: ValidCount): void {
 	}
 }
 
-function resetGameState(): void {
-	// Reset score
-	const scoreValue = document.getElementById('score-value');
-	if (scoreValue) {
-		scoreValue.textContent = '0';
-	}
-
-	// Reset clock
+function isGameActive(): boolean {
 	const clock = document.getElementById('game-clock');
-	const clockTime = clock?.querySelector('.clock__time');
-	if (clock && clockTime) {
-		clock.dataset.started = 'false';
-		clockTime.textContent = '00:00:00';
-		clockTime.setAttribute('datetime', 'PT0S');
-	}
+	return clock?.dataset.started === 'true';
 }
 
+function confirmGameReset(): boolean {
+	if (!isGameActive()) return true;
+	return confirm('This will reset your current game. Are you sure?');
+}
+
+// Note: Score and clock reset are handled by cards.ts and clock.ts
+// via the game:init event dispatched in initGame()
+
 function initGame(state: GameState): void {
-	resetGameState();
 	renderCards(state.packId, state.cardCount);
 	updateCountSelector(state.cardCount);
 	updatePackSelector(state.packId);
@@ -128,6 +135,7 @@ function setupCountSelector(): void {
 			const isCurrentlySelected = button.getAttribute('aria-pressed') === 'true';
 
 			if (isCurrentlySelected) return;
+			if (!confirmGameReset()) return;
 
 			const currentState = getStateFromURL();
 			initGame({ ...currentState, cardCount: count });
@@ -145,6 +153,12 @@ function setupPackSelector(): void {
 	).join('');
 
 	select.addEventListener('change', () => {
+		const previousValue = getStateFromURL().packId;
+		if (!confirmGameReset()) {
+			select.value = previousValue;
+			return;
+		}
+
 		const currentState = getStateFromURL();
 		initGame({ ...currentState, packId: select.value });
 	});
