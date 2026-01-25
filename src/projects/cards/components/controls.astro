@@ -1,17 +1,19 @@
 ---
 import Clock from './clock.astro';
+import Score from './score.astro';
 import PackSelector from './pack-selector.astro';
-
-interface Props {
-	currentPackId?: string;
-}
-
-const { currentPackId } = Astro.props;
+import CardCountSelector from './card-count-selector.astro';
 ---
 
 <div class="controls">
-	<Clock />
-	<PackSelector currentPackId={currentPackId} />
+	<div class="controls__start">
+		<Clock />
+		<Score />
+	</div>
+	<div class="controls__end">
+		<CardCountSelector />
+		<PackSelector />
+	</div>
 </div>
 
 <style>
@@ -20,5 +22,14 @@ const { currentPackId } = Astro.props;
 		justify-content: space-between;
 		align-items: center;
 		margin-block: 1.5rem;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.controls__start,
+	.controls__end {
+		display: flex;
+		gap: 1.5rem;
+		align-items: center;
 	}
 </style>

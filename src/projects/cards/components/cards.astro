@@ -1,45 +1,17 @@
 ---
-import Card from './card.astro';
-import { shuffleArray } from '../scripts/shuffle';
-import { PACKS, DEFAULT_PACK_ID } from '../data/packs/registry';
-
-interface Props {
-    packId?: string;
-}
-
-const { packId = DEFAULT_PACK_ID } = Astro.props;
-
-const pack = PACKS[packId];
-if (!pack) {
-    throw new Error(`Pack "${packId}" not found. Available packs: ${Object.keys(PACKS).join(', ')}`);
-}
-
-const imageParams = `?q=30&w=500&h=500&auto=format&fit=crop`;
-
-// Create pairs of cards for memory game and shuffle them
-const outputCards = shuffleArray(pack.cards.concat(pack.cards)).map((card) => ({
-    ...card,
-    url: card.url + imageParams,
-}));
-
+// Card grid container - populated by client-side JavaScript
 ---
 
-
 <div class="cards-grid">
-    <div class="cards-grid__inner">
-        {outputCards.map((card) => (
-            <Card url={card.url} alt={card.alt} />
-        ))}
-    </div>
+    <div class="cards-grid__inner" id="cards-grid"></div>
 </div>
 
 <style>
-
     .cards-grid {
         container: cards-grid / inline-size;
     }
 
-    .cards-grid__inner{
+    .cards-grid__inner {
         --card-flip-duration: 800ms;
         --cards-per-row: 3;
 

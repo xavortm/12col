@@ -3,14 +3,10 @@
 import Layout from '../../layouts/Layout.astro';
 import SiteHeader from '../../projects/cards/components/site-header.astro';
 import SiteFooter from '../../projects/cards/components/site-footer.astro';
-import Cards from '../../projects/cards/components/cards.astro';
+import CardGrid from '../../projects/cards/components/cards.astro';
 import Controls from '../../projects/cards/components/controls.astro';
-import { DEFAULT_PACK_ID, PACKS } from '../../projects/cards/data/packs/registry';
 
 import '../../projects/cards/styles/cards.css';
-
-const packParam = Astro.url.searchParams.get('pack');
-const packId = packParam && PACKS[packParam] ? packParam : DEFAULT_PACK_ID;
 ---
 
 <Layout title="Cards Demo">
@@ -18,8 +14,8 @@ const packId = packParam && PACKS[packParam] ? packParam : DEFAULT_PACK_ID;
 		<SiteHeader title="Cards Demo" subtitle="Testing out card layouts" />
 		<div class="site-container__main">
 			<main class="container container--wide">
-				<Controls currentPackId={packId} />
-				<Cards packId={packId} />
+				<Controls />
+				<CardGrid />
 			</main>
 		</div>
 		<SiteFooter />
@@ -27,6 +23,7 @@ const packId = packParam && PACKS[packParam] ? packParam : DEFAULT_PACK_ID;
 </Layout>
 
 <script>
+	import '../../projects/cards/scripts/game-init.ts';
 	import '../../projects/cards/scripts/clock.ts';
 	import '../../projects/cards/scripts/cards.ts';
 </script>

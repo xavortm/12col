@@ -1,0 +1,27 @@
+@layer components {
+	.button {
+		font: inherit;
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--color-stroke);
+		border-radius: var(--radius-control);
+		background: var(--color-bg);
+		color: var(--color-fg);
+		cursor: pointer;
+	}
+
+	.button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	.button--primary {
+		background: var(--color-fg);
+		color: var(--color-bg);
+		border-color: var(--color-fg);
+	}
+
+	.button--primary:disabled {
+		background: var(--color-muted);
+		border-color: var(--color-muted);
+	}
+}

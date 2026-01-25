@@ -1,0 +1,21 @@
+---
+// Score display - points per pair set by client-side JavaScript
+---
+
+<div class="score" id="game-score">
+	<span class="score__label" id="score-label">Score:</span>
+	<output class="score__value" id="score-value" aria-labelledby="score-label" aria-live="polite">0</output>
+</div>
+
+<style>
+	.score {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+	}
+
+	.score__value {
+		font-variant-numeric: tabular-nums;
+		min-width: 3ch;
+	}
+</style>

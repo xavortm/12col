@@ -1,5 +1,6 @@
 let clickCounter = 0;
 let TIME_WAIT_FLIP = 1000; // Default fallback
+let currentScore = 0;
 
 const canClickOnCard = (card: HTMLElement): boolean => {
 	return card.dataset.state === "default";
@@ -28,6 +29,26 @@ const closeOpenCards = () => {
 	});
 };
 
+const getPointsPerPair = (): number => {
+	const scoreElement = document.getElementById("game-score");
+	if (!scoreElement) return 1;
+	const points = scoreElement.dataset.pointsPerPair;
+	return points ? Number.parseInt(points, 10) : 1;
+};
+
+const updateScoreDisplay = () => {
+	const scoreValue = document.getElementById("score-value");
+	if (scoreValue) {
+		scoreValue.textContent = String(currentScore);
+	}
+};
+
+const addScore = () => {
+	const points = getPointsPerPair();
+	currentScore += points;
+	updateScoreDisplay();
+};
+
 const markCardSolved = (card: HTMLElement) => {
 	const sibling = getCardSibling(card);
 
@@ -36,11 +57,13 @@ const markCardSolved = (card: HTMLElement) => {
 
 	card.setAttribute("disabled", "");
 	sibling.setAttribute("disabled", "");
+
+	addScore();
 };
 
 const disableAllCards = () => {
 	const cards = document.querySelectorAll<HTMLElement>(
-		".cards-grid > button",
+		".cards-grid__inner > button",
 	);
 
 	cards.forEach((card) => {
@@ -50,7 +73,7 @@ const disableAllCards = () => {
 
 const enableAllCards = () => {
 	const cards = document.querySelectorAll<HTMLElement>(
-		".cards-grid > button",
+		".cards-grid__inner > button",
 	);
 
 	cards.forEach((card) => {
@@ -87,7 +110,7 @@ const handleCardClick = (card: HTMLElement) => {
 	}
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+function bindCardHandlers(): void {
 	const cards = document.querySelectorAll<HTMLElement>(
 		".cards-grid button[data-state]",
 	);
@@ -112,4 +135,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		});
 	});
-});
+
+	// Reset game state
+	clickCounter = 0;
+	currentScore = 0;
+}
+
+// Bind on game init event (fired by game-init.ts)
+window.addEventListener("game:init", bindCardHandlers);
