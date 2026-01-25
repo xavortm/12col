@@ -1,0 +1,26 @@
+---
+---
+
+<div class="clock" id="game-clock" data-started="false">
+    <span class="clock__label" id="clock-label">Time:</span>
+    <time
+        class="clock__time"
+        datetime="PT0S"
+        role="timer"
+        aria-labelledby="clock-label"
+        aria-live="off"
+    >00:00:00</time>
+</div>
+
+<style>
+    .clock {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .clock__time {
+        font-variant-numeric: tabular-nums;
+        min-width: 5ch;
+    }
+</style>

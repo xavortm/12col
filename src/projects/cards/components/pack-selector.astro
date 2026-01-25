@@ -1,0 +1,46 @@
+---
+import { PACK_LIST, DEFAULT_PACK_ID } from '../data/packs/registry';
+
+interface Props {
+    currentPackId?: string;
+}
+
+const { currentPackId = DEFAULT_PACK_ID } = Astro.props;
+---
+
+<div class="pack-selector">
+    <label for="pack-select" class="pack-selector__label">Pack:</label>
+    <select id="pack-select" class="pack-selector__select">
+        {PACK_LIST.map((pack) => (
+            <option value={pack.id} selected={pack.id === currentPackId}>
+                {pack.name}
+            </option>
+        ))}
+    </select>
+</div>
+
+<script>
+    const select = document.getElementById('pack-select') as HTMLSelectElement;
+    select?.addEventListener('change', () => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('pack', select.value);
+        window.location.href = url.toString();
+    });
+</script>
+
+<style>
+    .pack-selector {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .pack-selector__select {
+        font: inherit;
+        padding: 0.25rem 0.5rem;
+        border: 1px solid var(--color-stroke);
+        border-radius: 4px;
+        background: var(--color-bg);
+        color: var(--color-fg);
+    }
+</style>

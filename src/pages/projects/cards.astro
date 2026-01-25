@@ -5,8 +5,12 @@ import SiteHeader from '../../projects/cards/components/site-header.astro';
 import SiteFooter from '../../projects/cards/components/site-footer.astro';
 import Cards from '../../projects/cards/components/cards.astro';
 import Controls from '../../projects/cards/components/controls.astro';
+import { DEFAULT_PACK_ID, PACKS } from '../../projects/cards/data/packs/registry';
 
 import '../../projects/cards/styles/cards.css';
+
+const packParam = Astro.url.searchParams.get('pack');
+const packId = packParam && PACKS[packParam] ? packParam : DEFAULT_PACK_ID;
 ---
 
 <Layout title="Cards Demo">
@@ -14,8 +18,8 @@ import '../../projects/cards/styles/cards.css';
 		<SiteHeader title="Cards Demo" subtitle="Testing out card layouts" />
 		<div class="site-container__main">
 			<main class="container container--wide">
-				<Controls />
-				<Cards count="2" />
+				<Controls currentPackId={packId} />
+				<Cards packId={packId} />
 			</main>
 		</div>
 		<SiteFooter />

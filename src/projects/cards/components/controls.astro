@@ -1,28 +1,24 @@
 ---
+import Clock from './clock.astro';
+import PackSelector from './pack-selector.astro';
+
+interface Props {
+	currentPackId?: string;
+}
+
+const { currentPackId } = Astro.props;
 ---
 
 <div class="controls">
-	<div class="clock" id="game-clock" data-started="false">
-		<span class="clock__label">Time:</span>
-		<span class="clock__time">00:00:00</span>
-	</div>
+	<Clock />
+	<PackSelector currentPackId={currentPackId} />
 </div>
 
 <style>
 	.controls {
 		display: flex;
-		justify-content: center;
-		margin-block: 1.5rem;
-	}
-
-	.clock {
-		display: flex;
-		gap: 0.5rem;
+		justify-content: space-between;
 		align-items: center;
-	}
-
-	.clock__time {
-		font-variant-numeric: tabular-nums;
-		min-width: 5ch;
+		margin-block: 1.5rem;
 	}
 </style>

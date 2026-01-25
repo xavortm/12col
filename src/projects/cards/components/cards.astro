@@ -1,25 +1,23 @@
 ---
 import Card from './card.astro';
 import { shuffleArray } from '../scripts/shuffle';
-import gameCardsData from '../data/cards.json';
+import { PACKS, DEFAULT_PACK_ID } from '../data/packs/registry';
 
 interface Props {
-    count: number;
+    packId?: string;
 }
 
-interface GameCard {
-    url: string;
-    alt: string;
+const { packId = DEFAULT_PACK_ID } = Astro.props;
+
+const pack = PACKS[packId];
+if (!pack) {
+    throw new Error(`Pack "${packId}" not found. Available packs: ${Object.keys(PACKS).join(', ')}`);
 }
 
-const { count } = Astro.props;
-
-const imageParams = `?q=30&w=500&h=500&auto=format&fit=crop`
-
-const gameCards: GameCard[] = gameCardsData;
+const imageParams = `?q=30&w=500&h=500&auto=format&fit=crop`;
 
 // Create pairs of cards for memory game and shuffle them
-const outputCards = shuffleArray(gameCards.concat(gameCards)).map((card) => ({
+const outputCards = shuffleArray(pack.cards.concat(pack.cards)).map((card) => ({
     ...card,
     url: card.url + imageParams,
 }));
