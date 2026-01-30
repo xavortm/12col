@@ -16,11 +16,7 @@ This project is a "welcome" starter page on / that links to sub-projects under /
 
 All commands should be run from the project root:
 
-- `pnpm install` - Install dependencies
-- `pnpm dev` - Start development server at `localhost:4321`
 - `pnpm build` - Build production site to `./dist/`
-- `pnpm preview` - Preview production build locally
-- `pnpm astro ...` - Run Astro CLI commands (e.g., `pnpm astro add`, `pnpm astro check`)
 - `pnpm test` - Run unit tests in watch mode
 - `pnpm test:run` - Run unit tests once
 - `pnpm test:e2e` - Run E2E tests
@@ -145,9 +141,6 @@ Since each project is standalone, we don't worry on compounding packages. Like R
 
 - `pnpm test` - Run unit tests in watch mode
 - `pnpm test:run` - Run unit tests once
-- `pnpm test:e2e` - Run E2E tests
-- `pnpm test:e2e --headed` - Run E2E tests with visible browser
-- `pnpm test:e2e --ui` - Run E2E tests in interactive UI mode
 
 ### Core Principle: Tests Are the Source of Truth
 

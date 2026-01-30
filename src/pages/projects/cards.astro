@@ -6,6 +6,7 @@ import SiteFooter from '../../projects/cards/components/site-footer.astro';
 import CardGrid from '../../projects/cards/components/cards.astro';
 import Controls from '../../projects/cards/components/controls.astro';
 import MuteButton from '../../projects/cards/components/mute-button.astro';
+import VictoryModal from '../../projects/cards/components/victory-modal.astro';
 
 import '../../projects/cards/styles/cards.css';
 ---
@@ -23,6 +24,7 @@ import '../../projects/cards/styles/cards.css';
 		</div>
 		<SiteFooter />
 	</div>
+	<VictoryModal />
 </Layout>
 
 <script>
@@ -30,6 +32,7 @@ import '../../projects/cards/styles/cards.css';
 	import '../../projects/cards/scripts/clock.ts';
 	import '../../projects/cards/scripts/cards.ts';
 	import '../../projects/cards/scripts/grid-layout.ts';
+	import '../../projects/cards/scripts/victory-modal.ts';
 </script>
 
 <style>

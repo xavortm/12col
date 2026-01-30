@@ -24,4 +24,10 @@
 		background: var(--color-muted);
 		border-color: var(--color-muted);
 	}
+
+	.button--destructive {
+		color: var(--color-destructive-fg);
+		border-color: var(--color-destructive-fg);
+		background: transparent;
+	}
 }

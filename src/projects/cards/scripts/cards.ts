@@ -51,6 +51,21 @@ const addScore = () => {
 	updateScoreDisplay();
 };
 
+const checkGameComplete = (): boolean => {
+	const allCards = document.querySelectorAll<HTMLElement>(
+		".cards-grid__inner > button",
+	);
+	return Array.from(allCards).every((card) => card.dataset.state === "solved");
+};
+
+const dispatchGameComplete = () => {
+	window.dispatchEvent(
+		new CustomEvent("game:complete", {
+			detail: { score: currentScore },
+		}),
+	);
+};
+
 const markCardSolved = (card: HTMLElement) => {
 	const sibling = getCardSibling(card);
 
@@ -61,6 +76,10 @@ const markCardSolved = (card: HTMLElement) => {
 	sibling.setAttribute("disabled", "");
 
 	addScore();
+
+	if (checkGameComplete()) {
+		dispatchGameComplete();
+	}
 };
 
 const disableAllCards = () => {

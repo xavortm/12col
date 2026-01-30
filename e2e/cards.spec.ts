@@ -227,6 +227,59 @@ test.describe("Cards Game (deterministic)", () => {
 		await expect(scoreValue).toHaveText(String(pairCount));
 	});
 
+	test("shows victory modal when game is completed", async ({ page }) => {
+		const cards = page.locator("#cards-grid button");
+		const cardCount = await cards.count();
+		const pairCount = cardCount / 2;
+
+		// Match all pairs to complete the game
+		for (let i = 0; i < pairCount; i++) {
+			await cards.nth(i).click();
+			await cards.nth(i + pairCount).click();
+			await page.waitForTimeout(100);
+		}
+
+		// Victory modal should appear
+		const modal = page.locator("#victory-modal");
+		await expect(modal).toBeVisible();
+
+		// Modal should show the correct score
+		const modalScore = page.locator("#victory-score");
+		await expect(modalScore).toHaveText(String(pairCount));
+	});
+
+	test("play again button resets the game", async ({ page }) => {
+		const cards = page.locator("#cards-grid button");
+		const cardCount = await cards.count();
+		const pairCount = cardCount / 2;
+
+		// Complete the game
+		for (let i = 0; i < pairCount; i++) {
+			await cards.nth(i).click();
+			await cards.nth(i + pairCount).click();
+			await page.waitForTimeout(100);
+		}
+
+		// Click Play Again
+		const playAgainButton = page.locator("#victory-play-again");
+		await expect(playAgainButton).toBeVisible();
+		await playAgainButton.click();
+
+		// Modal should close
+		const modal = page.locator("#victory-modal");
+		await expect(modal).not.toBeVisible();
+
+		// Cards should be reset to default state
+		const defaultCards = page.locator(
+			'#cards-grid button[data-state="default"]',
+		);
+		await expect(defaultCards).toHaveCount(cardCount);
+
+		// Score should be reset
+		const scoreValue = page.locator("#score-value");
+		await expect(scoreValue).toHaveText("0");
+	});
+
 	test("pairs are in predictable positions without shuffle", async ({
 		page,
 	}) => {

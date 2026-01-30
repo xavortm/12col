@@ -1,0 +1,139 @@
+---
+// Victory modal - shown when the player completes the game
+---
+
+<dialog class="victory-modal" id="victory-modal" aria-labelledby="victory-title">
+    <div class="victory-modal__content">
+        <h2 class="victory-modal__title" id="victory-title">Done!</h2>
+        <p class="victory-modal__score">
+            Your score is: <strong id="victory-score">0</strong>
+        </p>
+        <p class="victory-modal__question">Do you want to play a new game?</p>
+        <div class="victory-modal__actions">
+            <button type="button" class="button" id="victory-play-again">
+                Play Again
+            </button>
+            <button type="button" class="button button--destructive" id="victory-close">
+                Close
+            </button>
+        </div>
+    </div>
+</dialog>
+
+<style>
+    .victory-modal {
+        border: none;
+        border-radius: 1rem;
+        padding: 0;
+        max-width: 90vw;
+        width: 24rem;
+        background: var(--color-surface, #fff);
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
+    }
+
+    .victory-modal::backdrop {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+    }
+
+    .victory-modal[open] {
+        animation: modal-appear 0.3s ease-out;
+    }
+
+    .victory-modal[open]::backdrop {
+        animation: backdrop-appear 0.3s ease-out;
+    }
+
+    @keyframes modal-appear {
+        from {
+            opacity: 0;
+            transform: scale(0.9) translateY(-1rem);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    @keyframes backdrop-appear {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .victory-modal__content {
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .victory-modal__title {
+        font-size: 2rem;
+        margin: 0 0 1rem;
+        color: var(--color-text, #1a1a1a);
+    }
+
+    .victory-modal__score {
+        font-size: 1.25rem;
+        margin: 0 0 0.5rem;
+        color: var(--color-text-muted, #666);
+    }
+
+    .victory-modal__score strong {
+        color: var(--color-primary, #6366f1);
+        font-size: 1.5rem;
+    }
+
+    .victory-modal__question {
+        font-size: 1rem;
+        margin: 1.5rem 0;
+        color: var(--color-text-muted, #666);
+    }
+
+    .victory-modal__actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .victory-modal__button {
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .victory-modal__button:hover {
+        transform: translateY(-2px);
+    }
+
+    .victory-modal__button:active {
+        transform: translateY(0);
+    }
+
+    .victory-modal__button--primary {
+        background: var(--color-primary, #6366f1);
+        color: white;
+        border: none;
+        box-shadow: 0 0.25rem 0.75rem rgba(99, 102, 241, 0.3);
+    }
+
+    .victory-modal__button--primary:hover {
+        box-shadow: 0 0.5rem 1rem rgba(99, 102, 241, 0.4);
+    }
+
+    .victory-modal__button--secondary {
+        background: transparent;
+        color: var(--color-text-muted, #666);
+        border: 1px solid var(--color-border, #ddd);
+    }
+
+    .victory-modal__button--secondary:hover {
+        background: var(--color-surface-hover, #f5f5f5);
+    }
+</style>
