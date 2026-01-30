@@ -4,6 +4,10 @@ import { shuffleArray } from './shuffle';
 
 const IMAGE_PARAMS = '?q=30&w=500&h=500&auto=format&fit=crop';
 
+// Cached DOM elements
+let grid: HTMLElement | null = null;
+let clock: HTMLElement | null = null;
+
 interface GameState {
 	packId: string;
 	cardCount: ValidCount;
@@ -62,7 +66,6 @@ function shouldShuffle(): boolean {
 }
 
 function renderCards(packId: string, cardCount: number): void {
-	const grid = document.getElementById('cards-grid');
 	if (!grid) return;
 
 	const pack = PACKS[packId];
@@ -108,7 +111,6 @@ function updateScorePointsPerPair(cardCount: ValidCount): void {
 }
 
 function isGameActive(): boolean {
-	const clock = document.getElementById('game-clock');
 	return clock?.dataset.started === 'true';
 }
 
@@ -170,6 +172,10 @@ function setupPackSelector(): void {
 }
 
 export function initializeGame(): void {
+	// Cache DOM elements
+	grid = document.getElementById('cards-grid');
+	clock = document.getElementById('game-clock');
+
 	const state = getStateFromURL();
 
 	setupCountSelector();

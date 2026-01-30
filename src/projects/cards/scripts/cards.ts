@@ -1,4 +1,10 @@
 import { increasePitch, playSound, resetPitch } from "./audio";
+import { getAllCards, getCardsPerRow, createInitGuard } from "./dom";
+
+// Cached DOM elements (set on first init)
+let grid: HTMLElement | null = null;
+let announcer: HTMLElement | null = null;
+let scoreValue: HTMLElement | null = null;
 
 let clickCounter = 0;
 let TIME_WAIT_FLIP = 1000; // Default fallback
@@ -12,7 +18,6 @@ const canClickOnCard = (card: HTMLElement): boolean => {
 let announceTimeoutId: number | null = null;
 
 const announce = (message: string): void => {
-	const announcer = document.getElementById("card-announcer");
 	if (announcer) {
 		// Cancel any pending announcement
 		if (announceTimeoutId !== null) {
@@ -80,7 +85,6 @@ const getPointsPerPair = (): number => {
 };
 
 const updateScoreDisplay = () => {
-	const scoreValue = document.getElementById("score-value");
 	if (scoreValue) {
 		scoreValue.textContent = String(currentScore);
 	}
@@ -94,10 +98,7 @@ const addScore = () => {
 };
 
 const checkGameComplete = (): boolean => {
-	const allCards = document.querySelectorAll<HTMLElement>(
-		".cards-grid__inner > [role='gridcell']",
-	);
-	return Array.from(allCards).every((card) => card.dataset.state === "solved");
+	return getAllCards().every((card) => card.dataset.state === "solved");
 };
 
 const dispatchGameComplete = () => {
@@ -158,9 +159,12 @@ const handleCardClick = (card: HTMLElement) => {
 };
 
 function bindCardHandlers(): void {
-	const cards = document.querySelectorAll<HTMLElement>(
-		".cards-grid [role='gridcell']",
-	);
+	// Cache DOM elements on first init
+	grid = document.getElementById("cards-grid");
+	announcer = document.getElementById("card-announcer");
+	scoreValue = document.getElementById("score-value");
+
+	const cards = getAllCards();
 
 	// Read the CSS variable to sync with animation duration
 	if (cards.length > 0) {
@@ -200,19 +204,6 @@ function bindCardHandlers(): void {
 	resetPitch();
 }
 
-function getCardsPerRow(): number {
-	const grid = document.getElementById("cards-grid");
-	if (!grid) return 1;
-	const value = getComputedStyle(grid).getPropertyValue("--cards-per-row");
-	return Number.parseInt(value, 10) || 1;
-}
-
-function getAllCards(): HTMLElement[] {
-	return Array.from(
-		document.querySelectorAll<HTMLElement>(".cards-grid__inner > [role='gridcell']"),
-	);
-}
-
 type Direction = "up" | "down" | "left" | "right";
 
 const KEY_TO_DIRECTION: Record<string, Direction> = {
@@ -243,7 +234,7 @@ function handleArrowNavigation(event: KeyboardEvent): void {
 		return;
 	}
 
-	const cols = getCardsPerRow();
+	const cols = grid ? getCardsPerRow(grid) : 1;
 	const row = Math.floor(currentIndex / cols);
 
 	let targetIndex = -1;
@@ -275,13 +266,10 @@ function handleArrowNavigation(event: KeyboardEvent): void {
 	}
 }
 
-let keyboardNavigationBound = false;
+const shouldBindKeyboardNavigation = createInitGuard();
 
 function bindKeyboardNavigation(): void {
-	if (keyboardNavigationBound) return;
-	keyboardNavigationBound = true;
-
-	const grid = document.getElementById("cards-grid");
+	if (!shouldBindKeyboardNavigation()) return;
 	if (!grid) return;
 
 	// Listen on document to catch keys even when focus is on body (after solving)
@@ -297,14 +285,12 @@ function bindKeyboardNavigation(): void {
 	});
 }
 
-let gridFocusBound = false;
 let wasInsideGrid = false;
 
 function getGridDimensions(): { cols: number; rows: number } {
-	const grid = document.getElementById("cards-grid");
 	if (!grid) return { cols: 0, rows: 0 };
 
-	const cols = getCardsPerRow();
+	const cols = getCardsPerRow(grid);
 	const cardCount = grid.children.length;
 	const rows = Math.ceil(cardCount / cols);
 
@@ -320,11 +306,10 @@ function announceGridDimensions(): void {
 	}
 }
 
-function bindGridFocusAnnouncement(): void {
-	if (gridFocusBound) return;
-	gridFocusBound = true;
+const shouldBindGridFocus = createInitGuard();
 
-	const grid = document.getElementById("cards-grid");
+function bindGridFocusAnnouncement(): void {
+	if (!shouldBindGridFocus()) return;
 	if (!grid) return;
 
 	document.addEventListener("focusin", () => {

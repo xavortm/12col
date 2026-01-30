@@ -1,5 +1,10 @@
-// Cards interactive logic - completely self-contained
-// This script handles card clicks and clock timer
+// Clock timer logic for the cards game
+
+import { getAllCards } from "./dom";
+
+// Cached DOM elements
+let clockElement: HTMLElement | null = null;
+let timeDisplay: HTMLTimeElement | null = null;
 
 interface ClockState {
 	startTime: number;
@@ -37,9 +42,6 @@ export function formatTime(seconds: number): TimeFormat {
 }
 
 function updateClock(): void {
-	const clockElement = document.getElementById("game-clock");
-	const timeDisplay = clockElement?.querySelector<HTMLTimeElement>(".clock__time");
-
 	if (!timeDisplay) return;
 
 	const elapsedSeconds = Math.floor(
@@ -52,7 +54,6 @@ function updateClock(): void {
 }
 
 function startClock(): void {
-	const clockElement = document.getElementById("game-clock");
 	if (!clockElement) return;
 
 	const hasStarted = clockElement.dataset.started === "true";
@@ -71,9 +72,6 @@ function resetClock(): void {
 	}
 	clockState.startTime = 0;
 
-	const clockElement = document.getElementById("game-clock");
-	const timeDisplay = clockElement?.querySelector<HTMLTimeElement>(".clock__time");
-
 	if (clockElement) {
 		clockElement.dataset.started = "false";
 	}
@@ -84,11 +82,7 @@ function resetClock(): void {
 }
 
 function bindClockHandlers(): void {
-	const cards = document.querySelectorAll<HTMLElement>(
-		".cards-grid [role='gridcell']",
-	);
-
-	cards.forEach((card) => {
+	getAllCards().forEach((card) => {
 		card.addEventListener("click", () => {
 			startClock();
 		});
@@ -96,6 +90,10 @@ function bindClockHandlers(): void {
 }
 
 function initClock(): void {
+	// Cache DOM elements
+	clockElement = document.getElementById("game-clock");
+	timeDisplay = clockElement?.querySelector<HTMLTimeElement>(".clock__time") ?? null;
+
 	resetClock();
 	bindClockHandlers();
 }

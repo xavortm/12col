@@ -1,7 +1,7 @@
 # build output
 dist/
-playwright-report
-test-results
+playwright-report/
+test-results/
 playwright.env
 /tests/installation/output/
 /tests/installation/.registry.json
@@ -30,3 +30,4 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+playwright-report/
