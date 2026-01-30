@@ -6,7 +6,39 @@ let currentScore = 0;
 let isLocked = false;
 
 const canClickOnCard = (card: HTMLElement): boolean => {
-	return !isLocked && card.dataset.state === "default" && card.getAttribute("aria-disabled") !== "true";
+	return !isLocked && card.dataset.state === "default";
+};
+
+const announce = (message: string): void => {
+	const announcer = document.getElementById("card-announcer");
+	if (announcer) {
+		// Clear first to ensure re-announcement of same message
+		announcer.textContent = "";
+		// Use setTimeout to ensure the clear is processed before setting new content
+		setTimeout(() => {
+			announcer.textContent = message;
+		}, 50);
+	}
+};
+
+const getCardLabel = (card: HTMLElement): string => {
+	const state = card.dataset.state;
+	const name = card.dataset.pair ?? "Card";
+
+	switch (state) {
+		case "default":
+			return "Face down";
+		case "open":
+			return `Face up, ${name}`;
+		case "solved":
+			return `Solved, ${name}`;
+		default:
+			return "Card";
+	}
+};
+
+const updateCardLabel = (card: HTMLElement): void => {
+	card.setAttribute("aria-label", getCardLabel(card));
 };
 
 const getCardSibling = (card: HTMLElement): HTMLElement => {
@@ -29,6 +61,7 @@ const closeOpenCards = () => {
 
 	openCards.forEach((card) => {
 		card.dataset.state = "default";
+		updateCardLabel(card);
 	});
 };
 
@@ -50,11 +83,12 @@ const addScore = () => {
 	const points = getPointsPerPair();
 	currentScore += points;
 	updateScoreDisplay();
+	announce(`Pair found, score ${currentScore}`);
 };
 
 const checkGameComplete = (): boolean => {
 	const allCards = document.querySelectorAll<HTMLElement>(
-		".cards-grid__inner > button",
+		".cards-grid__inner > [role='gridcell']",
 	);
 	return Array.from(allCards).every((card) => card.dataset.state === "solved");
 };
@@ -73,9 +107,8 @@ const markCardSolved = (card: HTMLElement) => {
 	card.dataset.state = "solved";
 	sibling.dataset.state = "solved";
 
-	// Use aria-disabled instead of disabled to allow focus navigation
-	card.setAttribute("aria-disabled", "true");
-	sibling.setAttribute("aria-disabled", "true");
+	updateCardLabel(card);
+	updateCardLabel(sibling);
 
 	addScore();
 
@@ -89,6 +122,8 @@ const handleCardClick = (card: HTMLElement) => {
 
 	if (card.dataset.state === "default") {
 		card.dataset.state = "open";
+		updateCardLabel(card);
+		announce(card.dataset.pair ?? "Card");
 		playSound("flip");
 	}
 
@@ -117,7 +152,7 @@ const handleCardClick = (card: HTMLElement) => {
 
 function bindCardHandlers(): void {
 	const cards = document.querySelectorAll<HTMLElement>(
-		".cards-grid button[data-state]",
+		".cards-grid [role='gridcell']",
 	);
 
 	// Read the CSS variable to sync with animation duration
@@ -139,6 +174,15 @@ function bindCardHandlers(): void {
 				handleCardClick(card);
 			}
 		});
+
+		card.addEventListener("keydown", (event) => {
+			if (event.key === "Enter" || event.key === " ") {
+				event.preventDefault();
+				if (canClickOnCard(card)) {
+					handleCardClick(card);
+				}
+			}
+		});
 	});
 
 	// Reset game state
@@ -158,7 +202,7 @@ function getCardsPerRow(): number {
 
 function getAllCards(): HTMLElement[] {
 	return Array.from(
-		document.querySelectorAll<HTMLElement>(".cards-grid__inner > button"),
+		document.querySelectorAll<HTMLElement>(".cards-grid__inner > [role='gridcell']"),
 	);
 }
 

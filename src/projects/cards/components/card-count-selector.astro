@@ -3,11 +3,11 @@ import { VALID_COUNTS } from "../constants";
 ---
 
 <div class="card-count-selector">
-  <label>Cards:</label>
+  <label id="card-count-label">Set playing cards count:</label>
   <div
     class="card-count-selector__buttons"
     role="group"
-    aria-label="Number of cards"
+    aria-labelledby="card-count-label"
   >
     {
       VALID_COUNTS.map((count) => (

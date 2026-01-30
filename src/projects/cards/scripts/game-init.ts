@@ -45,14 +45,14 @@ function updateURL(state: GameState): void {
 
 function createCardHTML(url: string, alt: string): string {
 	return `
-		<button data-state="default" data-pair="${alt}" type="button">
+		<div role="gridcell" tabindex="0" data-state="default" data-pair="${alt}" aria-label="Face down">
 			<div class="inner">
 				<div class="front"></div>
 				<div class="back">
-					<img src="${url}" alt="${alt}" draggable="false" />
+					<img src="${url}" alt="${alt}" draggable="false" aria-hidden="true" />
 				</div>
 			</div>
-		</button>
+		</div>
 	`;
 }
 

@@ -85,7 +85,7 @@ function resetClock(): void {
 
 function bindClockHandlers(): void {
 	const cards = document.querySelectorAll<HTMLElement>(
-		".cards-grid button[data-state]",
+		".cards-grid [role='gridcell']",
 	);
 
 	cards.forEach((card) => {
