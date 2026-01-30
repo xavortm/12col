@@ -3,9 +3,10 @@ import { increasePitch, playSound, resetPitch } from "./audio";
 let clickCounter = 0;
 let TIME_WAIT_FLIP = 1000; // Default fallback
 let currentScore = 0;
+let isLocked = false;
 
 const canClickOnCard = (card: HTMLElement): boolean => {
-	return card.dataset.state === "default";
+	return !isLocked && card.dataset.state === "default";
 };
 
 const getCardSibling = (card: HTMLElement): HTMLElement => {
@@ -82,26 +83,6 @@ const markCardSolved = (card: HTMLElement) => {
 	}
 };
 
-const disableAllCards = () => {
-	const cards = document.querySelectorAll<HTMLElement>(
-		".cards-grid__inner > button",
-	);
-
-	cards.forEach((card) => {
-		card.setAttribute("disabled", "");
-	});
-};
-
-const enableAllCards = () => {
-	const cards = document.querySelectorAll<HTMLElement>(
-		".cards-grid__inner > button",
-	);
-
-	cards.forEach((card) => {
-		card.removeAttribute("disabled");
-	});
-};
-
 const handleCardClick = (card: HTMLElement) => {
 	clickCounter += 1;
 
@@ -110,8 +91,8 @@ const handleCardClick = (card: HTMLElement) => {
 		playSound("flip");
 	}
 
-	if (clickCounter == 2) {
-		disableAllCards();
+	if (clickCounter === 2) {
+		isLocked = true;
 		const isSolved = clickSolvesCard(card);
 		const waitTime = isSolved ? 0 : TIME_WAIT_FLIP;
 
@@ -124,7 +105,7 @@ const handleCardClick = (card: HTMLElement) => {
 				closeOpenCards();
 			}
 
-			enableAllCards();
+			isLocked = false;
 		}, waitTime);
 
 		clickCounter = 0;
@@ -162,12 +143,91 @@ function bindCardHandlers(): void {
 	// Reset game state
 	clickCounter = 0;
 	currentScore = 0;
+	isLocked = false;
 	updateScoreDisplay();
 	resetPitch();
 }
 
+function getCardsPerRow(): number {
+	const grid = document.getElementById("cards-grid");
+	if (!grid) return 1;
+	const value = getComputedStyle(grid).getPropertyValue("--cards-per-row");
+	return Number.parseInt(value, 10) || 1;
+}
+
+function getAllCards(): HTMLElement[] {
+	return Array.from(
+		document.querySelectorAll<HTMLElement>(".cards-grid__inner > button"),
+	);
+}
+
+type Direction = "up" | "down" | "left" | "right";
+
+const KEY_TO_DIRECTION: Record<string, Direction> = {
+	ArrowUp: "up",
+	ArrowDown: "down",
+	ArrowLeft: "left",
+	ArrowRight: "right",
+	h: "left",
+	j: "down",
+	k: "up",
+	l: "right",
+};
+
+function handleArrowNavigation(event: KeyboardEvent): void {
+	const direction = KEY_TO_DIRECTION[event.key];
+	if (!direction) return;
+
+	const cards = getAllCards();
+	const currentCard = document.activeElement as HTMLElement;
+	const currentIndex = cards.indexOf(currentCard);
+
+	// Only handle navigation if focus is on a card
+	if (currentIndex === -1) return;
+
+	const cols = getCardsPerRow();
+	const row = Math.floor(currentIndex / cols);
+
+	let targetIndex = -1;
+
+	switch (direction) {
+		case "right":
+			targetIndex = currentIndex + 1;
+			// Stay on same row
+			if (Math.floor(targetIndex / cols) !== row) targetIndex = -1;
+			break;
+		case "left":
+			targetIndex = currentIndex - 1;
+			// Stay on same row
+			if (targetIndex < 0 || Math.floor(targetIndex / cols) !== row)
+				targetIndex = -1;
+			break;
+		case "down":
+			targetIndex = currentIndex + cols;
+			break;
+		case "up":
+			targetIndex = currentIndex - cols;
+			break;
+	}
+
+	// Move focus if target is valid
+	if (targetIndex >= 0 && targetIndex < cards.length) {
+		event.preventDefault();
+		cards[targetIndex].focus();
+	}
+}
+
+function bindKeyboardNavigation(): void {
+	const grid = document.getElementById("cards-grid");
+	if (!grid) return;
+
+	grid.addEventListener("keydown", handleArrowNavigation);
+}
+
 // Bind on game init event (fired by game-init.ts)
 window.addEventListener("game:init", bindCardHandlers);
+window.addEventListener("game:init", bindKeyboardNavigation);
 
 // Also bind on initial load in case game:init fires before this script loads
 document.addEventListener("DOMContentLoaded", bindCardHandlers);
+document.addEventListener("DOMContentLoaded", bindKeyboardNavigation);

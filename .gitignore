@@ -1,5 +1,13 @@
 # build output
 dist/
+playwright-report
+test-results
+playwright.env
+/tests/installation/output/
+/tests/installation/.registry.json
+.playwright-cli
+/test-results/
+/tests/coverage-report
 
 # generated types
 .astro/

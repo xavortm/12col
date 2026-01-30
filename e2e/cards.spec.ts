@@ -292,3 +292,144 @@ test.describe("Cards Game (deterministic)", () => {
 		expect(firstPairId).toBe(matchingPairId);
 	});
 });
+
+test.describe("Cards Game - keyboard navigation", () => {
+	// Helper to get the current column count from CSS variable
+	async function getColumnsPerRow(page: import("@playwright/test").Page) {
+		return await page.evaluate(() => {
+			const grid = document.getElementById("cards-grid");
+			if (!grid) return 4;
+			return parseInt(getComputedStyle(grid).getPropertyValue("--cards-per-row"), 10) || 4;
+		});
+	}
+
+	test.beforeEach(async ({ page }) => {
+		// Use a narrow viewport to ensure multiple rows
+		await page.setViewportSize({ width: 600, height: 900 });
+		await page.goto("/projects/cards?shuffle=false");
+		await page.waitForSelector("#cards-grid button");
+		// Wait for grid layout to calculate
+		await page.waitForTimeout(100);
+	});
+
+	test("can navigate in all directions with arrow keys", async ({ page }) => {
+		const cards = page.locator("#cards-grid button");
+		const cols = await getColumnsPerRow(page);
+
+		// Focus first card
+		await cards.nth(0).focus();
+		await expect(cards.nth(0)).toBeFocused();
+
+		// Arrow right: 0 → 1
+		await page.keyboard.press("ArrowRight");
+		await expect(cards.nth(1)).toBeFocused();
+
+		// Arrow down: 1 → 1+cols (next row, same column)
+		await page.keyboard.press("ArrowDown");
+		await expect(cards.nth(1 + cols)).toBeFocused();
+
+		// Arrow left: back one
+		await page.keyboard.press("ArrowLeft");
+		await expect(cards.nth(cols)).toBeFocused();
+
+		// Arrow up: back to first row
+		await page.keyboard.press("ArrowUp");
+		await expect(cards.nth(0)).toBeFocused();
+	});
+
+	test("can navigate with vim motions (hjkl)", async ({ page }) => {
+		const cards = page.locator("#cards-grid button");
+		const cols = await getColumnsPerRow(page);
+
+		// Focus first card
+		await cards.nth(0).focus();
+		await expect(cards.nth(0)).toBeFocused();
+
+		// l (right): 0 → 1
+		await page.keyboard.press("l");
+		await expect(cards.nth(1)).toBeFocused();
+
+		// j (down): 1 → 1+cols
+		await page.keyboard.press("j");
+		await expect(cards.nth(1 + cols)).toBeFocused();
+
+		// h (left): back one
+		await page.keyboard.press("h");
+		await expect(cards.nth(cols)).toBeFocused();
+
+		// k (up): back to first row
+		await page.keyboard.press("k");
+		await expect(cards.nth(0)).toBeFocused();
+	});
+
+	test("navigation works after changing card count", async ({ page }) => {
+		// Change to 12 cards
+		await page
+			.locator('.card-count-selector__button[data-count="12"]')
+			.click();
+		await page.waitForSelector("#cards-grid button");
+		await page.waitForTimeout(300);
+
+		const cards = page.locator("#cards-grid button");
+		await expect(cards).toHaveCount(12);
+
+		// Focus first card and navigate
+		await cards.nth(0).focus();
+		await expect(cards.nth(0)).toBeFocused();
+
+		// Navigate right
+		await page.keyboard.press("ArrowRight");
+		await expect(cards.nth(1)).toBeFocused();
+
+		// Navigate down (position depends on column count)
+		const cols = await getColumnsPerRow(page);
+		await page.keyboard.press("ArrowDown");
+		await expect(cards.nth(1 + cols)).toBeFocused();
+	});
+
+	test("can navigate while cards are flipping back", async ({ page }) => {
+		const cards = page.locator("#cards-grid button");
+		const cols = await getColumnsPerRow(page);
+
+		// Click two non-matching cards
+		await cards.nth(0).click();
+		await cards.nth(1).click();
+
+		// Immediately focus and navigate (while cards are flipping back)
+		await cards.nth(1).focus();
+		await page.keyboard.press("ArrowRight");
+
+		// Should be able to move focus even during flip animation
+		await expect(cards.nth(2)).toBeFocused();
+
+		// Navigate down
+		await page.keyboard.press("ArrowDown");
+		await expect(cards.nth(2 + cols)).toBeFocused();
+	});
+
+	test("does not navigate past grid boundaries", async ({ page }) => {
+		const cards = page.locator("#cards-grid button");
+		const cols = await getColumnsPerRow(page);
+		const lastIndex = (await cards.count()) - 1;
+		const lastRowStart = Math.floor(lastIndex / cols) * cols;
+
+		// Focus first card and try to go left (should stay)
+		await cards.nth(0).focus();
+		await page.keyboard.press("ArrowLeft");
+		await expect(cards.nth(0)).toBeFocused();
+
+		// Try to go up (should stay)
+		await page.keyboard.press("ArrowUp");
+		await expect(cards.nth(0)).toBeFocused();
+
+		// Go to end of first row and try to go right (should stay)
+		await cards.nth(cols - 1).focus();
+		await page.keyboard.press("ArrowRight");
+		await expect(cards.nth(cols - 1)).toBeFocused();
+
+		// Go to last card and try to go down (should stay)
+		await cards.nth(lastIndex).focus();
+		await page.keyboard.press("ArrowDown");
+		await expect(cards.nth(lastIndex)).toBeFocused();
+	});
+});
