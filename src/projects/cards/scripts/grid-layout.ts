@@ -21,12 +21,19 @@ export function calculateOptimalColumns(
 
 	const { aspectRatio, gapPx } = config;
 
-	// Try increasing column counts, find minimum that fits
+	// Get all column counts that evenly divide the card count (no orphan rows)
+	const validColumnCounts: number[] = [];
 	for (let cols = 1; cols <= cardCount; cols++) {
-		const rows = Math.ceil(cardCount / cols);
+		if (cardCount % cols === 0) {
+			validColumnCounts.push(cols);
+		}
+	}
 
-		// Calculate card dimensions for this column count
-		// cardWidth = (containerWidth - gaps) / cols
+	// Find minimum columns that fits vertically (maximizes card size while fitting)
+	for (const cols of validColumnCounts) {
+		const rows = cardCount / cols;
+
+		// Calculate card dimensions based on available width
 		const totalHorizontalGap = gapPx * (cols - 1);
 		const cardWidth = (containerWidth - totalHorizontalGap) / cols;
 		const cardHeight = cardWidth / aspectRatio;
@@ -41,7 +48,7 @@ export function calculateOptimalColumns(
 		}
 	}
 
-	// If nothing fits, use max columns (smallest cards)
+	// If nothing fits, use max columns (smallest cards, single row)
 	return cardCount;
 }
 

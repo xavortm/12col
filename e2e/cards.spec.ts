@@ -1,4 +1,15 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+// Helper to get the current announcer text content
+async function getAnnouncerText(page: Page): Promise<string> {
+	return await page.locator("#card-announcer").textContent() ?? "";
+}
+
+// Helper to wait for announcer to update (uses 50ms delay internally)
+async function waitForAnnouncement(page: Page): Promise<string> {
+	await page.waitForTimeout(100);
+	return getAnnouncerText(page);
+}
 
 test.describe("Cards Game", () => {
 	test.beforeEach(async ({ page }) => {
@@ -490,5 +501,124 @@ test.describe("Cards Game - keyboard navigation", () => {
 		await cards.nth(lastIndex).focus();
 		await page.keyboard.press("ArrowDown");
 		await expect(cards.nth(lastIndex)).toBeFocused();
+	});
+});
+
+test.describe("Cards Game - accessibility announcements", () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto("/projects/cards?shuffle=false");
+		await page.waitForSelector('#cards-grid [role="gridcell"]');
+	});
+
+	test("announces grid dimensions when entering cards area", async ({ page }) => {
+		const cards = page.locator('#cards-grid [role="gridcell"]');
+
+		// Focus outside the grid first (e.g., on pack selector)
+		await page.locator("#pack-select").focus();
+		await page.waitForTimeout(50);
+
+		// Tab into the cards grid
+		await cards.nth(0).focus();
+		const announcement = await waitForAnnouncement(page);
+
+		// Should announce grid dimensions
+		expect(announcement).toMatch(/Cards are in a grid of \d+ columns?, \d+ rows?/);
+	});
+
+	test("announces grid dimensions again after leaving and re-entering", async ({ page }) => {
+		const cards = page.locator('#cards-grid [role="gridcell"]');
+
+		// First entry
+		await page.locator("#pack-select").focus();
+		await cards.nth(0).focus();
+		const firstAnnouncement = await waitForAnnouncement(page);
+		expect(firstAnnouncement).toMatch(/Cards are in a grid of/);
+
+		// Leave the grid
+		await page.locator("#pack-select").focus();
+		await page.waitForTimeout(50);
+
+		// Clear the announcer by waiting for any pending announcements
+		await page.waitForTimeout(100);
+
+		// Re-enter the grid
+		await cards.nth(0).focus();
+		const secondAnnouncement = await waitForAnnouncement(page);
+
+		// Should announce again
+		expect(secondAnnouncement).toMatch(/Cards are in a grid of/);
+	});
+
+	test("announces card name when flipping a card", async ({ page }) => {
+		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const firstCard = cards.nth(0);
+
+		// Get the card's pair name
+		const pairName = await firstCard.getAttribute("data-pair");
+
+		// Click to flip
+		await firstCard.click();
+		const announcement = await waitForAnnouncement(page);
+
+		// Should announce the card name
+		expect(announcement).toBe(pairName);
+	});
+
+	test("announces pair found with score when matching", async ({ page }) => {
+		const cards = page.locator('#cards-grid [role="gridcell"]');
+
+		// With shuffle=false, pairs are at (0,4), (1,5), etc.
+		await cards.nth(0).click();
+		await cards.nth(4).click();
+
+		const announcement = await waitForAnnouncement(page);
+
+		// Should announce pair found with score
+		expect(announcement).toMatch(/Pair found, score \d+/);
+	});
+
+	test("updates aria-label when card state changes", async ({ page }) => {
+		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const firstCard = cards.nth(0);
+		const pairName = await firstCard.getAttribute("data-pair");
+
+		// Initially face down
+		await expect(firstCard).toHaveAttribute("aria-label", "Face down");
+
+		// Click to flip open
+		await firstCard.click();
+		await expect(firstCard).toHaveAttribute("aria-label", `Face up, ${pairName}`);
+
+		// Match the pair (card at position 4)
+		await cards.nth(4).click();
+		await page.waitForTimeout(100);
+
+		// Both should be marked as solved
+		await expect(firstCard).toHaveAttribute("aria-label", `Solved, ${pairName}`);
+		await expect(cards.nth(4)).toHaveAttribute("aria-label", `Solved, ${pairName}`);
+	});
+
+	test("victory modal has alertdialog role for screen readers", async ({ page }) => {
+		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cardCount = await cards.count();
+		const pairCount = cardCount / 2;
+
+		// Complete the game
+		for (let i = 0; i < pairCount; i++) {
+			await cards.nth(i).click();
+			await cards.nth(i + pairCount).click();
+			await page.waitForTimeout(100);
+		}
+
+		// Victory modal should have alertdialog role
+		const modal = page.locator("#victory-modal");
+		await expect(modal).toBeVisible();
+		await expect(modal).toHaveAttribute("role", "alertdialog");
+		await expect(modal).toHaveAttribute("aria-labelledby", "victory-title");
+	});
+
+	test("announcer has correct aria-live attribute", async ({ page }) => {
+		const announcer = page.locator("#card-announcer");
+		await expect(announcer).toHaveAttribute("aria-live", "polite");
 	});
 });

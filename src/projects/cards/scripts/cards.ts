@@ -9,14 +9,21 @@ const canClickOnCard = (card: HTMLElement): boolean => {
 	return !isLocked && card.dataset.state === "default";
 };
 
+let announceTimeoutId: number | null = null;
+
 const announce = (message: string): void => {
 	const announcer = document.getElementById("card-announcer");
 	if (announcer) {
+		// Cancel any pending announcement
+		if (announceTimeoutId !== null) {
+			clearTimeout(announceTimeoutId);
+		}
 		// Clear first to ensure re-announcement of same message
 		announcer.textContent = "";
 		// Use setTimeout to ensure the clear is processed before setting new content
-		setTimeout(() => {
+		announceTimeoutId = window.setTimeout(() => {
 			announcer.textContent = message;
+			announceTimeoutId = null;
 		}, 50);
 	}
 };
@@ -290,10 +297,54 @@ function bindKeyboardNavigation(): void {
 	});
 }
 
+let gridFocusBound = false;
+let wasInsideGrid = false;
+
+function getGridDimensions(): { cols: number; rows: number } {
+	const grid = document.getElementById("cards-grid");
+	if (!grid) return { cols: 0, rows: 0 };
+
+	const cols = getCardsPerRow();
+	const cardCount = grid.children.length;
+	const rows = Math.ceil(cardCount / cols);
+
+	return { cols, rows };
+}
+
+function announceGridDimensions(): void {
+	const { cols, rows } = getGridDimensions();
+	if (cols > 0 && rows > 0) {
+		const colWord = cols === 1 ? "column" : "columns";
+		const rowWord = rows === 1 ? "row" : "rows";
+		announce(`Cards are in a grid of ${cols} ${colWord}, ${rows} ${rowWord}`);
+	}
+}
+
+function bindGridFocusAnnouncement(): void {
+	if (gridFocusBound) return;
+	gridFocusBound = true;
+
+	const grid = document.getElementById("cards-grid");
+	if (!grid) return;
+
+	document.addEventListener("focusin", () => {
+		const isInsideGrid = grid.contains(document.activeElement);
+
+		// Announce dimensions when entering the grid from outside
+		if (isInsideGrid && !wasInsideGrid) {
+			announceGridDimensions();
+		}
+
+		wasInsideGrid = isInsideGrid;
+	});
+}
+
 // Bind on game init event (fired by game-init.ts)
 window.addEventListener("game:init", bindCardHandlers);
 window.addEventListener("game:init", bindKeyboardNavigation);
+window.addEventListener("game:init", bindGridFocusAnnouncement);
 
 // Also bind on initial load in case game:init fires before this script loads
 document.addEventListener("DOMContentLoaded", bindCardHandlers);
 document.addEventListener("DOMContentLoaded", bindKeyboardNavigation);
+document.addEventListener("DOMContentLoaded", bindGridFocusAnnouncement);
