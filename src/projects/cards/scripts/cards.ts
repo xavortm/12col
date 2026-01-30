@@ -6,7 +6,7 @@ let currentScore = 0;
 let isLocked = false;
 
 const canClickOnCard = (card: HTMLElement): boolean => {
-	return !isLocked && card.dataset.state === "default";
+	return !isLocked && card.dataset.state === "default" && card.getAttribute("aria-disabled") !== "true";
 };
 
 const getCardSibling = (card: HTMLElement): HTMLElement => {
@@ -73,8 +73,9 @@ const markCardSolved = (card: HTMLElement) => {
 	card.dataset.state = "solved";
 	sibling.dataset.state = "solved";
 
-	card.setAttribute("disabled", "");
-	sibling.setAttribute("disabled", "");
+	// Use aria-disabled instead of disabled to allow focus navigation
+	card.setAttribute("aria-disabled", "true");
+	sibling.setAttribute("aria-disabled", "true");
 
 	addScore();
 
@@ -182,8 +183,14 @@ function handleArrowNavigation(event: KeyboardEvent): void {
 	const currentCard = document.activeElement as HTMLElement;
 	const currentIndex = cards.indexOf(currentCard);
 
-	// Only handle navigation if focus is on a card
-	if (currentIndex === -1) return;
+	// If focus is not on a card, focus first card on keypress
+	if (currentIndex === -1) {
+		if (cards.length > 0) {
+			event.preventDefault();
+			cards[0].focus();
+		}
+		return;
+	}
 
 	const cols = getCardsPerRow();
 	const row = Math.floor(currentIndex / cols);
@@ -217,11 +224,26 @@ function handleArrowNavigation(event: KeyboardEvent): void {
 	}
 }
 
+let keyboardNavigationBound = false;
+
 function bindKeyboardNavigation(): void {
+	if (keyboardNavigationBound) return;
+	keyboardNavigationBound = true;
+
 	const grid = document.getElementById("cards-grid");
 	if (!grid) return;
 
-	grid.addEventListener("keydown", handleArrowNavigation);
+	// Listen on document to catch keys even when focus is on body (after solving)
+	document.addEventListener("keydown", (event) => {
+		const activeEl = document.activeElement;
+		const isOnCard = grid.contains(activeEl);
+		const isOnBody = activeEl === document.body;
+
+		// Only handle if focus is on a card or on body (lost focus after solving)
+		if (isOnCard || isOnBody) {
+			handleArrowNavigation(event);
+		}
+	});
 }
 
 // Bind on game init event (fired by game-init.ts)

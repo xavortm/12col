@@ -407,6 +407,65 @@ test.describe("Cards Game - keyboard navigation", () => {
 		await expect(cards.nth(2 + cols)).toBeFocused();
 	});
 
+	test("can navigate immediately after solving cards", async ({ page }) => {
+		const cards = page.locator("#cards-grid button");
+
+		// With shuffle=false and 8 cards (4 pairs), pairs are at:
+		// (0,4), (1,5), (2,6), (3,7)
+		// Solve the first pair (cards 0 and 4)
+		await cards.nth(0).click();
+		await cards.nth(4).click();
+		await page.waitForTimeout(100);
+
+		// Both cards should be solved (aria-disabled, but still focusable)
+		await expect(cards.nth(0)).toHaveAttribute("aria-disabled", "true");
+		await expect(cards.nth(4)).toHaveAttribute("aria-disabled", "true");
+
+		// After solving, focus should be on an enabled card (not lost)
+		// Try to navigate immediately with arrows
+		await page.keyboard.press("ArrowRight");
+
+		// Check that we're focused on a card (not lost focus)
+		const focusedAfterRight = await page.evaluate(() => {
+			const cards = Array.from(document.querySelectorAll(".cards-grid__inner > button"));
+			return cards.indexOf(document.activeElement as HTMLElement);
+		});
+		expect(focusedAfterRight).toBeGreaterThanOrEqual(0);
+
+		// Navigate in other directions too
+		await page.keyboard.press("ArrowDown");
+		const focusedAfterDown = await page.evaluate(() => {
+			const cards = Array.from(document.querySelectorAll(".cards-grid__inner > button"));
+			return cards.indexOf(document.activeElement as HTMLElement);
+		});
+		expect(focusedAfterDown).toBeGreaterThanOrEqual(0);
+	});
+
+	test("can navigate to solved cards", async ({ page }) => {
+		const cards = page.locator("#cards-grid button");
+
+		// Solve cards 0 and 4 (first pair with shuffle=false)
+		await cards.nth(0).click();
+		await cards.nth(4).click();
+		await page.waitForTimeout(100);
+
+		// Cards are solved but still focusable (aria-disabled, not disabled)
+		await expect(cards.nth(0)).toHaveAttribute("aria-disabled", "true");
+		await expect(cards.nth(4)).toHaveAttribute("aria-disabled", "true");
+
+		// Focus card 1 (right of solved card 0)
+		await cards.nth(1).focus();
+		await expect(cards.nth(1)).toBeFocused();
+
+		// Press ArrowLeft - should navigate TO solved card 0
+		await page.keyboard.press("ArrowLeft");
+		await expect(cards.nth(0)).toBeFocused();
+
+		// Can continue navigating from solved card
+		await page.keyboard.press("ArrowRight");
+		await expect(cards.nth(1)).toBeFocused();
+	});
+
 	test("does not navigate past grid boundaries", async ({ page }) => {
 		const cards = page.locator("#cards-grid button");
 		const cols = await getColumnsPerRow(page);
