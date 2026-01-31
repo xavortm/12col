@@ -44,7 +44,9 @@ export function formatTime(seconds: number): TimeFormat {
 function updateClock(): void {
 	if (!timeDisplay) return;
 
-	const elapsedSeconds = Math.floor((Date.now() - clockState.startTime) / 1000);
+	const elapsedSeconds = Math.floor(
+		(Date.now() - clockState.startTime) / 1000,
+	);
 	const formatted = formatTime(elapsedSeconds);
 
 	timeDisplay.textContent = formatted.display;

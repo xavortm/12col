@@ -302,7 +302,9 @@ function announceGridDimensions(): void {
 	if (cols > 0 && rows > 0) {
 		const colWord = cols === 1 ? "column" : "columns";
 		const rowWord = rows === 1 ? "row" : "rows";
-		announce(`Cards are in a grid of ${cols} ${colWord}, ${rows} ${rowWord}`);
+		announce(
+			`Cards are in a grid of ${cols} ${colWord}, ${rows} ${rowWord}`,
+		);
 	}
 }
 
