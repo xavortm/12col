@@ -6,14 +6,12 @@ let container: HTMLElement | null = null;
 let grid: HTMLElement | null = null;
 
 export interface GridConfig {
-	aspectRatio: number; // card width / height (3:4 = 0.75)
+	aspectRatio: number; // card width / height (e.g., 1 for square, 4/3 for landscape)
 	gapPx: number;
 }
 
-const CONFIG: GridConfig = {
-	aspectRatio: 3 / 4,
-	gapPx: 16, // 1rem = 16px
-};
+const DEFAULT_ASPECT_RATIO = 1;
+const GAP_PX = 16; // 1rem = 16px
 
 export function calculateOptimalColumns(
 	containerWidth: number,
@@ -70,11 +68,17 @@ function updateGridLayout(): void {
 	// Skip if container has no dimensions yet
 	if (containerWidth === 0 || containerHeight === 0) return;
 
+	// Read aspect ratio from CSS variable (set by game-init based on pack)
+	const aspectRatioVar = grid.style.getPropertyValue("--card-aspect-ratio");
+	const aspectRatio = aspectRatioVar
+		? Number.parseFloat(aspectRatioVar)
+		: DEFAULT_ASPECT_RATIO;
+
 	const columns = calculateOptimalColumns(
 		containerWidth,
 		containerHeight,
 		cardCount,
-		CONFIG,
+		{ aspectRatio, gapPx: GAP_PX },
 	);
 
 	grid.style.setProperty("--cards-per-row", String(columns));

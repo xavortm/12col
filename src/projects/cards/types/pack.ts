@@ -1,5 +1,5 @@
 export interface Card {
-	url: string;
+	svg: string;
 	alt: string;
 }
 
@@ -9,4 +9,5 @@ export interface Pack {
 	description: string;
 	cards: Card[];
 	difficultyScore: number;
+	aspectRatio: number; // width / height (e.g., 3/4 = 0.75, 4/3 = 1.333)
 }

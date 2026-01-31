@@ -7,8 +7,6 @@ import {
 import { DEFAULT_PACK_ID, PACK_LIST, PACKS } from "../data/packs/registry";
 import { shuffleArray } from "./utils//shuffle";
 
-const IMAGE_PARAMS = "?q=30&w=500&h=500&auto=format&fit=crop";
-
 // Cached DOM elements
 let grid: HTMLElement | null = null;
 let clock: HTMLElement | null = null;
@@ -54,13 +52,13 @@ function updateURL(state: GameState): void {
 	window.history.replaceState({}, "", url.toString());
 }
 
-function createCardHTML(url: string, alt: string): string {
+function createCardHTML(svg: string, alt: string): string {
 	return `
 		<div role="gridcell" tabindex="0" data-state="default" data-pair="${alt}" aria-label="Face down">
 			<div class="inner">
 				<div class="front"></div>
-				<div class="back">
-					<img src="${url}" alt="${alt}" draggable="false" aria-hidden="true" />
+				<div class="back" aria-hidden="true">
+					${svg}
 				</div>
 			</div>
 		</div>
@@ -81,18 +79,20 @@ function renderCards(packId: string, cardCount: number): void {
 		return;
 	}
 
+	// Set aspect ratio CSS variable for grid layout and card styling
+	grid.style.setProperty("--card-aspect-ratio", String(pack.aspectRatio));
+
 	const uniqueCardsNeeded = cardCount / 2;
-	const selectedCards = pack.cards.slice(0, uniqueCardsNeeded);
+	const shuffle = shouldShuffle();
+	const availableCards = shuffle ? shuffleArray([...pack.cards]) : pack.cards;
+	const selectedCards = availableCards.slice(0, uniqueCardsNeeded);
 
-	const cardPairs = selectedCards.concat(selectedCards).map((card) => ({
-		...card,
-		url: card.url + IMAGE_PARAMS,
-	}));
+	const cardPairs = selectedCards.concat(selectedCards);
 
-	const orderedCards = shouldShuffle() ? shuffleArray(cardPairs) : cardPairs;
+	const orderedCards = shuffle ? shuffleArray(cardPairs) : cardPairs;
 
 	grid.innerHTML = orderedCards
-		.map((card) => createCardHTML(card.url, card.alt))
+		.map((card) => createCardHTML(card.svg, card.alt))
 		.join("");
 }
 
