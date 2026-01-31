@@ -28,8 +28,18 @@ describe("calculateOptimalColumns", () => {
 
 		it("uses more columns when height is constrained", () => {
 			// Very short container should force more columns (shorter grid)
-			const tallContainer = calculateOptimalColumns(800, 1000, 8, defaultConfig);
-			const shortContainer = calculateOptimalColumns(800, 200, 8, defaultConfig);
+			const tallContainer = calculateOptimalColumns(
+				800,
+				1000,
+				8,
+				defaultConfig,
+			);
+			const shortContainer = calculateOptimalColumns(
+				800,
+				200,
+				8,
+				defaultConfig,
+			);
 			// Short container needs more columns to fit
 			expect(shortContainer).toBeGreaterThanOrEqual(tallContainer);
 		});

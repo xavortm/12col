@@ -76,7 +76,10 @@ class AudioManager {
 	}
 
 	increasePitch(): void {
-		this.currentPitch = Math.min(this.currentPitch + PITCH_INCREMENT, PITCH_MAX);
+		this.currentPitch = Math.min(
+			this.currentPitch + PITCH_INCREMENT,
+			PITCH_MAX,
+		);
 	}
 
 	resetPitch(): void {

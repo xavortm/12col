@@ -1,5 +1,5 @@
 import { increasePitch, playSound, resetPitch } from "./audio";
-import { getAllCards, getCardsPerRow, createInitGuard } from "./dom";
+import { createInitGuard, getAllCards, getCardsPerRow } from "./dom";
 
 // Cached DOM elements (set on first init)
 let grid: HTMLElement | null = null;

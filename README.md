@@ -92,6 +92,8 @@ All commands are run from the root of the project, from a terminal:
 | `pnpm test:e2e`           | Run E2E tests with Playwright                    |
 | `pnpm check-docs`         | Check if documentation is up to date             |
 | `pnpm setup-hooks`        | Install git hooks for automatic doc checking     |
+| `pnpm format`             | Formats all JS and TS using biome                |
+| `pnpm format:check`       | Checks if files need formatting                  |
 
 ### 🪝 Git Hooks Setup
 

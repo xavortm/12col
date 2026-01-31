@@ -19,7 +19,7 @@ export function calculateOptimalColumns(
 	containerWidth: number,
 	containerHeight: number,
 	cardCount: number,
-	config: GridConfig
+	config: GridConfig,
 ): number {
 	if (cardCount === 0) return 1;
 
@@ -74,16 +74,16 @@ function updateGridLayout(): void {
 		containerWidth,
 		containerHeight,
 		cardCount,
-		CONFIG
+		CONFIG,
 	);
 
-	grid.style.setProperty('--cards-per-row', String(columns));
+	grid.style.setProperty("--cards-per-row", String(columns));
 }
 
 function initGridLayout(): void {
 	// Cache DOM elements
-	container = document.querySelector<HTMLElement>('.cards-grid');
-	grid = document.getElementById('cards-grid');
+	container = document.querySelector<HTMLElement>(".cards-grid");
+	grid = document.getElementById("cards-grid");
 
 	if (!container) return;
 
@@ -94,7 +94,7 @@ function initGridLayout(): void {
 	resizeObserver.observe(container);
 
 	// Also update when cards change (game init fires this event)
-	window.addEventListener('game:init', () => {
+	window.addEventListener("game:init", () => {
 		// Small delay to ensure DOM is updated
 		requestAnimationFrame(updateGridLayout);
 	});

@@ -20,6 +20,8 @@ All commands should be run from the project root:
 - `pnpm test` - Run unit tests in watch mode
 - `pnpm test:run` - Run unit tests once
 - `pnpm test:e2e` - Run E2E tests
+- `pnpm format` - Format code with Biome
+- `pnpm format:check` - Check formatting without writing
 
 ## Architecture
 

@@ -9,7 +9,10 @@ interface GameCompleteEvent extends CustomEvent {
 }
 
 function getModalElements() {
-	const modal = document.getElementById("victory-modal") as HTMLDialogElement | null;
+	const modal = document.getElementById(
+		"victory-modal",
+	) as HTMLDialogElement | null;
+
 	const scoreDisplay = document.getElementById("victory-score");
 	const playAgainButton = document.getElementById("victory-play-again");
 	const closeButton = document.getElementById("victory-close");

@@ -1,8 +1,13 @@
-import { PACKS, DEFAULT_PACK_ID, PACK_LIST } from '../data/packs/registry';
-import { VALID_COUNTS, DEFAULT_COUNT, POINTS_PER_PAIR, type ValidCount } from '../constants';
-import { shuffleArray } from './shuffle';
+import {
+	DEFAULT_COUNT,
+	POINTS_PER_PAIR,
+	VALID_COUNTS,
+	type ValidCount,
+} from "../constants";
+import { DEFAULT_PACK_ID, PACK_LIST, PACKS } from "../data/packs/registry";
+import { shuffleArray } from "./utils//shuffle";
 
-const IMAGE_PARAMS = '?q=30&w=500&h=500&auto=format&fit=crop';
+const IMAGE_PARAMS = "?q=30&w=500&h=500&auto=format&fit=crop";
 
 // Cached DOM elements
 let grid: HTMLElement | null = null;
@@ -16,11 +21,13 @@ interface GameState {
 function getStateFromURL(): GameState {
 	const params = new URLSearchParams(window.location.search);
 
-	const packParam = params.get('pack');
+	const packParam = params.get("pack");
 	const packId = packParam && PACKS[packParam] ? packParam : DEFAULT_PACK_ID;
 
-	const countParam = params.get('count');
-	const parsedCount = countParam ? Number.parseInt(countParam, 10) : DEFAULT_COUNT;
+	const countParam = params.get("count");
+	const parsedCount = countParam
+		? Number.parseInt(countParam, 10)
+		: DEFAULT_COUNT;
 	const cardCount = VALID_COUNTS.includes(parsedCount as ValidCount)
 		? (parsedCount as ValidCount)
 		: DEFAULT_COUNT;
@@ -33,18 +40,18 @@ function updateURL(state: GameState): void {
 
 	// Only add params that differ from defaults, remove ones that match
 	if (state.packId !== DEFAULT_PACK_ID) {
-		url.searchParams.set('pack', state.packId);
+		url.searchParams.set("pack", state.packId);
 	} else {
-		url.searchParams.delete('pack');
+		url.searchParams.delete("pack");
 	}
 
 	if (state.cardCount !== DEFAULT_COUNT) {
-		url.searchParams.set('count', String(state.cardCount));
+		url.searchParams.set("count", String(state.cardCount));
 	} else {
-		url.searchParams.delete('count');
+		url.searchParams.delete("count");
 	}
 
-	window.history.replaceState({}, '', url.toString());
+	window.history.replaceState({}, "", url.toString());
 }
 
 function createCardHTML(url: string, alt: string): string {
@@ -62,7 +69,7 @@ function createCardHTML(url: string, alt: string): string {
 
 function shouldShuffle(): boolean {
 	const params = new URLSearchParams(window.location.search);
-	return params.get('shuffle') !== 'false';
+	return params.get("shuffle") !== "false";
 }
 
 function renderCards(packId: string, cardCount: number): void {
@@ -84,26 +91,32 @@ function renderCards(packId: string, cardCount: number): void {
 
 	const orderedCards = shouldShuffle() ? shuffleArray(cardPairs) : cardPairs;
 
-	grid.innerHTML = orderedCards.map((card) => createCardHTML(card.url, card.alt)).join('');
+	grid.innerHTML = orderedCards
+		.map((card) => createCardHTML(card.url, card.alt))
+		.join("");
 }
 
 function updateCountSelector(cardCount: ValidCount): void {
-	const buttons = document.querySelectorAll<HTMLButtonElement>('.card-count-selector__button');
+	const buttons = document.querySelectorAll<HTMLButtonElement>(
+		".card-count-selector__button",
+	);
 	buttons.forEach((button) => {
 		const count = Number(button.dataset.count);
-		button.setAttribute('aria-pressed', String(count === cardCount));
+		button.setAttribute("aria-pressed", String(count === cardCount));
 	});
 }
 
 function updatePackSelector(packId: string): void {
-	const select = document.getElementById('pack-select') as HTMLSelectElement | null;
+	const select = document.getElementById(
+		"pack-select",
+	) as HTMLSelectElement | null;
 	if (select) {
 		select.value = packId;
 	}
 }
 
 function updateScorePointsPerPair(cardCount: ValidCount): void {
-	const scoreElement = document.getElementById('game-score');
+	const scoreElement = document.getElementById("game-score");
 	if (scoreElement) {
 		const points = POINTS_PER_PAIR[cardCount] ?? 1;
 		scoreElement.dataset.pointsPerPair = String(points);
@@ -111,12 +124,12 @@ function updateScorePointsPerPair(cardCount: ValidCount): void {
 }
 
 function isGameActive(): boolean {
-	return clock?.dataset.started === 'true';
+	return clock?.dataset.started === "true";
 }
 
 function confirmGameReset(): boolean {
 	if (!isGameActive()) return true;
-	return confirm('This will reset your current game. Are you sure?');
+	return confirm("This will reset your current game. Are you sure?");
 }
 
 // Note: Score and clock reset are handled by cards.ts and clock.ts
@@ -130,16 +143,19 @@ function initGame(state: GameState): void {
 	updateURL(state);
 
 	// Dispatch event for cards.ts to rebind click handlers
-	window.dispatchEvent(new CustomEvent('game:init'));
+	window.dispatchEvent(new CustomEvent("game:init"));
 }
 
 function setupCountSelector(): void {
-	const buttons = document.querySelectorAll<HTMLButtonElement>('.card-count-selector__button');
+	const buttons = document.querySelectorAll<HTMLButtonElement>(
+		".card-count-selector__button",
+	);
 
 	buttons.forEach((button) => {
-		button.addEventListener('click', () => {
+		button.addEventListener("click", () => {
 			const count = Number(button.dataset.count) as ValidCount;
-			const isCurrentlySelected = button.getAttribute('aria-pressed') === 'true';
+			const isCurrentlySelected =
+				button.getAttribute("aria-pressed") === "true";
 
 			if (isCurrentlySelected) return;
 			if (!confirmGameReset()) return;
@@ -151,15 +167,17 @@ function setupCountSelector(): void {
 }
 
 function setupPackSelector(): void {
-	const select = document.getElementById('pack-select') as HTMLSelectElement | null;
+	const select = document.getElementById(
+		"pack-select",
+	) as HTMLSelectElement | null;
 	if (!select) return;
 
 	// Populate options client-side
 	select.innerHTML = PACK_LIST.map(
-		(pack) => `<option value="${pack.id}">${pack.name}</option>`
-	).join('');
+		(pack) => `<option value="${pack.id}">${pack.name}</option>`,
+	).join("");
 
-	select.addEventListener('change', () => {
+	select.addEventListener("change", () => {
 		const previousValue = getStateFromURL().packId;
 		if (!confirmGameReset()) {
 			select.value = previousValue;
@@ -173,8 +191,8 @@ function setupPackSelector(): void {
 
 export function initializeGame(): void {
 	// Cache DOM elements
-	grid = document.getElementById('cards-grid');
-	clock = document.getElementById('game-clock');
+	grid = document.getElementById("cards-grid");
+	clock = document.getElementById("game-clock");
 
 	const state = getStateFromURL();
 
@@ -184,4 +202,4 @@ export function initializeGame(): void {
 }
 
 // Auto-initialize on DOM ready
-document.addEventListener('DOMContentLoaded', initializeGame);
+document.addEventListener("DOMContentLoaded", initializeGame);
