@@ -25,7 +25,8 @@
 			"src/**/*.ts",
 			"src/**/*.tsx",
 			"src/**/*.js",
-			"src/**/*.jsx"
+			"src/**/*.jsx",
+			"src/**/*.css"
 		]
 	},
 	"overrides": [
@@ -43,6 +44,18 @@
 					}
 				}
 			}
+		},
+		{
+			"includes": ["**/vendor/**"],
+			"linter": {
+				"enabled": false
+			}
 		}
-	]
+	],
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true,
+		"defaultBranch": "main"
+	}
 }

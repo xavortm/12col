@@ -1,15 +1,14 @@
 @layer normalize, base, components, layout;
 
-@import url('./vendor/normalize.css');
+@import url("./vendor/normalize.css");
 
-@import url('./base/colors.css');
-@import url('./base/core-styles.css');
-@import url('./base/typography.css');
+@import url("./base/colors.css");
+@import url("./base/core-styles.css");
+@import url("./base/typography.css");
 
-@import url('./components/inputs/buttons.css');
-@import url('./components/inputs/labels.css');
-@import url('./components/card.css');
+@import url("./components/inputs/buttons.css");
+@import url("./components/inputs/labels.css");
+@import url("./components/card.css");
 
-@import url('./layout/main.css');
-@import url('./layout/page.css');
-
+@import url("./layout/main.css");
+@import url("./layout/page.css");

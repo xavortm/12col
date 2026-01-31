@@ -15,6 +15,12 @@ const canClickOnCard = (card: HTMLElement): boolean => {
 	return !isLocked && card.dataset.state === "default";
 };
 
+const setWaiting = (waiting: boolean): void => {
+	if (grid) {
+		grid.dataset.waiting = waiting ? "true" : "false";
+	}
+};
+
 let announceTimeoutId: number | null = null;
 
 const announce = (message: string): void => {
@@ -140,6 +146,10 @@ const handleCardClick = (card: HTMLElement) => {
 		const isSolved = clickSolvesCard(card);
 		const waitTime = isSolved ? 0 : TIME_WAIT_FLIP;
 
+		if (!isSolved) {
+			setWaiting(true);
+		}
+
 		// Wait for the flip animation to complete before checking the match
 		setTimeout(() => {
 			if (isSolved) {
@@ -150,6 +160,7 @@ const handleCardClick = (card: HTMLElement) => {
 			}
 
 			isLocked = false;
+			setWaiting(false);
 		}, waitTime);
 
 		clickCounter = 0;

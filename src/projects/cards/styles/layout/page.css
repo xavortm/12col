@@ -1,8 +1,7 @@
 @layer layout {
-
-    :root {
-        --site-gutter: 2rem;
-        --site-max-width: 48rem;
-        --site-max-width--wide: 80rem;
-    }
+	:root {
+		--site-gutter: 2rem;
+		--site-max-width: 48rem;
+		--site-max-width--wide: 80rem;
+	}
 }

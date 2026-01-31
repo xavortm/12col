@@ -1,7 +1,6 @@
 /* Sliders project global styles */
 /* Project-specific CSS that isn't component-scoped */
 
-/* Custom properties for the sliders project */
 :root {
 	--slider-primary: #0066cc;
 	--slider-secondary: #0052a3;
@@ -9,34 +8,23 @@
 	--slider-border: #ddd;
 }
 
-/* Utility classes for sliders project */
 .sliders-container {
 	display: grid;
 	gap: 2rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
-	.slider-group {
+	.sliders-container .slider-group {
 		flex-direction: column;
-		align-items: flex-start !important;
+		align-items: flex-start;
 	}
 
-	.slider-group label {
-		min-width: auto !important;
+	.sliders-container .slider-group label {
+		min-width: auto;
 	}
 }
 
-/* Accessibility improvements */
 .slider:focus {
 	outline: 2px solid var(--slider-primary);
 	outline-offset: 2px;
-}
-
-/* Print styles */
-@media print {
-	.slider-control,
-	.slider-display {
-		page-break-inside: avoid;
-	}
 }

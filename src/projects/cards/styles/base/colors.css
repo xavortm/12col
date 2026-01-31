@@ -1,5 +1,4 @@
 @layer base {
-
 	:root {
 		--color-bg: oklab(from hsl(0 0% 5%) l a b);
 		--color-fg: oklab(from hsl(0 0% 95%) l a b);
