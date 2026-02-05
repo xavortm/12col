@@ -54,7 +54,7 @@ function updateURL(state: GameState): void {
 
 function createCardHTML(svg: string, alt: string): string {
 	return `
-		<div role="gridcell" tabindex="0" data-state="default" data-pair="${alt}" aria-label="Face down">
+		<div role="listitem" tabindex="0" data-state="default" data-pair="${alt}" aria-label="Face down">
 			<div class="inner">
 				<div class="front"></div>
 				<div class="back" aria-hidden="true">

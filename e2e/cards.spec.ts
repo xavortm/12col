@@ -15,22 +15,22 @@ test.describe("Cards Game", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/projects/cards");
 		// Wait for cards to be rendered
-		await page.waitForSelector('#cards-grid [role="gridcell"]');
+		await page.waitForSelector('#cards-grid [role="listitem"]');
 	});
 
 	test("loads with the correct number of cards", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		// Default is 8 cards (4 pairs)
 		await expect(cards).toHaveCount(8);
 	});
 
 	test("cards start in default state", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"][data-state="default"]');
+		const cards = page.locator('#cards-grid [role="listitem"][data-state="default"]');
 		await expect(cards).toHaveCount(8);
 	});
 
 	test("clicking a card flips it to open state", async ({ page }) => {
-		const firstCard = page.locator('#cards-grid [role="gridcell"]').first();
+		const firstCard = page.locator('#cards-grid [role="listitem"]').first();
 		await expect(firstCard).toHaveAttribute("data-state", "default");
 
 		await firstCard.click();
@@ -42,7 +42,7 @@ test.describe("Cards Game", () => {
 		const clock = page.locator("#game-clock");
 		await expect(clock).toHaveAttribute("data-started", "false");
 
-		await page.locator('#cards-grid [role="gridcell"]').first().click();
+		await page.locator('#cards-grid [role="listitem"]').first().click();
 
 		await expect(clock).toHaveAttribute("data-started", "true");
 	});
@@ -51,7 +51,7 @@ test.describe("Cards Game", () => {
 		page,
 	}) => {
 		// Find two cards with the same pair
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 
 		// Get first card and its pair ID
 		const firstCard = cards.first();
@@ -59,7 +59,7 @@ test.describe("Cards Game", () => {
 
 		// Find the matching card (second card with same pair ID)
 		const matchingCard = page
-			.locator(`#cards-grid [role="gridcell"][data-pair="${pairId}"]`)
+			.locator(`#cards-grid [role="listitem"][data-pair="${pairId}"]`)
 			.nth(1);
 
 		// Click both cards
@@ -76,7 +76,7 @@ test.describe("Cards Game", () => {
 	});
 
 	test("non-matching cards flip back after delay", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 
 		// Get first card's pair ID
 		const firstCard = cards.first();
@@ -84,7 +84,7 @@ test.describe("Cards Game", () => {
 
 		// Find a card with a different pair ID
 		const differentCard = page
-			.locator(`#cards-grid [role="gridcell"]:not([data-pair="${firstPairId}"])`)
+			.locator(`#cards-grid [role="listitem"]:not([data-pair="${firstPairId}"])`)
 			.first();
 
 		// Click both cards
@@ -100,7 +100,7 @@ test.describe("Cards Game", () => {
 	});
 
 	test("score remains at 0 after non-matching cards", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 
 		// Get first card's pair ID
 		const firstCard = cards.first();
@@ -108,7 +108,7 @@ test.describe("Cards Game", () => {
 
 		// Find a card with a different pair ID
 		const differentCard = page
-			.locator(`#cards-grid [role="gridcell"]:not([data-pair="${firstPairId}"])`)
+			.locator(`#cards-grid [role="listitem"]:not([data-pair="${firstPairId}"])`)
 			.first();
 
 		// Click both non-matching cards
@@ -131,11 +131,11 @@ test.describe("Cards Game", () => {
 		await selector.click();
 
 		// Wait for cards to reload
-		await page.waitForSelector('#cards-grid [role="gridcell"]');
+		await page.waitForSelector('#cards-grid [role="listitem"]');
 		await page.waitForTimeout(300);
 
 		// Should now have 12 cards
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		await expect(cards).toHaveCount(12);
 	});
 });
@@ -143,14 +143,14 @@ test.describe("Cards Game", () => {
 test.describe("Cards Game - reset confirmation", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/projects/cards");
-		await page.waitForSelector('#cards-grid [role="gridcell"]');
+		await page.waitForSelector('#cards-grid [role="listitem"]');
 	});
 
 	test("shows confirmation dialog when changing count with open cards", async ({
 		page,
 	}) => {
 		// Start the game by clicking a card
-		await page.locator('#cards-grid [role="gridcell"]').first().click();
+		await page.locator('#cards-grid [role="listitem"]').first().click();
 
 		// Verify game is active
 		const clock = page.locator("#game-clock");
@@ -172,8 +172,8 @@ test.describe("Cards Game - reset confirmation", () => {
 		expect(dialogMessage).toContain("reset");
 
 		// Verify game was reset with new count
-		await page.waitForSelector('#cards-grid [role="gridcell"]');
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		await page.waitForSelector('#cards-grid [role="listitem"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		await expect(cards).toHaveCount(12);
 
 		// Verify game state was reset (clock stopped, score reset)
@@ -184,7 +184,7 @@ test.describe("Cards Game - reset confirmation", () => {
 
 	test("canceling dialog keeps current game state", async ({ page }) => {
 		// Start the game by clicking a card
-		await page.locator('#cards-grid [role="gridcell"]').first().click();
+		await page.locator('#cards-grid [role="listitem"]').first().click();
 
 		// Set up dialog handler to dismiss (cancel)
 		page.on("dialog", async (dialog) => {
@@ -197,7 +197,7 @@ test.describe("Cards Game - reset confirmation", () => {
 			.click();
 
 		// Verify game was NOT reset - still 8 cards
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		await expect(cards).toHaveCount(8);
 
 		// Verify game is still active
@@ -211,11 +211,11 @@ test.describe("Cards Game (deterministic)", () => {
 		// Use shuffle=false for predictable card positions
 		// Cards are ordered: [A, B, C, D, A, B, C, D] - pairs at (0,4), (1,5), (2,6), (3,7)
 		await page.goto("/projects/cards?shuffle=false");
-		await page.waitForSelector('#cards-grid [role="gridcell"]');
+		await page.waitForSelector('#cards-grid [role="listitem"]');
 	});
 
 	test("can complete the game by matching all pairs", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		const cardCount = await cards.count();
 		const pairCount = cardCount / 2;
 
@@ -229,7 +229,7 @@ test.describe("Cards Game (deterministic)", () => {
 
 		// All cards should be solved
 		const solvedCards = page.locator(
-			'#cards-grid [role="gridcell"][data-state="solved"]',
+			'#cards-grid [role="listitem"][data-state="solved"]',
 		);
 		await expect(solvedCards).toHaveCount(cardCount);
 
@@ -239,7 +239,7 @@ test.describe("Cards Game (deterministic)", () => {
 	});
 
 	test("shows victory modal when game is completed", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		const cardCount = await cards.count();
 		const pairCount = cardCount / 2;
 
@@ -260,7 +260,7 @@ test.describe("Cards Game (deterministic)", () => {
 	});
 
 	test("play again button resets the game", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		const cardCount = await cards.count();
 		const pairCount = cardCount / 2;
 
@@ -282,7 +282,7 @@ test.describe("Cards Game (deterministic)", () => {
 
 		// Cards should be reset to default state
 		const defaultCards = page.locator(
-			'#cards-grid [role="gridcell"][data-state="default"]',
+			'#cards-grid [role="listitem"][data-state="default"]',
 		);
 		await expect(defaultCards).toHaveCount(cardCount);
 
@@ -294,7 +294,7 @@ test.describe("Cards Game (deterministic)", () => {
 	test("pairs are in predictable positions without shuffle", async ({
 		page,
 	}) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 
 		// First card and card at position 4 should have same pair ID
 		const firstPairId = await cards.nth(0).getAttribute("data-pair");
@@ -318,13 +318,13 @@ test.describe("Cards Game - keyboard navigation", () => {
 		// Use a narrow viewport to ensure multiple rows
 		await page.setViewportSize({ width: 600, height: 900 });
 		await page.goto("/projects/cards?shuffle=false");
-		await page.waitForSelector('#cards-grid [role="gridcell"]');
+		await page.waitForSelector('#cards-grid [role="listitem"]');
 		// Wait for grid layout to calculate
 		await page.waitForTimeout(100);
 	});
 
 	test("can navigate in all directions with arrow keys", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		const cols = await getColumnsPerRow(page);
 
 		// Focus first card
@@ -349,7 +349,7 @@ test.describe("Cards Game - keyboard navigation", () => {
 	});
 
 	test("can navigate with vim motions (hjkl)", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		const cols = await getColumnsPerRow(page);
 
 		// Focus first card
@@ -378,10 +378,10 @@ test.describe("Cards Game - keyboard navigation", () => {
 		await page
 			.locator('.card-count-selector__button[data-count="12"]')
 			.click();
-		await page.waitForSelector('#cards-grid [role="gridcell"]');
+		await page.waitForSelector('#cards-grid [role="listitem"]');
 		await page.waitForTimeout(300);
 
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		await expect(cards).toHaveCount(12);
 
 		// Focus first card and navigate
@@ -399,7 +399,7 @@ test.describe("Cards Game - keyboard navigation", () => {
 	});
 
 	test("can navigate while cards are flipping back", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		const cols = await getColumnsPerRow(page);
 
 		// Click two non-matching cards
@@ -419,7 +419,7 @@ test.describe("Cards Game - keyboard navigation", () => {
 	});
 
 	test("can navigate immediately after solving cards", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 
 		// With shuffle=false and 8 cards (4 pairs), pairs are at:
 		// (0,4), (1,5), (2,6), (3,7)
@@ -438,7 +438,7 @@ test.describe("Cards Game - keyboard navigation", () => {
 
 		// Check that we're focused on a card (not lost focus)
 		const focusedAfterRight = await page.evaluate(() => {
-			const cards = Array.from(document.querySelectorAll('.cards-grid__inner > [role="gridcell"]'));
+			const cards = Array.from(document.querySelectorAll('.cards-grid__inner > [role="listitem"]'));
 			return cards.indexOf(document.activeElement as HTMLElement);
 		});
 		expect(focusedAfterRight).toBeGreaterThanOrEqual(0);
@@ -446,14 +446,14 @@ test.describe("Cards Game - keyboard navigation", () => {
 		// Navigate in other directions too
 		await page.keyboard.press("ArrowDown");
 		const focusedAfterDown = await page.evaluate(() => {
-			const cards = Array.from(document.querySelectorAll('.cards-grid__inner > [role="gridcell"]'));
+			const cards = Array.from(document.querySelectorAll('.cards-grid__inner > [role="listitem"]'));
 			return cards.indexOf(document.activeElement as HTMLElement);
 		});
 		expect(focusedAfterDown).toBeGreaterThanOrEqual(0);
 	});
 
 	test("can navigate to solved cards", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 
 		// Solve cards 0 and 4 (first pair with shuffle=false)
 		await cards.nth(0).click();
@@ -478,7 +478,7 @@ test.describe("Cards Game - keyboard navigation", () => {
 	});
 
 	test("does not navigate past grid boundaries", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		const cols = await getColumnsPerRow(page);
 		const lastIndex = (await cards.count()) - 1;
 		const lastRowStart = Math.floor(lastIndex / cols) * cols;
@@ -507,11 +507,11 @@ test.describe("Cards Game - keyboard navigation", () => {
 test.describe("Cards Game - accessibility announcements", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/projects/cards?shuffle=false");
-		await page.waitForSelector('#cards-grid [role="gridcell"]');
+		await page.waitForSelector('#cards-grid [role="listitem"]');
 	});
 
 	test("announces grid dimensions when entering cards area", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 
 		// Focus outside the grid first (e.g., on pack selector)
 		await page.locator("#pack-select").focus();
@@ -526,7 +526,7 @@ test.describe("Cards Game - accessibility announcements", () => {
 	});
 
 	test("announces grid dimensions again after leaving and re-entering", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 
 		// First entry
 		await page.locator("#pack-select").focus();
@@ -550,7 +550,7 @@ test.describe("Cards Game - accessibility announcements", () => {
 	});
 
 	test("announces card name when flipping a card", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		const firstCard = cards.nth(0);
 
 		// Get the card's pair name
@@ -565,7 +565,7 @@ test.describe("Cards Game - accessibility announcements", () => {
 	});
 
 	test("announces pair found with score when matching", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 
 		// With shuffle=false, pairs are at (0,4), (1,5), etc.
 		await cards.nth(0).click();
@@ -578,7 +578,7 @@ test.describe("Cards Game - accessibility announcements", () => {
 	});
 
 	test("updates aria-label when card state changes", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		const firstCard = cards.nth(0);
 		const pairName = await firstCard.getAttribute("data-pair");
 
@@ -599,7 +599,7 @@ test.describe("Cards Game - accessibility announcements", () => {
 	});
 
 	test("victory modal has alertdialog role for screen readers", async ({ page }) => {
-		const cards = page.locator('#cards-grid [role="gridcell"]');
+		const cards = page.locator('#cards-grid [role="listitem"]');
 		const cardCount = await cards.count();
 		const pairCount = cardCount / 2;
 
