@@ -1,4 +1,3 @@
-import { increasePitch, playSound, resetPitch } from "./audio";
 import { createInitGuard, getAllCards, getCardsPerRow } from "./dom";
 
 // Cached DOM elements (set on first init)
@@ -8,6 +7,30 @@ let scoreValue: HTMLElement | null = null;
 
 let clickCounter = 0;
 let TIME_WAIT_FLIP = 1000; // Default fallback
+
+/**
+ * Parse a CSS duration value (e.g., "800ms", "0.8s", ".8s") to milliseconds.
+ * Returns NaN if the value cannot be parsed.
+ */
+function parseCssDuration(value: string): number {
+	const trimmed = value.trim().toLowerCase();
+	const numericPart = Number.parseFloat(trimmed);
+
+	if (Number.isNaN(numericPart)) {
+		return Number.NaN;
+	}
+
+	if (trimmed.endsWith("ms")) {
+		return numericPart;
+	}
+
+	if (trimmed.endsWith("s")) {
+		return numericPart * 1000;
+	}
+
+	// No unit - assume milliseconds
+	return numericPart;
+}
 let currentScore = 0;
 let isLocked = false;
 
@@ -138,7 +161,6 @@ const handleCardClick = (card: HTMLElement) => {
 		card.dataset.state = "open";
 		updateCardLabel(card);
 		announce(card.dataset.pair ?? "Card");
-		playSound("flip");
 	}
 
 	if (clickCounter === 2) {
@@ -154,7 +176,6 @@ const handleCardClick = (card: HTMLElement) => {
 		setTimeout(() => {
 			if (isSolved) {
 				markCardSolved(card);
-				increasePitch();
 			} else {
 				closeOpenCards();
 			}
@@ -181,8 +202,8 @@ function bindCardHandlers(): void {
 	if (cards.length > 0) {
 		const firstCard = cards[0];
 		const style = getComputedStyle(firstCard);
-		const duration = style.getPropertyValue("--card-flip-duration").trim();
-		const durationMs = Number.parseFloat(duration);
+		const duration = style.getPropertyValue("--card-flip-duration");
+		const durationMs = parseCssDuration(duration);
 
 		if (!Number.isNaN(durationMs)) {
 			// Add 200ms buffer to the animation duration
@@ -212,7 +233,6 @@ function bindCardHandlers(): void {
 	currentScore = 0;
 	isLocked = false;
 	updateScoreDisplay();
-	resetPitch();
 }
 
 type Direction = "up" | "down" | "left" | "right";
