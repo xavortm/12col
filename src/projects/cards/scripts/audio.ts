@@ -8,7 +8,7 @@ interface SoundConfig {
 	volume?: number;
 }
 
-const AUDIO_BASE_PATH = "/projects/cards/audio/";
+const AUDIO_BASE_PATH = `${import.meta.env.BASE_URL}projects/cards/audio/`;
 
 const SOUND_CONFIGS: Record<SoundId, SoundConfig> = {
 	flip: {

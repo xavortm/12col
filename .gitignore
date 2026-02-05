@@ -1,13 +1,12 @@
 # build output
 dist/
+
+# test artifacts
 playwright-report/
 test-results/
-playwright.env
-/tests/installation/output/
-/tests/installation/.registry.json
+coverage/
 .playwright-cli
-/test-results/
-/tests/coverage-report
+playwright.env
 
 # generated types
 .astro/
@@ -30,4 +29,3 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
-playwright-report/
