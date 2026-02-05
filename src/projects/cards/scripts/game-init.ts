@@ -52,13 +52,13 @@ function updateURL(state: GameState): void {
 	window.history.replaceState({}, "", url.toString());
 }
 
-function createCardHTML(svg: string, alt: string): string {
+function createCardHTML(imgSrc: string, alt: string): string {
 	return `
 		<div role="listitem" tabindex="0" data-state="default" data-pair="${alt}" aria-label="Face down">
 			<div class="inner">
 				<div class="front"></div>
 				<div class="back" aria-hidden="true">
-					${svg}
+					<img src="${imgSrc}" alt="${alt}" />
 				</div>
 			</div>
 		</div>
@@ -91,8 +91,11 @@ function renderCards(packId: string, cardCount: number): void {
 
 	const orderedCards = shuffle ? shuffleArray(cardPairs) : cardPairs;
 
+	const base = import.meta.env.BASE_URL.replace(/\/$/, ""); // Remove trailing slash
 	grid.innerHTML = orderedCards
-		.map((card) => createCardHTML(card.svg, card.alt))
+		.map((card) =>
+			createCardHTML(`${base}${pack.basePath}/${card.id}.svg`, card.alt),
+		)
 		.join("");
 }
 
