@@ -1,4 +1,5 @@
 import { createInitGuard, getAllCards, getCardsPerRow } from "./dom";
+import { parseCssDuration } from "./utils";
 
 // Cached DOM elements (set on first init)
 let grid: HTMLElement | null = null;
@@ -7,30 +8,6 @@ let scoreValue: HTMLElement | null = null;
 
 let clickCounter = 0;
 let TIME_WAIT_FLIP = 1000; // Default fallback
-
-/**
- * Parse a CSS duration value (e.g., "800ms", "0.8s", ".8s") to milliseconds.
- * Returns NaN if the value cannot be parsed.
- */
-function parseCssDuration(value: string): number {
-	const trimmed = value.trim().toLowerCase();
-	const numericPart = Number.parseFloat(trimmed);
-
-	if (Number.isNaN(numericPart)) {
-		return Number.NaN;
-	}
-
-	if (trimmed.endsWith("ms")) {
-		return numericPart;
-	}
-
-	if (trimmed.endsWith("s")) {
-		return numericPart * 1000;
-	}
-
-	// No unit - assume milliseconds
-	return numericPart;
-}
 let currentScore = 0;
 let isLocked = false;
 
@@ -39,27 +16,19 @@ const canClickOnCard = (card: HTMLElement): boolean => {
 };
 
 const setWaiting = (waiting: boolean): void => {
-	if (grid) {
-		grid.dataset.waiting = waiting ? "true" : "false";
+	if (!grid) {
+		return;
 	}
+
+	grid.dataset.waiting = waiting ? "true" : "false";
 };
 
-let announceTimeoutId: number | null = null;
-
 const announce = (message: string): void => {
-	if (announcer) {
-		// Cancel any pending announcement
-		if (announceTimeoutId !== null) {
-			clearTimeout(announceTimeoutId);
-		}
-		// Clear first to ensure re-announcement of same message
-		announcer.textContent = "";
-		// Use setTimeout to ensure the clear is processed before setting new content
-		announceTimeoutId = window.setTimeout(() => {
-			announcer.textContent = message;
-			announceTimeoutId = null;
-		}, 50);
+	if (!announcer) {
+		return;
 	}
+
+	announcer.textContent = message;
 };
 
 const getCardLabel = (card: HTMLElement): string => {
@@ -217,15 +186,6 @@ function bindCardHandlers(): void {
 				handleCardClick(card);
 			}
 		});
-
-		card.addEventListener("keydown", (event) => {
-			if (event.key === "Enter" || event.key === " ") {
-				event.preventDefault();
-				if (canClickOnCard(card)) {
-					handleCardClick(card);
-				}
-			}
-		});
 	});
 
 	// Reset game state
@@ -301,10 +261,13 @@ const shouldBindKeyboardNavigation = createInitGuard();
 
 function bindKeyboardNavigation(): void {
 	if (!shouldBindKeyboardNavigation()) return;
-	if (!grid) return;
 
 	// Listen on document to catch keys even when focus is on body (after solving)
 	document.addEventListener("keydown", (event) => {
+		if (!grid) {
+			return;
+		}
+
 		const activeEl = document.activeElement;
 		const isOnCard = grid.contains(activeEl);
 		const isOnBody = activeEl === document.body;
@@ -343,12 +306,14 @@ const shouldBindGridFocus = createInitGuard();
 
 function bindGridFocusAnnouncement(): void {
 	if (!shouldBindGridFocus()) return;
-	if (!grid) return;
 
 	document.addEventListener("focusin", () => {
+		if (!grid) {
+			return;
+		}
+
 		const isInsideGrid = grid.contains(document.activeElement);
 
-		// Announce dimensions when entering the grid from outside
 		if (isInsideGrid && !wasInsideGrid) {
 			announceGridDimensions();
 		}
@@ -357,12 +322,15 @@ function bindGridFocusAnnouncement(): void {
 	});
 }
 
-// Bind on game init event (fired by game-init.ts)
-window.addEventListener("game:init", bindCardHandlers);
-window.addEventListener("game:init", bindKeyboardNavigation);
-window.addEventListener("game:init", bindGridFocusAnnouncement);
+function initializeGame(): void {
+	bindCardHandlers();
+	bindKeyboardNavigation();
+	bindGridFocusAnnouncement();
+}
 
-// Also bind on initial load in case game:init fires before this script loads
-document.addEventListener("DOMContentLoaded", bindCardHandlers);
-document.addEventListener("DOMContentLoaded", bindKeyboardNavigation);
-document.addEventListener("DOMContentLoaded", bindGridFocusAnnouncement);
+// Bind on game:init (fired by game-init.ts after cards are rendered).
+// Not { once: true } because game:init fires on every re-init (pack/count change).
+window.addEventListener("game:init", initializeGame);
+
+// Also bind on DOMContentLoaded as fallback in case game:init fires before this script loads
+document.addEventListener("DOMContentLoaded", initializeGame);

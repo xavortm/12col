@@ -53,14 +53,14 @@ function updateURL(state: GameState): void {
 
 function createCardHTML(imgSrc: string, alt: string): string {
 	return `
-		<div role="listitem" tabindex="0" data-state="default" data-pair="${alt}" aria-label="Face down">
-			<div class="inner">
-				<div class="front"></div>
-				<div class="back" aria-hidden="true">
+		<button type="button" data-state="default" data-pair="${alt}" aria-label="Face down">
+			<span class="inner" aria-hidden="true">
+				<span class="front"></span>
+				<span class="back">
 					<img src="${imgSrc}" alt="${alt}" />
-				</div>
-			</div>
-		</div>
+				</span>
+			</span>
+		</button>
 	`;
 }
 
