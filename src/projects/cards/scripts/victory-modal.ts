@@ -26,7 +26,7 @@ function showVictoryModal(score: number): void {
 	if (!modal) return;
 
 	if (scoreDisplay) {
-		scoreDisplay.textContent = String(score);
+		scoreDisplay.textContent = score.toLocaleString();
 	}
 
 	modal.showModal();

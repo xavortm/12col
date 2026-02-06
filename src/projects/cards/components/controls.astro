@@ -1,33 +1,17 @@
 ---
 import Score from './score.astro';
 import PackSelector from './pack-selector.astro';
-import CardCountSelector from './card-count-selector.astro';
 ---
 
 <div class="controls">
 	<div class="controls__start">
 		<Score />
 	</div>
-	<div class="controls__end">
-		<CardCountSelector />
-		<!-- <PackSelector /> -->
-	</div>
 </div>
 
 <style>
-	.controls {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 1rem;
-		margin-bottom: 1rem;
-	}
 
-	.controls__start,
-	.controls__end {
-		display: flex;
-		gap: 1.5rem;
-		align-items: center;
+	.controls {
+		margin-bottom: 1rem;
 	}
 </style>

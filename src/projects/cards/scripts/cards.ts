@@ -1,7 +1,18 @@
 import { createInitGuard, getAllCards, getCardsPerRow } from "./dom";
+import {
+	addPairScore,
+	createScoringState,
+	resetStreak,
+	type ScoringState,
+} from "./scoring";
 import { parseCssDuration } from "./utils";
 
 type Direction = "up" | "down" | "left" | "right";
+
+interface CardData {
+	id: number;
+	flips: number;
+}
 
 const DIRECTION_KEYS: Record<Direction, string[]> = {
 	up: ["ArrowUp", "k"],
@@ -23,8 +34,10 @@ class CardsGame {
 	private announcer: HTMLElement | null = null;
 	private scoreValue: HTMLElement | null = null;
 	private scoreElement: HTMLElement | null;
+	private pairScoreElement: HTMLElement | null;
+	private multiplierElement: HTMLElement | null;
 	private clickCounter = 0;
-	private currentScore = 0;
+	private scoring: ScoringState = createScoringState();
 	private isLocked = false;
 	private timeWaitFlip = 1000;
 	private wasInsideGrid = false;
@@ -32,8 +45,12 @@ class CardsGame {
 	private shouldBindKeyboardNavigation = createInitGuard();
 	private shouldBindGridFocus = createInitGuard();
 
+	private cardsData: CardData[] = [];
+
 	constructor() {
 		this.scoreElement = document.getElementById("game-score");
+		this.pairScoreElement = document.getElementById("score-pair");
+		this.multiplierElement = document.getElementById("score-multiplier");
 
 		window.addEventListener("game:init", () => this.initialize());
 		document.addEventListener("DOMContentLoaded", () => this.initialize());
@@ -117,15 +134,29 @@ class CardsGame {
 
 	private updateScoreDisplay(): void {
 		if (this.scoreValue) {
-			this.scoreValue.textContent = String(this.currentScore);
+			this.scoreValue.textContent =
+				this.scoring.currentScore.toLocaleString();
+		}
+		if (this.pairScoreElement) {
+			this.pairScoreElement.textContent =
+				this.scoring.pairScore.toLocaleString();
+		}
+		if (this.multiplierElement) {
+			this.multiplierElement.textContent =
+				this.scoring.scoreMultiplier.toLocaleString();
 		}
 	}
 
-	private addScore(): void {
-		const points = this.getPointsPerPair();
-		this.currentScore += points;
+	private addScore(cardIndex: number): void {
+		const flips = this.cardsData[cardIndex].flips;
+		this.scoring = addPairScore(
+			this.scoring,
+			flips,
+			this.getPointsPerPair(),
+		);
+
 		this.updateScoreDisplay();
-		this.announce(`Pair found, score ${this.currentScore}`);
+		this.announce(`Pair found, score ${this.scoring.currentScore}`);
 	}
 
 	// ── Game completion ─────────────────────────────────────────────
@@ -137,13 +168,14 @@ class CardsGame {
 	private dispatchGameComplete(): void {
 		window.dispatchEvent(
 			new CustomEvent("game:complete", {
-				detail: { score: this.currentScore },
+				detail: { score: this.scoring.currentScore },
 			}),
 		);
 	}
 
 	private markCardSolved(card: HTMLElement): void {
 		const sibling = this.getCardSibling(card);
+		const cardIndex = Number.parseInt(card.dataset.index ?? "0", 10);
 
 		card.dataset.state = "solved";
 		sibling.dataset.state = "solved";
@@ -151,7 +183,7 @@ class CardsGame {
 		this.updateCardLabel(card);
 		this.updateCardLabel(sibling);
 
-		this.addScore();
+		this.addScore(cardIndex);
 
 		if (this.checkGameComplete()) {
 			this.dispatchGameComplete();
@@ -160,10 +192,11 @@ class CardsGame {
 
 	// ── Click handling ──────────────────────────────────────────────
 
-	private handleCardClick(card: HTMLElement): void {
-		this.clickCounter += 1;
+	private handleCardClick(card: HTMLElement, index: number): void {
+		this.cardsData[index].flips += 1;
 
 		if (card.dataset.state === "default") {
+			this.clickCounter += 1;
 			card.dataset.state = "open";
 			this.updateCardLabel(card);
 			this.announce(card.dataset.pair ?? "Card");
@@ -184,6 +217,7 @@ class CardsGame {
 					this.markCardSolved(card);
 				} else {
 					this.closeOpenCards();
+					this.scoring = resetStreak(this.scoring);
 				}
 
 				this.isLocked = false;
@@ -217,17 +251,20 @@ class CardsGame {
 			}
 		}
 
-		cards.forEach((card) => {
+		this.cardsData = cards.map((_, index) => ({ id: index, flips: 0 }));
+
+		cards.forEach((card, index) => {
+			card.dataset.index = String(index);
 			card.addEventListener("click", () => {
 				if (this.canClickOnCard(card)) {
-					this.handleCardClick(card);
+					this.handleCardClick(card, index);
 				}
 			});
 		});
 
 		// Reset game state
 		this.clickCounter = 0;
-		this.currentScore = 0;
+		this.scoring = createScoringState();
 		this.isLocked = false;
 		this.updateScoreDisplay();
 	}
