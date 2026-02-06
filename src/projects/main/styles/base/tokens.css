@@ -1,0 +1,24 @@
+@layer base {
+
+	:root {
+		--color-bg: oklab(from hsl(0 0% 5%) l a b);
+		--color-fg: oklab(from hsl(0 0% 95%) l a b);
+		--color-stroke: oklab(from hsl(0 0% 25%) l a b);
+		--color-muted: oklab(from hsl(0 0% 75%) l a b);
+
+		--font-body: 'Orbitron', sans-serif;
+
+		--radius-sm: 0.25rem;
+		--radius-md: 0.5rem;
+
+		--space-xs: 0.25rem;
+		--space-sm: 0.5rem;
+		--space-md: 1rem;
+		--space-lg: 2rem;
+		--space-xl: 4rem;
+
+		--site-width: 87.5rem;
+		--site-gutter: 2rem;
+	}
+
+}

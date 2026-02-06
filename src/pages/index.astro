@@ -1,9 +1,31 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import SiteHeader from '../projects/main/components/SiteHeader.astro';
+import Container from '../projects/main/components/Container.astro';
+
+import '../projects/main/styles/main.css';
 ---
 
 
 <Layout>
-	<Welcome />
+	<link slot="head" rel="preconnect" href="https://fonts.googleapis.com">
+	<link slot="head" rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link slot="head" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+
+	<main>
+		<Container>
+			<SiteHeader />
+		</Container>
+	</main>
 </Layout>
+
+<style>
+
+	main {
+		display: flex;
+		flex-direction: column;
+		justify-content: stretch;
+		align-items: center;
+	}
+
+</style>
