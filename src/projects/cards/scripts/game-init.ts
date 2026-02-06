@@ -9,7 +9,6 @@ import { shuffleArray } from "./utils//shuffle";
 
 // Cached DOM elements
 let grid: HTMLElement | null = null;
-let clock: HTMLElement | null = null;
 
 interface GameState {
 	packId: string;
@@ -126,17 +125,7 @@ function updateScorePointsPerPair(cardCount: ValidCount): void {
 	}
 }
 
-function isGameActive(): boolean {
-	return clock?.dataset.started === "true";
-}
-
-function confirmGameReset(): boolean {
-	if (!isGameActive()) return true;
-	return confirm("This will reset your current game. Are you sure?");
-}
-
-// Note: Score and clock reset are handled by cards.ts and clock.ts
-// via the game:init event dispatched in initGame()
+// Note: Score reset is handled by cards.ts via the game:init event dispatched in initGame()
 
 function initGame(state: GameState): void {
 	renderCards(state.packId, state.cardCount);
@@ -161,7 +150,6 @@ function setupCountSelector(): void {
 				button.getAttribute("aria-pressed") === "true";
 
 			if (isCurrentlySelected) return;
-			if (!confirmGameReset()) return;
 
 			const currentState = getStateFromURL();
 			initGame({ ...currentState, cardCount: count });
@@ -181,12 +169,6 @@ function setupPackSelector(): void {
 	).join("");
 
 	select.addEventListener("change", () => {
-		const previousValue = getStateFromURL().packId;
-		if (!confirmGameReset()) {
-			select.value = previousValue;
-			return;
-		}
-
 		const currentState = getStateFromURL();
 		initGame({ ...currentState, packId: select.value });
 	});
@@ -195,7 +177,6 @@ function setupPackSelector(): void {
 export function initializeGame(): void {
 	// Cache DOM elements
 	grid = document.getElementById("cards-grid");
-	clock = document.getElementById("game-clock");
 
 	const state = getStateFromURL();
 
