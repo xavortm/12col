@@ -38,5 +38,5 @@ export function addPairScore(
 }
 
 export function resetStreak(state: ScoringState): ScoringState {
-	return { ...state, consecutivePairs: 0 };
+	return { ...state, consecutivePairs: 0, scoreMultiplier: 0 };
 }

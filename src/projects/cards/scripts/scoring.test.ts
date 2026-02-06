@@ -55,7 +55,7 @@ describe("addPairScore", () => {
 			expect(next.consecutivePairs).toBe(1);
 		});
 
-		it("adds multiplier after a streak reset", () => {
+		it("adds multiplier from zero after a streak reset", () => {
 			let state = createScoringState();
 			state = addPairScore(state, 0, pointsPerPair);
 			state = addPairScore(state, 0, pointsPerPair);
@@ -63,8 +63,8 @@ describe("addPairScore", () => {
 
 			const next = addPairScore(state, 0, pointsPerPair);
 
-			// Multiplier was 16, now adds 4 → 20
-			expect(next.scoreMultiplier).toBe(20);
+			// Multiplier was reset to 0, now adds 4 → 4
+			expect(next.scoreMultiplier).toBe(4);
 		});
 	});
 
@@ -182,13 +182,14 @@ describe("resetStreak", () => {
 		expect(reset.consecutivePairs).toBe(0);
 	});
 
-	it("preserves score and multiplier", () => {
+	it("preserves score and pairScore but resets multiplier", () => {
 		let state = createScoringState();
 		state = addPairScore(state, 0, 4);
 		state = addPairScore(state, 0, 4);
 
 		const reset = resetStreak(state);
 		expect(reset.currentScore).toBe(state.currentScore);
-		expect(reset.scoreMultiplier).toBe(state.scoreMultiplier);
+		expect(reset.pairScore).toBe(state.pairScore);
+		expect(reset.scoreMultiplier).toBe(0);
 	});
 });

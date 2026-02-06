@@ -124,6 +124,26 @@ class CardsGame {
 		});
 	}
 
+	// ── Score animations ────────────────────────────────────────────
+
+	private animateElements(
+		targets: (HTMLElement | null)[],
+		className: string,
+	): void {
+		for (const el of targets) {
+			if (!el) continue;
+			el.classList.remove(className);
+			// Force reflow so re-adding the class restarts the animation
+			void el.offsetWidth;
+			el.classList.add(className);
+			el.addEventListener(
+				"animationend",
+				() => el.classList.remove(className),
+				{ once: true },
+			);
+		}
+	}
+
 	// ── Scoring ─────────────────────────────────────────────────────
 
 	private getPointsPerPair(): number {
@@ -156,6 +176,10 @@ class CardsGame {
 		);
 
 		this.updateScoreDisplay();
+		this.animateElements(
+			[this.pairScoreElement, this.multiplierElement, this.scoreValue],
+			"score--pop",
+		);
 		this.announce(`Pair found, score ${this.scoring.currentScore}`);
 	}
 
@@ -218,6 +242,8 @@ class CardsGame {
 				} else {
 					this.closeOpenCards();
 					this.scoring = resetStreak(this.scoring);
+					this.updateScoreDisplay();
+					this.animateElements([this.multiplierElement], "score--shake");
 				}
 
 				this.isLocked = false;
