@@ -1,6 +1,7 @@
 import { createInitGuard, getAllCards, getCardsPerRow } from "./dom";
 import {
 	addPairScore,
+	calculatePairMult,
 	createScoringState,
 	resetStreak,
 	type ScoringState,
@@ -104,6 +105,13 @@ class CardsGame {
 			`[data-pair="${pairString}"]`,
 		);
 		return allCards[0] === card ? allCards[1] : allCards[0];
+	}
+
+	private updateCardPoints(card: HTMLElement, flips: number): void {
+		const pointsEl = card.querySelector<HTMLElement>(".front__points");
+		if (pointsEl) {
+			pointsEl.textContent = String(calculatePairMult(flips));
+		}
 	}
 
 	private clickSolvesCard(card: HTMLElement): boolean {
@@ -218,6 +226,7 @@ class CardsGame {
 
 	private handleCardClick(card: HTMLElement, index: number): void {
 		this.cardsData[index].flips += 1;
+		this.updateCardPoints(card, this.cardsData[index].flips);
 
 		if (card.dataset.state === "default") {
 			this.clickCounter += 1;

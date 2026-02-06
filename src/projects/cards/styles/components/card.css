@@ -76,6 +76,19 @@
 	.cards-grid__inner .front {
 		background: rgba(255 255 255 / 2%);
 		border: 1px solid rgba(255 255 255 / 40%);
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+	}
+
+	.cards-grid__inner .front__points {
+		font-size: clamp(0.75rem, 2.5cqi, 1rem);
+		font-weight: 900;
+		font-variant-numeric: tabular-nums;
+		color: var(--color-pair-score, rgba(255 255 255 / 20%));
+		opacity: 0.6;
+		pointer-events: none;
+		margin: 1em;
 	}
 
 	@media (prefers-reduced-motion: no-preference) {

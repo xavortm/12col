@@ -4,6 +4,7 @@ import {
 	VALID_COUNTS,
 	type ValidCount,
 } from "../constants";
+import { calculatePairMult } from "./scoring";
 import { DEFAULT_PACK_ID, PACK_LIST, PACKS } from "../data/packs/registry";
 import { shuffleArray } from "./utils//shuffle";
 
@@ -52,10 +53,13 @@ function updateURL(state: GameState): void {
 }
 
 function createCardHTML(imgSrc: string, alt: string): string {
+	const initialPoints = calculatePairMult(0);
 	return `
 		<button type="button" data-state="default" data-pair="${alt}" aria-label="Face down">
 			<span class="inner" aria-hidden="true">
-				<span class="front"></span>
+				<span class="front">
+					<span class="front__points">${initialPoints}</span>
+				</span>
 				<span class="back">
 					<img src="${imgSrc}" alt="${alt}" />
 				</span>

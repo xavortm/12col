@@ -52,18 +52,6 @@ function bindModalHandlers(): void {
 
 	playAgainButton?.addEventListener("click", startNewGame);
 	closeButton?.addEventListener("click", hideVictoryModal);
-
-	// Close on backdrop click
-	modal.addEventListener("click", (event) => {
-		if (event.target === modal) {
-			hideVictoryModal();
-		}
-	});
-
-	// Close on Escape key (native dialog behavior, but ensure modal closes cleanly)
-	modal.addEventListener("close", () => {
-		// Modal closed via Escape or other means
-	});
 }
 
 function handleGameComplete(event: Event): void {

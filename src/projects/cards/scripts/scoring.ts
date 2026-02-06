@@ -23,7 +23,10 @@ export function addPairScore(
 	flips: number,
 	pointsPerPair: number,
 ): ScoringState {
-	const pairScore = pointsPerPair + state.consecutivePairs * 2;
+	const pairScore = Math.max(
+		state.pairScore,
+		pointsPerPair + state.consecutivePairs * 2,
+	);
 	const consecutivePairs = state.consecutivePairs + 1;
 
 	const pairMult = calculatePairMult(flips);

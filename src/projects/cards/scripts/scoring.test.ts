@@ -104,14 +104,15 @@ describe("addPairScore", () => {
 			expect(state.pairScore).toBe(8); // base + 2*2
 		});
 
-		it("resets pair bonus after streak break", () => {
+		it("preserves pair bonus after streak break", () => {
 			let state = createScoringState();
 			state = addPairScore(state, 0, pointsPerPair);
 			state = addPairScore(state, 0, pointsPerPair);
-			state = resetStreak(state);
+			expect(state.pairScore).toBe(6); // base + 1*2
 
+			state = resetStreak(state);
 			state = addPairScore(state, 0, pointsPerPair);
-			expect(state.pairScore).toBe(4); // back to base + 0*2
+			expect(state.pairScore).toBe(6); // never decreases
 		});
 	});
 
