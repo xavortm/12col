@@ -2,7 +2,7 @@
     <div class="site-header__inner">
         <div class="site-header__primary">
             <div class="site-header__cell site-logo">
-                <a href="#">Welcome to 12col</a>
+                <a href="/">Welcome to 12col</a>
             </div>
             <div class="site-header__cell">
 
@@ -61,7 +61,7 @@
                 <div class="decorative-circle-string"><span>12</span></div>
             </div>
             <div class="site-header__cell">
-                <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <circle cx="23" cy="23" r="23" fill="#80F891"/>
                     <path d="M40.0792 20.9505C40.0792 31.0119 32.4326 39.1683 23 39.1683C13.5674 39.1683 5.92078 31.0119 5.92078 20.9505" stroke="#030404" stroke-width="2"/>
                     <path d="M9.32999 18.6745C8.06864 20.7823 5.31889 21.267 3.18823 19.7572" stroke="#030404" stroke-width="2" stroke-linecap="round"/>
@@ -92,8 +92,8 @@
             <div class="site-header__slot">
                 <div class="decorative-text-lines">
                     <span>GRID-ID: 12COL</span>
-                    <span class="decorative-micro-line-numner">
-                        <svg width="36" height="6" viewBox="0 0 36 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <span class="decorative-micro-line-number">
+                        <svg width="36" height="6" viewBox="0 0 36 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <rect x="30" width="6" height="6" fill="#EAECEF"/>
                             <rect x="26" width="2" height="6" fill="#EAECEF"/>
                             <rect x="22" width="2" height="6" fill="#EAECEF"/>
@@ -117,9 +117,9 @@
             <div class="site-header__slot">
                 <span class="decorative-dots"></span>
                 <div class="decorative-text-lines">
-                    <span class="decorative-micro-line-numner">
+                    <span class="decorative-micro-line-number">
                         <small>216</small>
-                        <svg width="36" height="6" viewBox="0 0 36 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="36" height="6" viewBox="0 0 36 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <rect x="30" width="6" height="6" fill="#EAECEF"/>
                             <rect x="26" width="2" height="6" fill="#EAECEF"/>
                             <rect x="22" width="2" height="6" fill="#EAECEF"/>
@@ -206,7 +206,7 @@ p {
     gap: 0.5rem;
     position: relative;
 
-    & .decorative-micro-line-numner {
+    & .decorative-micro-line-number {
         position: absolute;
         display: flex;
         gap: 1.5em;
@@ -221,7 +221,7 @@ p {
 
     &:first-of-type {
 
-        & .decorative-micro-line-numner {
+        & .decorative-micro-line-number {
             right: -6rem;
             top: 0.25rem;
         }
@@ -229,7 +229,7 @@ p {
 
     &:last-of-type {
 
-        & .decorative-micro-line-numner {
+        & .decorative-micro-line-number {
             left: -7rem;
             top: 0.25rem;
         }
@@ -371,6 +371,12 @@ p {
     100% {
         opacity: 0;
         transform: scale(3);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .decorative-indicator[data-type="pulse-dot"]::after {
+        animation: none;
     }
 }
 
