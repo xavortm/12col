@@ -1,6 +1,5 @@
 @layer utils {
-
-    .uppercase {
-        text-transform: uppercase;
-    }
+	.uppercase {
+		text-transform: uppercase;
+	}
 }

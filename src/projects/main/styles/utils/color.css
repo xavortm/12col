@@ -1,6 +1,5 @@
 @layer utils {
-
-    .text-muted {
-        color: var(--color-text-muted);
-    }
+	.text-muted {
+		color: var(--color-text-muted);
+	}
 }

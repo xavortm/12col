@@ -92,6 +92,18 @@
             <div class="site-header__slot">
                 <div class="decorative-text-lines">
                     <span>GRID-ID: 12COL</span>
+                    <span class="decorative-micro-line-numner">
+                        <svg width="36" height="6" viewBox="0 0 36 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="30" width="6" height="6" fill="#EAECEF"/>
+                            <rect x="26" width="2" height="6" fill="#EAECEF"/>
+                            <rect x="22" width="2" height="6" fill="#EAECEF"/>
+                            <rect x="4" width="2" height="6" fill="#EAECEF"/>
+                            <rect width="2" height="6" fill="#EAECEF"/>
+                            <rect x="14" width="2" height="6" fill="#EAECEF"/>
+                        </svg>
+
+                        <small>523</small>
+                    </span>
                 </div>
                 <span class="decorative-dots"></span>
             </div>
@@ -105,6 +117,17 @@
             <div class="site-header__slot">
                 <span class="decorative-dots"></span>
                 <div class="decorative-text-lines">
+                    <span class="decorative-micro-line-numner">
+                        <small>216</small>
+                        <svg width="36" height="6" viewBox="0 0 36 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="30" width="6" height="6" fill="#EAECEF"/>
+                            <rect x="26" width="2" height="6" fill="#EAECEF"/>
+                            <rect x="22" width="2" height="6" fill="#EAECEF"/>
+                            <rect x="4" width="2" height="6" fill="#EAECEF"/>
+                            <rect width="2" height="6" fill="#EAECEF"/>
+                            <rect x="14" width="2" height="6" fill="#EAECEF"/>
+                        </svg>
+                    </span>
                     <span>v01/02/2026</span>
                 </div>
             </div>
@@ -139,17 +162,19 @@ p {
     justify-content: space-between;
     margin-block-start: 10px;
 
-    & > *:last-child,
-    & > *:first-child {
+    & > * {
         width: 10rem;
+        justify-content: center;
     }
 
     & > *:first-child {
         justify-content: flex-start;
+        padding-inline-start: 0;
     }
 
-    & > *:last-child {
+    & > *:last-of-type {
         justify-content: flex-end;
+        padding-inline-end: 0;
     }
 }
 
@@ -175,9 +200,40 @@ p {
     font-size: 10px;
     font-weight: 600;
     padding-block: 0.5rem;
+    padding-inline: 2rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    position: relative;
+
+    & .decorative-micro-line-numner {
+        position: absolute;
+        display: flex;
+        gap: 1.5em;
+        align-items: center;
+
+        & small {
+            margin: 0;
+            font-size: 6px;
+            display: inline-block;
+        }
+    }
+
+    &:first-of-type {
+
+        & .decorative-micro-line-numner {
+            right: -6rem;
+            top: 0.25rem;
+        }
+    }
+
+    &:last-of-type {
+
+        & .decorative-micro-line-numner {
+            left: -7rem;
+            top: 0.25rem;
+        }
+    }
 }
 
 .site-logo {
