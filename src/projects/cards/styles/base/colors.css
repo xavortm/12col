@@ -3,7 +3,7 @@
 		--color-bg: oklab(from hsl(0 0% 5%) l a b);
 		--color-fg: oklab(from hsl(0 0% 95%) l a b);
 		--color-stroke: oklab(from hsl(0 0% 25%) l a b);
-		--color-muted: oklab(from hsl(0 0% 75%) l a b);
+		--color-text-muted: oklab(from hsl(0 0% 75%) l a b);
 
 		--color-destructive-fg: oklab(from hsl(0 70% 65%) l a b);
 
