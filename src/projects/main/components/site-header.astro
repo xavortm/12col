@@ -1,0 +1,329 @@
+<header class="site-header">
+    <div class="site-header__inner">
+        <div class="site-header__primary">
+            <div class="site-header__cell site-logo">
+                <a href="#">Welcome to 12col</a>
+            </div>
+            <div class="site-header__cell">
+
+                <div class="decorative-text-lines">
+                    <div class="decorative-text-line">
+                        <span>Status: Online</span>
+                        <span class="decorative-indicator" data-type="pulse-dot"></span>
+                    </div>
+
+                    <div class="decorative-text-line">
+                        <span class="uppercase">Access: Public</span>
+                    </div>
+
+                    <div class="decorative-text-line">
+                        <span class="uppercase">Build: 12.0.1</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="site-header__cell">
+
+                <div class="decorative-text-lines text-muted">
+                    <div class="decorative-text-line">
+                        <span>SYSTEM LOAD: NOMINAL</span>
+                    </div>
+
+                    <div class="decorative-text-line">
+                        <span>GRID MODE: 12-COLUMN</span>
+                    </div>
+
+                    <div class="decorative-text-line">
+                        <span>BREAKPOINTS: READY</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="site-header__cell grow">
+
+                <div class="decorative-text-lines text-muted">
+                    <div class="decorative-text-line">
+                        <span>CREATED BY 12COL SYSTEM</span>
+                    </div>
+
+                    <div class="decorative-text-line">
+                        <span>MODULE_01: ICONS · MODULE_02: GAMES · MODULE_03: QUIZZES · GRID LAB</span>
+                    </div>
+
+                    <div class="decorative-text-line">
+                        <div class="progress-loader" style="--p: 40%"></div>
+                        <div class="progress-loader" style="--p: 18%"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="site-header__cell">
+                <div class="decorative-circle-string"><span>12</span></div>
+            </div>
+            <div class="site-header__cell">
+                <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="23" cy="23" r="23" fill="#80F891"/>
+                    <path d="M40.0792 20.9505C40.0792 31.0119 32.4326 39.1683 23 39.1683C13.5674 39.1683 5.92078 31.0119 5.92078 20.9505" stroke="#030404" stroke-width="2"/>
+                    <path d="M9.32999 18.6745C8.06864 20.7823 5.31889 21.267 3.18823 19.7572" stroke="#030404" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M36.67 18.6745C37.9314 20.7823 40.6811 21.267 42.8118 19.7572" stroke="#030404" stroke-width="2" stroke-linecap="round"/>
+                    <ellipse cx="29.1486" cy="14.3465" rx="2.73267" ry="5.23762" fill="#030404"/>
+                    <ellipse cx="16.8514" cy="14.3465" rx="2.73267" ry="5.23762" fill="#030404"/>
+                </svg>
+            </div>
+            <div class="site-header__cell">
+
+                <div class="decorative-text-lines">
+                    <div class="decorative-text-line text-muted">
+                        <span>Made by</span>
+                    </div>
+
+                    <div class="decorative-text-line">
+                        <span>@xavortm</span>
+                    </div>
+                    <div class="decorative-text-line">
+                        <span>@ydarelova</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="site-header__secondary" data-header-lines>
+            <div class="site-header__slot">
+                <div class="decorative-text-lines">
+                    <span>GRID-ID: 12COL</span>
+                </div>
+                <span class="decorative-dots"></span>
+            </div>
+
+            <div class="site-header__slot">
+                <div class="decorative-text-lines">
+                    <span>A GRID FULL OF GOODIES</span>
+                </div>
+            </div>
+
+            <div class="site-header__slot">
+                <span class="decorative-dots"></span>
+                <div class="decorative-text-lines">
+                    <span>v01/02/2026</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<style>
+
+p {
+    margin: 0;
+}
+    
+.site-header {
+    container: site-header / inline-size;
+
+    --cell-padding: 10px;
+    --cell-stroke: 1px solid var(--color-stroke);
+}
+
+.site-header__inner {
+    padding-block-start: var(--cell-padding);
+}
+
+.site-header__primary {
+    display: flex;
+    border-block: var(--cell-stroke);
+}
+
+.site-header__secondary {
+    display: flex;
+    justify-content: space-between;
+    margin-block-start: 10px;
+
+    & > *:last-child,
+    & > *:first-child {
+        width: 10rem;
+    }
+
+    & > *:first-child {
+        justify-content: flex-start;
+    }
+
+    & > *:last-child {
+        justify-content: flex-end;
+    }
+}
+
+.site-header__cell {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--cell-padding);
+    border-inline-start: var(--cell-stroke);
+    flex-shrink: 0;
+
+    &:last-child {
+        padding-inline-end: 0;
+        border-inline-end: none;
+    }
+
+    &:first-child {
+        padding-inline-start: 0;
+        border-inline-start: none;
+    }
+}
+
+.site-header__slot {
+    font-size: 10px;
+    font-weight: 600;
+    padding-block: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.site-logo {
+    flex: 0 0 auto;
+
+    a {
+        --bevel-size: 1rem;
+        --padding: calc(1em / 3);
+
+        display: inline-block;
+        background-color: var(--color-primary);
+        color: var(--color-primary-inverted);
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 1.5rem;
+        padding-block: var(--padding);
+        padding-inline: var(--padding) calc(var(--padding) + var(--bevel-size));
+        line-height: 1.25;
+        border-radius: calc(var(--bevel-size) / 4);
+
+        mask: 
+            radial-gradient(circle at 10px 10px, black 100%, transparent 0) 
+            no-repeat;
+
+        clip-path: polygon(
+            0% 0%,
+            100% 0%,
+            100% calc(100% - var(--bevel-size)),
+            calc(100% - var(--bevel-size)) 100%,
+            0% 100%
+            );
+    }
+}
+
+.decorative-text-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+/* Possibly to move to a web component? */
+.decorative-text-line {
+    font-size: 8px;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+
+}
+
+.decorative-indicator {
+
+    &[data-type="pulse-dot"] {
+        position: relative;
+        width: 0.75em;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        background-color: var(--color-primary);
+        display: inline-block;
+        flex: 0 0 auto;
+        margin-inline-start: 0.5em;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background-color: inherit;
+            animation: pulse-dot 2s ease-out infinite;
+        }
+    }
+}
+
+/* To move to a component with nice editability */
+.progress-loader {
+    border: 1px solid var(--color-stroke);
+    height: 10px;
+    width: 218px;
+    position: relative;
+}
+
+.progress-loader::before {
+    content: "";
+    position: absolute;
+    height: 3px;
+    width: calc(100% - 6px);
+    inset: 3.5px;
+    inset-inline-start: auto;
+    background-color: var(--color-primary);
+    max-width: var(--p);
+}
+
+.progress-loader::after {
+    content: "";
+    position: absolute;
+    height: 3px;
+    width: calc(100% - 6px);
+    inset: 3.5px;
+    background-image: url('data:image/svg+xml;utf8,<svg width="4" height="2" viewBox="0 0 4 2" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 0H3L2 2H0L1 0Z" fill="white" fill-opacity="0.4"/></svg>');
+    background-size: 6px 3px; 
+    background-repeat: repeat-x;
+    background-position: center;
+}
+
+.decorative-circle-string {
+    border: 1px solid var(--color-fg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    width: 46px;
+
+    & span {
+        font-size: 18px;
+        font-weight: 900;
+    }
+}
+
+.decorative-dots {
+    width: 2px;
+    height: 2px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    box-shadow: 4px 0 0 0 var(--color-primary);
+}
+
+@keyframes pulse-dot {
+    0% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(3);
+    }
+}
+
+
+</style>
+
+<script>
+  import { HeaderLines } from "../scripts/header-lines";
+
+  const el = document.querySelector<HTMLElement>("[data-header-lines]");
+  if (el) new HeaderLines(el);
+</script>

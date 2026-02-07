@@ -1,4 +1,8 @@
-@layer base;
+@layer base, utils;
 
 @import url("./base/tokens.css");
 @import url("./base/site.css");
+
+@import url("./utils/text.css");
+@import url("./utils/color.css");
+@import url("./utils/flex.css");

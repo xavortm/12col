@@ -21,8 +21,8 @@
 	}
 
 	.button--primary:disabled {
-		background: var(--color-muted);
-		border-color: var(--color-muted);
+		background: var(--color-text-muted);
+		border-color: var(--color-text-muted);
 	}
 
 	.button--destructive {
