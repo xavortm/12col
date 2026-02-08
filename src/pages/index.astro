@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import SiteHeader from '../projects/main/components/site-header.astro';
 import Container from '../projects/main/components/container.astro';
+import WelcomeText from '../projects/main/components/welcome-text.astro';
 
 import '../projects/main/styles/main.css';
 ---
@@ -14,17 +15,22 @@ import '../projects/main/styles/main.css';
 	<main>
 		<Container>
 			<SiteHeader />
+			<WelcomeText/>
 		</Container>
 	</main>
 </Layout>
 
 <style>
 
-	main {
-		display: flex;
-		flex-direction: column;
-		justify-content: stretch;
-		align-items: center;
-	}
+main {
+	display: flex;
+	flex-direction: column;
+	justify-content: stretch;
+	align-items: center;
+}
+
+:global(.welcome-text) {
+	margin-top: 7rem;
+}
 
 </style>
