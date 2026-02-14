@@ -105,7 +105,7 @@
                         <small>523</small>
                     </span>
                 </div>
-                <span class="decorative-dots"></span>
+                <cyber-dot count="2" size="small"></cyber-dot>
             </div>
 
             <div class="site-header__slot">
@@ -115,7 +115,7 @@
             </div>
 
             <div class="site-header__slot">
-                <span class="decorative-dots"></span>
+                <cyber-dot count="2" size="small"></cyber-dot>
                 <div class="decorative-text-lines">
                     <span class="decorative-micro-line-number">
                         <small>216</small>
@@ -355,12 +355,9 @@ p {
     }
 }
 
-.decorative-dots {
-    width: 2px;
-    height: 2px;
-    background-color: var(--color-primary);
-    border-radius: 50%;
-    box-shadow: 4px 0 0 0 var(--color-primary);
+cyber-dot {
+    --cyber-dot-color: var(--color-primary);
+    --cyber-dot-glow: transparent;
 }
 
 @keyframes pulse-dot {
@@ -384,6 +381,7 @@ p {
 </style>
 
 <script>
+  import "@12col/cyberpunk-ui/components/cyber-dot";
   import { HeaderLines } from "../scripts/header-lines";
 
   const el = document.querySelector<HTMLElement>("[data-header-lines]");
