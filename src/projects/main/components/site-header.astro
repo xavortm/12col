@@ -7,50 +7,30 @@
             <div class="site-header__cell">
 
                 <div class="decorative-text-lines">
-                    <div class="decorative-text-line">
-                        <span>Status: Online</span>
-                        <span class="decorative-indicator" data-type="pulse-dot"></span>
+                    <div class="decorative-row">
+                        <cyber-text size="small" variant="vivid">Status: Online</cyber-text>
+                        <cyber-dot animate="heartbeat"></cyber-dot>
                     </div>
-
-                    <div class="decorative-text-line">
-                        <span class="uppercase">Access: Public</span>
-                    </div>
-
-                    <div class="decorative-text-line">
-                        <span class="uppercase">Build: 12.0.1</span>
-                    </div>
+                    <cyber-text size="small" variant="vivid">Access: Public</cyber-text>
+                    <cyber-text size="small" variant="vivid">Build: 12.0.1</cyber-text>
                 </div>
 
             </div>
             <div class="site-header__cell">
 
-                <div class="decorative-text-lines text-muted">
-                    <div class="decorative-text-line">
-                        <span>SYSTEM LOAD: NOMINAL</span>
-                    </div>
-
-                    <div class="decorative-text-line">
-                        <span>GRID MODE: 12-COLUMN</span>
-                    </div>
-
-                    <div class="decorative-text-line">
-                        <span>BREAKPOINTS: READY</span>
-                    </div>
+                <div class="decorative-text-lines">
+                    <cyber-text size="small">System Load: Nominal</cyber-text>
+                    <cyber-text size="small">Grid Mode: 12-Column</cyber-text>
+                    <cyber-text size="small">Breakpoints: Ready</cyber-text>
                 </div>
 
             </div>
             <div class="site-header__cell grow">
 
-                <div class="decorative-text-lines text-muted">
-                    <div class="decorative-text-line">
-                        <span>CREATED BY 12COL SYSTEM</span>
-                    </div>
-
-                    <div class="decorative-text-line">
-                        <span>MODULE_01: ICONS · MODULE_02: GAMES · MODULE_03: QUIZZES · GRID LAB</span>
-                    </div>
-
-                    <div class="decorative-text-line">
+                <div class="decorative-text-lines">
+                    <cyber-text size="small">Created by 12col System</cyber-text>
+                    <cyber-text size="small">Module_01: Icons · Module_02: Games · Module_03: Quizzes · Grid Lab</cyber-text>
+                    <div class="decorative-row">
                         <div class="progress-loader" style="--p: 40%"></div>
                         <div class="progress-loader" style="--p: 18%"></div>
                     </div>
@@ -73,16 +53,9 @@
             <div class="site-header__cell">
 
                 <div class="decorative-text-lines">
-                    <div class="decorative-text-line text-muted">
-                        <span>Made by</span>
-                    </div>
-
-                    <div class="decorative-text-line">
-                        <span>@xavortm</span>
-                    </div>
-                    <div class="decorative-text-line">
-                        <span>@ydarelova</span>
-                    </div>
+                    <cyber-text size="small">Made by</cyber-text>
+                    <cyber-text size="small" variant="vivid">@xavortm</cyber-text>
+                    <cyber-text size="small" variant="vivid">@ydarelova</cyber-text>
                 </div>
 
             </div>
@@ -91,7 +64,7 @@
         <div class="site-header__secondary" data-header-lines>
             <div class="site-header__slot">
                 <div class="decorative-text-lines">
-                    <span>GRID-ID: 12COL</span>
+                    <cyber-text variant="vivid">Grid-ID: 12col</cyber-text>
                     <span class="decorative-micro-line-number">
                         <svg width="36" height="6" viewBox="0 0 36 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <rect x="30" width="6" height="6" fill="#EAECEF"/>
@@ -109,9 +82,7 @@
             </div>
 
             <div class="site-header__slot">
-                <div class="decorative-text-lines">
-                    <span>A GRID FULL OF GOODIES</span>
-                </div>
+                <cyber-text variant="vivid">A Grid Full of Goodies</cyber-text>
             </div>
 
             <div class="site-header__slot">
@@ -128,7 +99,7 @@
                             <rect x="14" width="2" height="6" fill="#EAECEF"/>
                         </svg>
                     </span>
-                    <span>v01/02/2026</span>
+                    <cyber-text variant="vivid">v01/02/2026</cyber-text>
                 </div>
             </div>
         </div>
@@ -275,15 +246,10 @@ p {
     gap: 0.25rem;
 }
 
-/* Possibly to move to a web component? */
-.decorative-text-line {
-    font-size: 8px;
+.decorative-row {
     display: flex;
     gap: 0.5em;
     align-items: center;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-
 }
 
 .decorative-indicator {
@@ -382,6 +348,7 @@ cyber-dot {
 
 <script>
   import "@12col/cyberpunk-ui/components/cyber-dot";
+  import "@12col/cyberpunk-ui/components/cyber-text";
   import { HeaderLines } from "../scripts/header-lines";
 
   const el = document.querySelector<HTMLElement>("[data-header-lines]");

@@ -1,4 +1,4 @@
-import { LitElement, css, html } from "lit";
+import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 export type CyberDotSize = "small" | "default" | "large";
@@ -105,7 +105,10 @@ export class CyberDot extends LitElement {
 
 	override render() {
 		const clamped = Math.max(0, Math.trunc(this.count));
-		const dots = Array.from({ length: clamped }, (_, i) => html`<span></span>`);
+		const dots = Array.from(
+			{ length: clamped },
+			(_, i) => html`<span></span>`,
+		);
 		return html`${dots}`;
 	}
 }
