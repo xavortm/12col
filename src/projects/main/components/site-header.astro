@@ -31,8 +31,8 @@
                     <cyber-text size="small">Created by 12col System</cyber-text>
                     <cyber-text size="small">Module_01: Icons · Module_02: Games · Module_03: Quizzes · Grid Lab</cyber-text>
                     <div class="decorative-row">
-                        <div class="progress-loader" style="--p: 40%"></div>
-                        <div class="progress-loader" style="--p: 18%"></div>
+                        <cyber-progress progress="40" direction="right"></cyber-progress>
+                        <cyber-progress progress="18" direction="right"></cyber-progress>
                     </div>
                 </div>
 
@@ -252,58 +252,10 @@ p {
     align-items: center;
 }
 
-.decorative-indicator {
-
-    &[data-type="pulse-dot"] {
-        position: relative;
-        width: 0.75em;
-        aspect-ratio: 1 / 1;
-        border-radius: 50%;
-        background-color: var(--color-primary);
-        display: inline-block;
-        flex: 0 0 auto;
-        margin-inline-start: 0.5em;
-
-        &::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background-color: inherit;
-            animation: pulse-dot 2s ease-out infinite;
-        }
-    }
-}
-
-/* To move to a component with nice editability */
-.progress-loader {
-    border: 1px solid var(--color-stroke);
-    height: 10px;
-    width: 218px;
-    position: relative;
-}
-
-.progress-loader::before {
-    content: "";
-    position: absolute;
-    height: 3px;
-    width: calc(100% - 6px);
-    inset: 3.5px;
-    inset-inline-start: auto;
-    background-color: var(--color-primary);
-    max-width: var(--p);
-}
-
-.progress-loader::after {
-    content: "";
-    position: absolute;
-    height: 3px;
-    width: calc(100% - 6px);
-    inset: 3.5px;
-    background-image: url('data:image/svg+xml;utf8,<svg width="4" height="2" viewBox="0 0 4 2" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 0H3L2 2H0L1 0Z" fill="white" fill-opacity="0.4"/></svg>');
-    background-size: 6px 3px; 
-    background-repeat: repeat-x;
-    background-position: center;
+cyber-progress {
+    --cyber-progress-stroke: var(--color-stroke);
+    --cyber-progress-fill: var(--color-primary);
+    inline-size: 218px;
 }
 
 .decorative-circle-string {
@@ -326,28 +278,12 @@ cyber-dot {
     --cyber-dot-glow: transparent;
 }
 
-@keyframes pulse-dot {
-    0% {
-        opacity: 0.8;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(3);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .decorative-indicator[data-type="pulse-dot"]::after {
-        animation: none;
-    }
-}
-
 
 </style>
 
 <script>
   import "@12col/cyberpunk-ui/components/cyber-dot";
+  import "@12col/cyberpunk-ui/components/cyber-progress";
   import "@12col/cyberpunk-ui/components/cyber-text";
   import { HeaderLines } from "../scripts/header-lines";
 

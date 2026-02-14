@@ -6,7 +6,7 @@ import {
 } from "../constants";
 import { calculatePairMult } from "./scoring";
 import { DEFAULT_PACK_ID, PACK_LIST, PACKS } from "../data/packs/registry";
-import { shuffleArray } from "./utils//shuffle";
+import { shuffleArray } from "./utils/shuffle";
 
 // Cached DOM elements
 let grid: HTMLElement | null = null;

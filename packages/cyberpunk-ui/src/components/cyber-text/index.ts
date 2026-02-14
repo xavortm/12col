@@ -1,1 +1,6 @@
-export { CyberText, type CyberTextSize, type CyberTextVariant, type CyberTextEffect } from "./cyber-text";
+export {
+	CyberText,
+	type CyberTextEffect,
+	type CyberTextSize,
+	type CyberTextVariant,
+} from "./cyber-text";
