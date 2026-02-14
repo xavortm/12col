@@ -107,7 +107,7 @@ export class CyberDot extends LitElement {
 		const clamped = Math.max(0, Math.trunc(this.count));
 		const dots = Array.from(
 			{ length: clamped },
-			(_, i) => html`<span></span>`,
+			(_, _i) => html`<span></span>`,
 		);
 		return html`${dots}`;
 	}

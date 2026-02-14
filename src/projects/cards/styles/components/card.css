@@ -35,11 +35,9 @@
 		& button:hover {
 			outline: 2px solid currentColor;
 		}
-
 	}
 
 	.cards-grid__inner {
-
 		&:not([data-waiting="true"]) button:active {
 			transform: scale(0.97);
 		}
@@ -48,8 +46,6 @@
 			cursor: not-allowed;
 		}
 	}
-
-
 
 	.cards-grid__inner .inner {
 		display: block;

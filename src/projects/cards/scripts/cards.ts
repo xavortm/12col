@@ -252,7 +252,10 @@ class CardsGame {
 					this.closeOpenCards();
 					this.scoring = resetStreak(this.scoring);
 					this.updateScoreDisplay();
-					this.animateElements([this.multiplierElement], "score--shake");
+					this.animateElements(
+						[this.multiplierElement],
+						"score--shake",
+					);
 				}
 
 				this.isLocked = false;

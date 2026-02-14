@@ -4,8 +4,8 @@ import {
 	VALID_COUNTS,
 	type ValidCount,
 } from "../constants";
-import { calculatePairMult } from "./scoring";
 import { DEFAULT_PACK_ID, PACK_LIST, PACKS } from "../data/packs/registry";
+import { calculatePairMult } from "./scoring";
 import { shuffleArray } from "./utils/shuffle";
 
 // Cached DOM elements
