@@ -4,7 +4,7 @@
             <div class="site-header__cell site-logo">
                 <a href="/">Welcome to 12col</a>
             </div>
-            <div class="site-header__cell">
+            <div class="site-header__cell" aria-hidden="true">
 
                 <div class="decorative-text-lines">
                     <div class="decorative-row">
@@ -16,7 +16,7 @@
                 </div>
 
             </div>
-            <div class="site-header__cell">
+            <div class="site-header__cell" aria-hidden="true">
 
                 <div class="decorative-text-lines">
                     <cyber-text size="small">System Load: Nominal</cyber-text>
@@ -25,7 +25,7 @@
                 </div>
 
             </div>
-            <div class="site-header__cell grow">
+            <div class="site-header__cell grow" aria-hidden="true">
 
                 <div class="decorative-text-lines">
                     <cyber-text size="small">Created by 12col System</cyber-text>
@@ -37,7 +37,7 @@
                 </div>
 
             </div>
-            <div class="site-header__cell">
+            <div class="site-header__cell" aria-hidden="true">
                 <div class="decorative-circle-string"><span>12</span></div>
             </div>
             <div class="site-header__cell">
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <div class="site-header__secondary" data-header-lines>
+        <div class="site-header__secondary" data-header-lines aria-hidden="true">
             <div class="site-header__slot">
                 <div class="decorative-text-lines">
                     <cyber-text variant="vivid">Grid-ID: 12col</cyber-text>
@@ -113,8 +113,6 @@ p {
 }
     
 .site-header {
-    container: site-header / inline-size;
-
     --cell-padding: 10px;
     --cell-stroke: 1px solid var(--color-stroke);
 }
@@ -225,10 +223,6 @@ p {
         padding-inline: var(--padding) calc(var(--padding) + var(--bevel-size));
         line-height: 1.25;
         border-radius: calc(var(--bevel-size) / 4);
-
-        mask: 
-            radial-gradient(circle at 10px 10px, black 100%, transparent 0) 
-            no-repeat;
 
         clip-path: polygon(
             0% 0%,

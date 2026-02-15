@@ -1,3 +1,11 @@
+@font-face {
+	font-family: "Orbitron";
+	font-style: normal;
+	font-weight: 400 900;
+	font-display: swap;
+	src: url("/12col/fonts/orbitron-latin-variable.woff2") format("woff2");
+}
+
 @layer base {
 	:root {
 		--color-bg: #030404;

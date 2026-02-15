@@ -8,11 +8,7 @@ import '../projects/main/styles/main.css';
 ---
 
 <Layout>
-	<link slot="head" rel="preconnect" href="https://fonts.googleapis.com">
-	<link slot="head" rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link slot="head" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
-
-	<main>
+	<main class="homepage">
 		<Container>
 			<SiteHeader />
 			<WelcomeText/>
@@ -22,15 +18,11 @@ import '../projects/main/styles/main.css';
 
 <style>
 
-main {
+.homepage {
 	display: flex;
 	flex-direction: column;
 	justify-content: stretch;
 	align-items: center;
-}
-
-:global(.welcome-text) {
-	margin-top: 7rem;
 }
 
 </style>
