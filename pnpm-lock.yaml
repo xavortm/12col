@@ -14,6 +14,9 @@ importers:
       astro:
         specifier: ^5.17.2
         version: 5.17.2(@types/node@25.0.3)(rollup@4.55.1)(typescript@5.9.3)
+      normalize.css:
+        specifier: ^8.0.1
+        version: 8.0.1
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.3.13
@@ -1364,6 +1367,9 @@ packages:
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
+
+  normalize.css@8.0.1:
+    resolution: {integrity: sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==}
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
@@ -3297,6 +3303,8 @@ snapshots:
   node-mock-http@1.0.4: {}
 
   normalize-path@3.0.0: {}
+
+  normalize.css@8.0.1: {}
 
   nth-check@2.1.1:
     dependencies:

@@ -1,4 +1,6 @@
-@layer base, utils;
+@layer normalize, base, utils;
+
+@import url("normalize.css") layer(normalize);
 
 @import url("./base/tokens.css");
 @import url("./base/site.css");

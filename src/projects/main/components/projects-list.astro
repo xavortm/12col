@@ -1,0 +1,41 @@
+<section class="projects-viewer">
+
+	<cyber-frame>
+		<cyber-frame-corner slot="corner" position="all" size="small"></cyber-frame-corner>
+
+		<div slot="content" class="card-inner">
+			<cyber-frame appearance="cut-edges" cut-size="16">
+				<div slot="content" class="image-preview__inner">
+					<span>graphic here</span>
+				</div>
+			</cyber-frame>
+		</div>
+	</cyber-frame>
+</section>
+
+<style>
+
+.projects-viewer {
+	margin-block: 100px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 2rem;
+}
+
+.image-preview__inner {
+	aspect-ratio: 256 / 150;
+	background-color: #030404;
+	display: grid;
+	place-items: center;
+}
+
+.card-inner {
+	padding: 2rem;
+}
+
+</style>
+
+<script>
+	import "@12col/cyberpunk-ui/components/cyber-frame";
+	import "@12col/cyberpunk-ui/components/cyber-frame-corner";
+</script>

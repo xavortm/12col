@@ -28,3 +28,9 @@ Read these based on the task at hand:
 ## References
 
 TBA
+
+## Agentic workflow
+
+When requested, you will write in .claude/research/understand_*.md file with the full detailed research of the codebase and problem.
+In a second file, .claude/research/plan_*.md you will describe detailed steps for implementations as a TODO.
+You will reference the files in your work and pay attention to user added notes.
