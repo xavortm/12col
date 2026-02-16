@@ -4,11 +4,40 @@
 		<cyber-frame-corner slot="corner" position="all" size="small"></cyber-frame-corner>
 
 		<div slot="content" class="card-inner">
-			<cyber-frame appearance="cut-edges" cut-size="16">
-				<div slot="content" class="image-preview__inner">
-					<span>graphic here</span>
+			
+			<div class="image-preview">
+				<div class="dot-top">
+					<cyber-dot size="tiny" count='2' class="dot-start"></cyber-dot>
+					<cyber-dot size="tiny" count='2' class="dot-end"></cyber-dot>
 				</div>
-			</cyber-frame>
+
+				<cyber-frame appearance="cut-edges" cut-size="12">
+					<cyber-frame-corner slot="corner" variant="partial-outline" style="--cyber-frame-corner-accent: var(--color-border, #373b3e)"></cyber-frame-corner>
+					<div slot="content" class="image-preview__inner">
+						<img src="https://i.imgur.com/VXwifQR.png" width="200" />
+					</div>
+				</cyber-frame>
+
+				<div class="dot-bottom">
+					<cyber-dot size="tiny" count='2' class="dot-start"></cyber-dot>
+					<cyber-dot size="tiny" count='2' class="dot-end"></cyber-dot>
+				</div>
+			</div>
+
+			<dl class="card-meta">
+				<div class="card-meta__row">
+					<dt>Name:</dt>
+					<dd>Pair Up!</dd>
+				</div>
+				<div class="card-meta__row">
+					<dt>Type:</dt>
+					<dd>Memory cards game</dd>
+				</div>
+				<div class="card-meta__row">
+					<dt>Status:</dt>
+					<dd>Free to play</dd>
+				</div>
+			</dl>
 		</div>
 	</cyber-frame>
 </section>
@@ -22,6 +51,23 @@
 	gap: 2rem;
 }
 
+.image-preview {
+
+	& .dot-bottom,
+	& .dot-top {
+		--cyber-dot-color: var(--color-primary);
+
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		gap: 2.5rem;
+	}
+
+	& cyber-frame {
+		margin-block: 0.25rem;
+	}
+}
+
 .image-preview__inner {
 	aspect-ratio: 256 / 150;
 	background-color: #030404;
@@ -33,9 +79,33 @@
 	padding: 2rem;
 }
 
+.card-meta {
+	margin-block: 1.5rem;
+	padding: 0;
+	font-size: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.card-meta__row {
+	display: grid;
+	grid-template-columns: 5ch 1fr;
+	gap: 16px;
+
+	& dt {
+		opacity: 0.5;
+	}
+
+	& dd {
+		margin: 0;
+	}
+}
+
 </style>
 
 <script>
 	import "@12col/cyberpunk-ui/components/cyber-frame";
 	import "@12col/cyberpunk-ui/components/cyber-frame-corner";
+	import "@12col/cyberpunk-ui/components/cyber-dot";
 </script>

@@ -42,7 +42,7 @@ export class CyberFrame extends LitElement {
 			outline: 1px solid var(--_border-color);
 		}
 
-		:host([appearance="cut-edges"]) .frame-layer {
+		:host([appearance="cut-edges"]) {
 			clip-path: polygon(
 				var(--_cut-size) 0%,
 				calc(100% - var(--_cut-size)) 0%,

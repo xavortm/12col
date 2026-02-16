@@ -38,6 +38,15 @@ export class CyberDot extends LitElement {
 			box-shadow: 0 0 6px var(--_glow);
 		}
 
+		:host([size="tiny"]) {
+			--_gap: 3px;
+		}
+
+		:host([size="tiny"]) span {
+			inline-size: 2px;
+			block-size: 2px;
+		}
+
 		:host([size="small"]) span {
 			inline-size: 0.3em;
 			block-size: 0.3em;
