@@ -76,6 +76,8 @@ export class CyberFrameCorner extends LitElement {
 			inline-size: var(--_size);
 			block-size: var(--_size);
 			z-index: 2;
+			transition: translate var(--cyber-frame-corner-transition-duration, 0s) var(--cyber-frame-corner-transition-easing, ease),
+				border-color var(--cyber-frame-corner-transition-duration, 0s) var(--cyber-frame-corner-transition-easing, ease);
 		}
 
 		.top-left {
@@ -83,6 +85,7 @@ export class CyberFrameCorner extends LitElement {
 			left: -1px;
 			border-top: var(--_weight) solid var(--_accent);
 			border-left: var(--_weight) solid var(--_accent);
+			translate: calc(-1 * var(--cyber-frame-corner-offset, 0px)) calc(-1 * var(--cyber-frame-corner-offset, 0px));
 		}
 
 		.top-right {
@@ -90,6 +93,7 @@ export class CyberFrameCorner extends LitElement {
 			right: -1px;
 			border-top: var(--_weight) solid var(--_accent);
 			border-right: var(--_weight) solid var(--_accent);
+			translate: var(--cyber-frame-corner-offset, 0px) calc(-1 * var(--cyber-frame-corner-offset, 0px));
 		}
 
 		.bottom-left {
@@ -97,6 +101,7 @@ export class CyberFrameCorner extends LitElement {
 			left: -1px;
 			border-bottom: var(--_weight) solid var(--_accent);
 			border-left: var(--_weight) solid var(--_accent);
+			translate: calc(-1 * var(--cyber-frame-corner-offset, 0px)) var(--cyber-frame-corner-offset, 0px);
 		}
 
 		.bottom-right {
@@ -104,6 +109,7 @@ export class CyberFrameCorner extends LitElement {
 			right: -1px;
 			border-bottom: var(--_weight) solid var(--_accent);
 			border-right: var(--_weight) solid var(--_accent);
+			translate: var(--cyber-frame-corner-offset, 0px) var(--cyber-frame-corner-offset, 0px);
 		}
 
 		.partial-outline {

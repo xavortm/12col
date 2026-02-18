@@ -24,6 +24,8 @@ export class CyberButton extends LitElement {
 		cyber-frame {
 			display: block;
 			--cyber-frame-corner-accent: #fff;
+			--cyber-frame-corner-transition-duration: 150ms;
+			--cyber-frame-corner-transition-easing: ease;
 		}
 
 		a {
@@ -41,7 +43,12 @@ export class CyberButton extends LitElement {
 
 		a:hover {
 			background-color: var(--cyber-button-bg-hover, var(--color-primary, #80f891));
-			color: var(--cyber-button-color-hover, var(--color-primary-inverted, #030404));
+			color: var(--cyber-button-color-hover, var(--color-primary-inverted, #030405));
+		}
+
+		:host(:hover) cyber-frame {
+			--cyber-frame-corner-accent: var(--cyber-button-color-hover, var(--color-primary-inverted, #030405));
+			--cyber-frame-corner-offset: -3px;
 		}
 
 		.highlight {

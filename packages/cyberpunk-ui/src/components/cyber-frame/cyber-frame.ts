@@ -32,9 +32,10 @@ export class CyberFrame extends LitElement {
 
 		.frame-layer {
 			position: absolute;
-			inset: 0;
+			inset: var(--cyber-frame-inset, 0);
 			background-color: var(--_bg);
 			pointer-events: none;
+			transition: inset var(--cyber-frame-transition-duration, 0s) var(--cyber-frame-transition-easing, ease);
 		}
 
 		:host(:not([appearance="cut-edges"])) .frame-layer {
