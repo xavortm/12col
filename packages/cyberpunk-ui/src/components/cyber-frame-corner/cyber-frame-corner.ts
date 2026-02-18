@@ -7,7 +7,7 @@ export type FrameCornerPosition =
 	| "bottom-left"
 	| "bottom-right";
 
-export type FrameCornerSize = "small" | "default";
+export type FrameCornerSize = "tiny" | "small" | "default";
 export type FrameCornerVariant = "default" | "partial-outline";
 
 const ALL_POSITIONS: FrameCornerPosition[] = [
@@ -64,6 +64,10 @@ export class CyberFrameCorner extends LitElement {
 
 		:host([size="small"]) {
 			--_size: 0.5rem;
+		}
+
+		:host([size="tiny"]) {
+			--_size: 0.25rem;
 		}
 
 		span {

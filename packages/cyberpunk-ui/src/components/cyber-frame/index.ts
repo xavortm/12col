@@ -1,1 +1,5 @@
-export { CyberFrame, type FrameAppearance, type FrameVariant } from "./cyber-frame";
+export {
+	CyberFrame,
+	type FrameAppearance,
+	type FrameVariant,
+} from "./cyber-frame";

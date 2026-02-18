@@ -3,4 +3,3 @@ export {
 	type FrameCornerPosition,
 	type FrameCornerSize,
 } from "./cyber-frame-corner";
-

@@ -1,45 +1,49 @@
 <section class="projects-viewer">
 
-	<cyber-frame>
-		<cyber-frame-corner slot="corner" position="all" size="small"></cyber-frame-corner>
+	<div class="card">
+		<cyber-frame>
+			<cyber-frame-corner slot="corner" position="all" size="small"></cyber-frame-corner>
 
-		<div slot="content" class="card-inner">
-			
-			<div class="image-preview">
-				<div class="dot-top">
-					<cyber-dot size="tiny" count='2' class="dot-start"></cyber-dot>
-					<cyber-dot size="tiny" count='2' class="dot-end"></cyber-dot>
-				</div>
+			<div slot="content" class="card-inner">
 
-				<cyber-frame appearance="cut-edges" cut-size="12">
-					<cyber-frame-corner slot="corner" variant="partial-outline" style="--cyber-frame-corner-accent: var(--color-border, #373b3e)"></cyber-frame-corner>
-					<div slot="content" class="image-preview__inner">
-						<img src="https://i.imgur.com/VXwifQR.png" width="200" />
+				<div class="image-preview">
+					<div class="dot-top">
+						<cyber-dot size="tiny" count='2' class="dot-start"></cyber-dot>
+						<cyber-dot size="tiny" count='2' class="dot-end"></cyber-dot>
 					</div>
-				</cyber-frame>
 
-				<div class="dot-bottom">
-					<cyber-dot size="tiny" count='2' class="dot-start"></cyber-dot>
-					<cyber-dot size="tiny" count='2' class="dot-end"></cyber-dot>
+					<cyber-frame appearance="cut-edges" cut-size="12">
+						<cyber-frame-corner slot="corner" variant="partial-outline" style="--cyber-frame-corner-accent: var(--color-border, #373b3e)"></cyber-frame-corner>
+						<div slot="content" class="image-preview__inner">
+							<img src="https://i.imgur.com/VXwifQR.png" width="200" />
+						</div>
+					</cyber-frame>
+
+					<div class="dot-bottom">
+						<cyber-dot size="tiny" count='2' class="dot-start"></cyber-dot>
+						<cyber-dot size="tiny" count='2' class="dot-end"></cyber-dot>
+					</div>
 				</div>
+
+				<dl class="card-meta">
+					<div class="card-meta__row">
+						<dt>Name:</dt>
+						<dd>Pair Up!</dd>
+					</div>
+					<div class="card-meta__row">
+						<dt>Type:</dt>
+						<dd>Memory cards game</dd>
+					</div>
+					<div class="card-meta__row">
+						<dt>Status:</dt>
+						<dd>Free to play</dd>
+					</div>
+				</dl>
+
+				<cyber-button href="#" wrap="_">get started</cyber-button>
 			</div>
-
-			<dl class="card-meta">
-				<div class="card-meta__row">
-					<dt>Name:</dt>
-					<dd>Pair Up!</dd>
-				</div>
-				<div class="card-meta__row">
-					<dt>Type:</dt>
-					<dd>Memory cards game</dd>
-				</div>
-				<div class="card-meta__row">
-					<dt>Status:</dt>
-					<dd>Free to play</dd>
-				</div>
-			</dl>
-		</div>
-	</cyber-frame>
+		</cyber-frame>
+	</div>
 </section>
 
 <style>
@@ -49,6 +53,13 @@
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	gap: 2rem;
+}
+
+.card {
+
+	& cyber-button {
+		width: 100%;
+	}
 }
 
 .image-preview {
@@ -107,5 +118,6 @@
 <script>
 	import "@12col/cyberpunk-ui/components/cyber-frame";
 	import "@12col/cyberpunk-ui/components/cyber-frame-corner";
+	import "@12col/cyberpunk-ui/components/cyber-button";
 	import "@12col/cyberpunk-ui/components/cyber-dot";
 </script>

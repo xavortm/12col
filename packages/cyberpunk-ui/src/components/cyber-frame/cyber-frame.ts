@@ -25,7 +25,6 @@ export class CyberFrame extends LitElement {
 				--cyber-frame-bg,
 				var(--color-surface, #121214)
 			);
-			--_cut-size: var(--cyber-frame-cut-size);
 
 			display: block;
 			position: relative;
@@ -44,14 +43,14 @@ export class CyberFrame extends LitElement {
 
 		:host([appearance="cut-edges"]) {
 			clip-path: polygon(
-				var(--_cut-size) 0%,
-				calc(100% - var(--_cut-size)) 0%,
-				100% var(--_cut-size),
-				100% calc(100% - var(--_cut-size)),
-				calc(100% - var(--_cut-size)) 100%,
-				var(--_cut-size) 100%,
-				0% calc(100% - var(--_cut-size)),
-				0% var(--_cut-size)
+				var(--cyber-frame-cut-size) 0%,
+				calc(100% - var(--cyber-frame-cut-size)) 0%,
+				100% var(--cyber-frame-cut-size),
+				100% calc(100% - var(--cyber-frame-cut-size)),
+				calc(100% - var(--cyber-frame-cut-size)) 100%,
+				var(--cyber-frame-cut-size) 100%,
+				0% calc(100% - var(--cyber-frame-cut-size)),
+				0% var(--cyber-frame-cut-size)
 			);
 		}
 
@@ -78,15 +77,36 @@ export class CyberFrame extends LitElement {
 		}
 	`;
 
+	private _ro?: ResizeObserver;
+	private _svgW: number = 0;
+	private _svgH: number = 0;
+	private _svgPoints: string = "";
+
+	override connectedCallback() {
+		super.connectedCallback();
+		if (this.appearance === "cut-edges") {
+			this._setupResizeObserver();
+		}
+	}
+
+	override disconnectedCallback() {
+		super.disconnectedCallback();
+		this._ro?.disconnect();
+		this._ro = undefined;
+	}
+
 	override render() {
 		const frameLayer =
 			this.appearance === "cut-edges"
 				? html`
 						<div class="frame-layer" aria-hidden="true">
 							<div class="border-overlay">
-								<svg preserveAspectRatio="none">
+								<svg
+									viewBox="0 0 ${this._svgW} ${this._svgH}"
+									preserveAspectRatio="none"
+								>
 									<polygon
-										points=""
+										points=${this._svgPoints}
 										fill="none"
 										stroke="var(--_border-color)"
 										stroke-width="1"
@@ -107,25 +127,41 @@ export class CyberFrame extends LitElement {
 		`;
 	}
 
-	override updated(_changed: Map<string, unknown>) {
+	override updated(changed: Map<string, unknown>) {
 		if (this.appearance === "cut-edges") {
-			this.style.setProperty("--_cut-size", `${this.cutSize}px`);
-			this._updateBorderSvg();
+			this.style.setProperty(
+				"--cyber-frame-cut-size",
+				`${this.cutSize}px`,
+			);
 		} else {
-			this.style.removeProperty("--_cut-size");
+			this.style.removeProperty("--cyber-frame-cut-size");
+		}
+
+		if (changed.has("appearance")) {
+			if (this.appearance === "cut-edges") {
+				this._setupResizeObserver();
+			} else {
+				this._ro?.disconnect();
+				this._ro = undefined;
+			}
 		}
 	}
 
-	private _updateBorderSvg() {
-		const polygon = this.shadowRoot?.querySelector("polygon");
-		if (!polygon) return;
+	private _setupResizeObserver() {
+		this._ro?.disconnect();
+		this._ro = new ResizeObserver((entries) => {
+			this._updateBorderSvg(entries[0]);
+		});
+		this._ro.observe(this);
+		this._updateBorderSvg();
+	}
 
-		const rect = this.getBoundingClientRect();
-		const w = rect.width;
-		const h = rect.height;
+	private _updateBorderSvg(entry?: ResizeObserverEntry) {
+		const w = entry ? entry.contentBoxSize[0].inlineSize : this.offsetWidth;
+		const h = entry ? entry.contentBoxSize[0].blockSize : this.offsetHeight;
 		const s = this.cutSize;
 
-		const points = [
+		this._svgPoints = [
 			`${s},0`,
 			`${w - s},0`,
 			`${w},${s}`,
@@ -135,8 +171,9 @@ export class CyberFrame extends LitElement {
 			`0,${h - s}`,
 			`0,${s}`,
 		].join(" ");
-
-		polygon.setAttribute("points", points);
+		this._svgW = w;
+		this._svgH = h;
+		this.requestUpdate();
 	}
 }
 
