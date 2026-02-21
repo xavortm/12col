@@ -37,7 +37,7 @@ const cardPairs = [...uniqueCards, ...uniqueCards];
         --cards-per-row: 4; /* Default, overridden by grid-layout.ts */
 
         display: grid;
-        gap: 1rem;
+        gap: 2rem;
         grid-template-columns: repeat(var(--cards-per-row), 1fr);
         height: 100%;
         align-content: start;
@@ -53,5 +53,18 @@ const cardPairs = [...uniqueCards, ...uniqueCards];
 
     .cards-grid__inner:not([data-waiting="true"]) :global(button:active) {
         transform: scale(0.97);
+    }
+
+    .cards-grid__inner :global(.is-hidden) {
+        display: none;
+    }
+
+    .cards-grid__inner :global(cyber-frame-corner) {
+        --cyber-frame-corner-transition-duration: 0.125s;
+        --cyber-frame-corner-transition-easing: ease-out;
+    }
+
+    .cards-grid__inner :global(cyber-frame:hover) :global(cyber-frame-corner) {
+        --cyber-frame-corner-offset: 8px;
     }
 </style>

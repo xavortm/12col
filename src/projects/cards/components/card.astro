@@ -8,17 +8,30 @@ interface Props {
 const { imgSrc, alt, pair } = Astro.props;
 ---
 
-<button type="button" data-state="default" data-pair={pair} aria-label="Face down">
-	<span class="inner" aria-hidden="true">
-		<span class="front"></span>
-		<span class="back">
-			<img src={imgSrc} alt={alt} />
+<cyber-frame>
+	<cyber-frame-corner slot="corner" position="all" size="small"></cyber-frame-corner>
+	<button slot="content" type="button" data-state="default" data-pair={pair} aria-label="Face down">
+		<span class="inner" aria-hidden="true">
+			<span class="front"></span>
+			<span class="back">
+				<img src={imgSrc} alt={alt} />
+			</span>
 		</span>
-	</span>
-</button>
+	</button>
+</cyber-frame>
+
+<script>
+	import "@12col/cyberpunk-ui/components/cyber-frame";
+	import "@12col/cyberpunk-ui/components/cyber-frame-corner";
+</script>
 
 <style>
+    cyber-frame {
+        --cyber-frame-corner-accent: white;
+    }
+
 	button {
+
 		appearance: none;
 		border: none;
 		padding: 0;
@@ -31,10 +44,6 @@ const { imgSrc, alt, pair } = Astro.props;
 	}
 
 	button:focus-visible {
-		outline: 2px solid currentColor;
-	}
-
-	button:hover {
 		outline: 2px solid currentColor;
 	}
 
@@ -72,6 +81,13 @@ const { imgSrc, alt, pair } = Astro.props;
 
 	.back {
 		transform: rotateY(180deg);
+        display: grid;
+        place-items: center;
+
+        & img {
+            max-height: 70%;
+            max-width: 70%;
+        }
 	}
 
 	button.is-hidden {

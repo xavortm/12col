@@ -70,7 +70,8 @@ function renderCards(packId: string, cardCount: number): void {
 	allButtons.forEach((button, i) => {
 		if (i < orderedCards.length) {
 			const card = orderedCards[i];
-			button.classList.remove("is-hidden");
+			const wrapper = button.closest("cyber-frame");
+			if (wrapper) wrapper.classList.remove("is-hidden");
 			button.dataset.state = "default";
 			button.dataset.pair = card.alt;
 			button.setAttribute("aria-label", "Face down");
@@ -81,7 +82,8 @@ function renderCards(packId: string, cardCount: number): void {
 				img.alt = card.alt;
 			}
 		} else {
-			button.classList.add("is-hidden");
+			const wrapper = button.closest("cyber-frame");
+			if (wrapper) wrapper.classList.add("is-hidden");
 		}
 	});
 

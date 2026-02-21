@@ -1,11 +1,11 @@
 // Shared DOM utilities for the cards game
 
-export const CARD_SELECTOR = ".cards-grid__inner > button";
+export const CARD_SELECTOR = ".cards-grid__inner button";
 
 export function getAllCards(): HTMLElement[] {
 	return Array.from(
 		document.querySelectorAll<HTMLElement>(CARD_SELECTOR),
-	).filter((card) => !card.classList.contains("is-hidden"));
+	).filter((card) => !card.closest(".is-hidden"));
 }
 
 export function getCardsPerRow(grid: HTMLElement): number {
