@@ -2,32 +2,21 @@
 
 import { initializeGame } from "./game-init";
 
-interface GameCompleteEvent extends CustomEvent {
-	detail: {
-		score: number;
-	};
-}
-
 function getModalElements() {
 	const modal = document.getElementById(
 		"victory-modal",
 	) as HTMLDialogElement | null;
 
-	const scoreDisplay = document.getElementById("victory-score");
 	const playAgainButton = document.getElementById("victory-play-again");
 	const closeButton = document.getElementById("victory-close");
 
-	return { modal, scoreDisplay, playAgainButton, closeButton };
+	return { modal, playAgainButton, closeButton };
 }
 
-function showVictoryModal(score: number): void {
-	const { modal, scoreDisplay } = getModalElements();
+function showVictoryModal(): void {
+	const { modal } = getModalElements();
 
 	if (!modal) return;
-
-	if (scoreDisplay) {
-		scoreDisplay.textContent = score.toLocaleString();
-	}
 
 	modal.showModal();
 }
@@ -54,9 +43,8 @@ function bindModalHandlers(): void {
 	closeButton?.addEventListener("click", hideVictoryModal);
 }
 
-function handleGameComplete(event: Event): void {
-	const customEvent = event as GameCompleteEvent;
-	showVictoryModal(customEvent.detail.score);
+function handleGameComplete(): void {
+	showVictoryModal();
 }
 
 function initVictoryModal(): void {

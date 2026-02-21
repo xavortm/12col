@@ -1,19 +1,7 @@
 import { createInitGuard, getAllCards, getCardsPerRow } from "./dom";
-import {
-	addPairScore,
-	calculatePairMult,
-	createScoringState,
-	resetStreak,
-	type ScoringState,
-} from "./scoring";
 import { parseCssDuration } from "./utils";
 
 type Direction = "up" | "down" | "left" | "right";
-
-interface CardData {
-	id: number;
-	flips: number;
-}
 
 const DIRECTION_KEYS: Record<Direction, string[]> = {
 	up: ["ArrowUp", "k"],
@@ -33,12 +21,7 @@ const getDirection = (key: string): Direction | undefined => {
 class CardsGame {
 	private grid: HTMLElement | null = null;
 	private announcer: HTMLElement | null = null;
-	private scoreValue: HTMLElement | null = null;
-	private scoreElement: HTMLElement | null;
-	private pairScoreElement: HTMLElement | null;
-	private multiplierElement: HTMLElement | null;
 	private clickCounter = 0;
-	private scoring: ScoringState = createScoringState();
 	private isLocked = false;
 	private timeWaitFlip = 1000;
 	private wasInsideGrid = false;
@@ -46,13 +29,7 @@ class CardsGame {
 	private shouldBindKeyboardNavigation = createInitGuard();
 	private shouldBindGridFocus = createInitGuard();
 
-	private cardsData: CardData[] = [];
-
 	constructor() {
-		this.scoreElement = document.getElementById("game-score");
-		this.pairScoreElement = document.getElementById("score-pair");
-		this.multiplierElement = document.getElementById("score-multiplier");
-
 		window.addEventListener("game:init", () => this.initialize());
 		document.addEventListener("DOMContentLoaded", () => this.initialize());
 	}
@@ -107,13 +84,6 @@ class CardsGame {
 		return allCards[0] === card ? allCards[1] : allCards[0];
 	}
 
-	private updateCardPoints(card: HTMLElement, flips: number): void {
-		const pointsEl = card.querySelector<HTMLElement>(".front__points");
-		if (pointsEl) {
-			pointsEl.textContent = String(calculatePairMult(flips));
-		}
-	}
-
 	private clickSolvesCard(card: HTMLElement): boolean {
 		const sibling = this.getCardSibling(card);
 		return (
@@ -132,65 +102,6 @@ class CardsGame {
 		});
 	}
 
-	// ── Score animations ────────────────────────────────────────────
-
-	private animateElements(
-		targets: (HTMLElement | null)[],
-		className: string,
-	): void {
-		for (const el of targets) {
-			if (!el) continue;
-			el.classList.remove(className);
-			// Force reflow so re-adding the class restarts the animation
-			void el.offsetWidth;
-			el.classList.add(className);
-			el.addEventListener(
-				"animationend",
-				() => el.classList.remove(className),
-				{ once: true },
-			);
-		}
-	}
-
-	// ── Scoring ─────────────────────────────────────────────────────
-
-	private getPointsPerPair(): number {
-		if (!this.scoreElement) return 1;
-		const points = this.scoreElement.dataset.pointsPerPair;
-		return points ? Number.parseInt(points, 10) : 1;
-	}
-
-	private updateScoreDisplay(): void {
-		if (this.scoreValue) {
-			this.scoreValue.textContent =
-				this.scoring.currentScore.toLocaleString();
-		}
-		if (this.pairScoreElement) {
-			this.pairScoreElement.textContent =
-				this.scoring.pairScore.toLocaleString();
-		}
-		if (this.multiplierElement) {
-			this.multiplierElement.textContent =
-				this.scoring.scoreMultiplier.toLocaleString();
-		}
-	}
-
-	private addScore(cardIndex: number): void {
-		const flips = this.cardsData[cardIndex].flips;
-		this.scoring = addPairScore(
-			this.scoring,
-			flips,
-			this.getPointsPerPair(),
-		);
-
-		this.updateScoreDisplay();
-		this.animateElements(
-			[this.pairScoreElement, this.multiplierElement, this.scoreValue],
-			"score--pop",
-		);
-		this.announce(`Pair found, score ${this.scoring.currentScore}`);
-	}
-
 	// ── Game completion ─────────────────────────────────────────────
 
 	private checkGameComplete(): boolean {
@@ -198,16 +109,11 @@ class CardsGame {
 	}
 
 	private dispatchGameComplete(): void {
-		window.dispatchEvent(
-			new CustomEvent("game:complete", {
-				detail: { score: this.scoring.currentScore },
-			}),
-		);
+		window.dispatchEvent(new CustomEvent("game:complete"));
 	}
 
 	private markCardSolved(card: HTMLElement): void {
 		const sibling = this.getCardSibling(card);
-		const cardIndex = Number.parseInt(card.dataset.index ?? "0", 10);
 
 		card.dataset.state = "solved";
 		sibling.dataset.state = "solved";
@@ -215,7 +121,7 @@ class CardsGame {
 		this.updateCardLabel(card);
 		this.updateCardLabel(sibling);
 
-		this.addScore(cardIndex);
+		this.announce("Pair found");
 
 		if (this.checkGameComplete()) {
 			this.dispatchGameComplete();
@@ -224,10 +130,7 @@ class CardsGame {
 
 	// ── Click handling ──────────────────────────────────────────────
 
-	private handleCardClick(card: HTMLElement, index: number): void {
-		this.cardsData[index].flips += 1;
-		this.updateCardPoints(card, this.cardsData[index].flips);
-
+	private handleCardClick(card: HTMLElement): void {
 		if (card.dataset.state === "default") {
 			this.clickCounter += 1;
 			card.dataset.state = "open";
@@ -250,12 +153,6 @@ class CardsGame {
 					this.markCardSolved(card);
 				} else {
 					this.closeOpenCards();
-					this.scoring = resetStreak(this.scoring);
-					this.updateScoreDisplay();
-					this.animateElements(
-						[this.multiplierElement],
-						"score--shake",
-					);
 				}
 
 				this.isLocked = false;
@@ -272,7 +169,6 @@ class CardsGame {
 		// Cache DOM elements on first init
 		this.grid = document.getElementById("cards-grid");
 		this.announcer = document.getElementById("card-announcer");
-		this.scoreValue = document.getElementById("score-value");
 
 		const cards = getAllCards();
 
@@ -289,22 +185,17 @@ class CardsGame {
 			}
 		}
 
-		this.cardsData = cards.map((_, index) => ({ id: index, flips: 0 }));
-
-		cards.forEach((card, index) => {
-			card.dataset.index = String(index);
+		cards.forEach((card) => {
 			card.addEventListener("click", () => {
 				if (this.canClickOnCard(card)) {
-					this.handleCardClick(card, index);
+					this.handleCardClick(card);
 				}
 			});
 		});
 
 		// Reset game state
 		this.clickCounter = 0;
-		this.scoring = createScoringState();
 		this.isLocked = false;
-		this.updateScoreDisplay();
 	}
 
 	// ── Keyboard navigation ─────────────────────────────────────────

@@ -1,32 +1,11 @@
 ---
 // Card grid container - populated by client-side JavaScript
-import Modal from './modal.astro';
 ---
 
 <div class="cards-grid">
     <div class="cards-grid__inner" id="cards-grid"></div>
     <div id="card-announcer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 </div>
-
-<div>
-    <button type="button" class="button scoring-info__trigger" id="scoring-info-trigger">How scoring works?</button>
-</div>
-
-<Modal id="scoring-info" labelledby="scoring-info-title" width="28rem">
-    <h2 class="scoring-info__title" id="scoring-info-title">How scoring works</h2>
-    <p>The number on each card starts at 4 and drops by one each time you flip it.</p>
-    <p>Each match earns points (blue) times a multiplier (red). Consecutive matches grow your points by 2 and multiply the multiplier by the card's number. A wrong guess resets the multiplier to zero, but your points never go down.</p>
-    <button type="button" class="button button--primary" id="scoring-info-close">Got it</button>
-</Modal>
-
-<script>
-	const trigger = document.getElementById('scoring-info-trigger');
-	const dialog = document.getElementById('scoring-info') as HTMLDialogElement;
-	const close = document.getElementById('scoring-info-close');
-
-	trigger?.addEventListener('click', () => dialog?.showModal());
-	close?.addEventListener('click', () => dialog?.close());
-</script>
 
 <style>
     .cards-grid {
