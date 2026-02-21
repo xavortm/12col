@@ -1,10 +1,12 @@
 ---
+import VersionInfo from "../../../components/VersionInfo.astro";
 ---
 
 <footer class="site-footer">
     <div class="container container--wide">
         <div class="site-footer__inner">
             <a href={import.meta.env.BASE_URL}>← Back to 12col</a>
+            <p class="site-footer__version"><VersionInfo project="cards" /></p>
             <p class="site-footer__hint">Navigate with <kbd>arrows</kbd> or <kbd>hjkl</kbd></p>
         </div>
     </div>
@@ -35,6 +37,10 @@
     gap: 1em;
     display: flex;
     align-items: center;
+}
+
+.site-footer__version {
+    font-size: 0.85em;
 }
 
 .site-footer__hint {

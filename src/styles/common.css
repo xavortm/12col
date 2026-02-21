@@ -29,4 +29,13 @@
 		--site-width: 87.5rem;
 		--site-gutter: 2rem;
 	}
+
+	body {
+		background-color: var(--color-bg);
+		color: var(--color-fg);
+		font-family: var(--font-body);
+		line-height: 1.6;
+		margin: 0;
+		padding: 0;
+	}
 }

@@ -1,4 +1,11 @@
-import { css, html, LitElement, nothing, svg, type SVGTemplateResult } from "lit";
+import {
+	css,
+	html,
+	LitElement,
+	nothing,
+	type SVGTemplateResult,
+	svg,
+} from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 export type CyberMicroLineNumberPosition = "start" | "end";
@@ -18,9 +25,11 @@ function generateBars(length: number): Bar[] {
 		// Varied gaps: sometimes tight (1–2px), sometimes wide (4–10px)
 		const gapRoll = Math.random();
 		const gap =
-			gapRoll < 0.3 ? 1 + Math.floor(Math.random() * 2)
-			: gapRoll < 0.7 ? 3 + Math.floor(Math.random() * 4)
-			: 6 + Math.floor(Math.random() * 5);
+			gapRoll < 0.3
+				? 1 + Math.floor(Math.random() * 2)
+				: gapRoll < 0.7
+					? 3 + Math.floor(Math.random() * 4)
+					: 6 + Math.floor(Math.random() * 5);
 
 		cursor += gap;
 		if (cursor >= length) break;

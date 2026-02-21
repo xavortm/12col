@@ -2,6 +2,7 @@
 
 @import url("./vendor/normalize.css");
 
+@import url("../../../styles/common.css");
 @import url("./base/colors.css");
 @import url("./base/core-styles.css");
 @import url("./base/typography.css");

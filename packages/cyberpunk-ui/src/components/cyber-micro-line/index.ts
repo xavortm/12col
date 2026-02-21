@@ -1,1 +1,4 @@
-export { CyberMicroLine, type CyberMicroLineNumberPosition } from "./cyber-micro-line";
+export {
+	CyberMicroLine,
+	type CyberMicroLineNumberPosition,
+} from "./cyber-micro-line";
