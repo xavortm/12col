@@ -1,8 +1,8 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
-export type CyberDotSize = "small" | "default" | "large";
-export type CyberDotAnimate = "pulse" | "wave" | "heartbeat";
+export type CyberDotSize = "tiny" | "small" | "default" | "large";
+export type CyberDotAnimation = "pulse" | "wave" | "heartbeat";
 
 @customElement("cyber-dot")
 export class CyberDot extends LitElement {
@@ -13,7 +13,7 @@ export class CyberDot extends LitElement {
 	accessor size: CyberDotSize = "default";
 
 	@property({ reflect: true })
-	accessor animate: CyberDotAnimate | undefined = undefined;
+	accessor animation: CyberDotAnimation | undefined = undefined;
 
 	static override styles = css`
 		:host {

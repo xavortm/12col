@@ -158,8 +158,8 @@ export class CyberFrame extends LitElement {
 	}
 
 	private _updateBorderSvg(entry?: ResizeObserverEntry) {
-		const w = entry ? entry.contentBoxSize[0].inlineSize : this.offsetWidth;
-		const h = entry ? entry.contentBoxSize[0].blockSize : this.offsetHeight;
+		const w = entry ? entry.contentRect.width : this.offsetWidth;
+		const h = entry ? entry.contentRect.height : this.offsetHeight;
 		const s = this.cutSize;
 
 		this._svgPoints = [
