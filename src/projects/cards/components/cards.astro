@@ -1,9 +1,27 @@
 ---
-// Card grid container - populated by client-side JavaScript
+import Card from './card.astro';
+import { DEFAULT_COUNT } from '../constants';
+import { DEFAULT_PACK_ID, PACKS } from '../data/packs/registry';
+
+const pack = PACKS[DEFAULT_PACK_ID];
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const maxPairs = DEFAULT_COUNT / 2;
+const uniqueCards = pack.cards.slice(0, maxPairs);
+const cardPairs = [...uniqueCards, ...uniqueCards];
 ---
 
 <div class="cards-grid">
-    <div class="cards-grid__inner" id="cards-grid"></div>
+    <div class="cards-grid__inner" id="cards-grid"
+         style={`--card-aspect-ratio: ${pack.aspectRatio}`}>
+        {cardPairs.map((card) => (
+            <Card
+                imgSrc={`${base}${pack.basePath}/${card.id}.svg`}
+                alt={card.alt}
+                pair={card.alt}
+            />
+        ))}
+    </div>
     <div id="card-announcer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 </div>
 
@@ -23,5 +41,17 @@
         grid-template-columns: repeat(var(--cards-per-row), 1fr);
         height: 100%;
         align-content: start;
+    }
+
+    .cards-grid__inner:not([data-initialized]) {
+        visibility: hidden;
+    }
+
+    .cards-grid__inner[data-waiting="true"] :global(button) {
+        cursor: not-allowed;
+    }
+
+    .cards-grid__inner:not([data-waiting="true"]) :global(button:active) {
+        transform: scale(0.97);
     }
 </style>

@@ -57,7 +57,9 @@ export function calculateOptimalColumns(
 function updateGridLayout(): void {
 	if (!container || !grid) return;
 
-	const cardCount = grid.children.length;
+	const cardCount = Array.from(grid.children).filter(
+		(child) => !child.classList.contains("is-hidden"),
+	).length;
 	if (cardCount === 0) return;
 
 	// Get available dimensions from the container
