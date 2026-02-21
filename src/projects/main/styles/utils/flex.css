@@ -1,0 +1,5 @@
+@layer utils {
+	.grow {
+		flex-grow: 1;
+	}
+}

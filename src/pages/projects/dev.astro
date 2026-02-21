@@ -1,0 +1,336 @@
+---
+// Route: /projects/dev
+// Component gallery for @12col/cyberpunk-ui
+import Layout from '../../layouts/Layout.astro';
+import '@12col/cyberpunk-ui/styles/tokens';
+---
+
+<Layout title="cyberpunk-ui / dev">
+	<div class="dev-page">
+		<header>
+			<a href={import.meta.env.BASE_URL}>&larr; Back to Home</a>
+			<h1>cyberpunk-ui</h1>
+			<p>Component dev gallery for <code>@12col/cyberpunk-ui</code></p>
+		</header>
+
+		<main>
+			<section>
+				<h2>&lt;cyber-dot&gt;</h2>
+				<p class="description">Glowing dots with configurable <var>count</var>, <var>size</var>, and <var>animate</var>. All visuals are tuneable via custom properties.</p>
+
+				<h3>Basics</h3>
+				<div class="specimens">
+					<div class="specimen">
+						<span class="label">default (count=1)</span>
+						<cyber-dot></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">count=3</span>
+						<cyber-dot count="3"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">count=5</span>
+						<cyber-dot count="5"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">count=0</span>
+						<cyber-dot count="0"></cyber-dot>
+					</div>
+				</div>
+
+				<h3>Sizes</h3>
+				<div class="specimens">
+					<div class="specimen">
+						<span class="label">small</span>
+						<cyber-dot count="3" size="small"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">default</span>
+						<cyber-dot count="3" size="default"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">large</span>
+						<cyber-dot count="3" size="large"></cyber-dot>
+					</div>
+				</div>
+
+				<h3>Animations</h3>
+				<div class="specimens">
+					<div class="specimen">
+						<span class="label">pulse</span>
+						<cyber-dot count="3" animate="pulse"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">wave</span>
+						<cyber-dot count="5" animate="wave"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">heartbeat</span>
+						<cyber-dot count="3" animate="heartbeat"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">heartbeat (large)</span>
+						<cyber-dot count="2" size="large" animate="heartbeat"></cyber-dot>
+					</div>
+				</div>
+
+				<h3>Custom Properties</h3>
+				<div class="specimens">
+					<div class="specimen">
+						<span class="label">custom color</span>
+						<cyber-dot count="3" style="--cyber-dot-color: #f0f; --cyber-dot-glow: rgba(255,0,255,0.6);"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">fast pulse (0.6s)</span>
+						<cyber-dot count="3" animate="pulse" style="--cyber-dot-duration: 0.6s;"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">slow wave (3s)</span>
+						<cyber-dot count="5" animate="wave" style="--cyber-dot-duration: 3s;"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">wide wave delay</span>
+						<cyber-dot count="5" animate="wave" style="--cyber-dot-wave-delay: 0.4s;"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">big heartbeat ring</span>
+						<cyber-dot count="2" animate="heartbeat" style="--cyber-dot-heartbeat-scale: 5;"></cyber-dot>
+					</div>
+
+					<div class="specimen">
+						<span class="label">wide gap</span>
+						<cyber-dot count="4" style="--cyber-dot-gap: 1em;"></cyber-dot>
+					</div>
+				</div>
+
+				<h3>Inline Usage</h3>
+				<div class="specimens">
+					<div class="specimen">
+						<span class="label">inline with text</span>
+						<span class="inline-demo">Status <cyber-dot count="2" size="small" animate="pulse"></cyber-dot> Online</span>
+					</div>
+				</div>
+			</section>
+			<section>
+				<h2>&lt;cyber-text&gt;</h2>
+				<p class="description">Decorative uppercase text span with configurable <var>size</var>, <var>variant</var>, and <var>effect</var>. Styled with monospace font, tight letter-spacing, and muted color by default.</p>
+
+				<h3>Variants</h3>
+				<div class="specimens">
+					<div class="specimen">
+						<span class="label">default (muted)</span>
+						<cyber-text>System Load: Nominal</cyber-text>
+					</div>
+
+					<div class="specimen">
+						<span class="label">vivid</span>
+						<cyber-text variant="vivid">Grid Mode: 12-Column</cyber-text>
+					</div>
+				</div>
+
+				<h3>Effect</h3>
+				<div class="specimens">
+					<div class="specimen">
+						<span class="label">glow (default)</span>
+						<cyber-text effect="glow">Signal Detected</cyber-text>
+					</div>
+
+					<div class="specimen">
+						<span class="label">glow (vivid)</span>
+						<cyber-text variant="vivid" effect="glow">Signal Detected</cyber-text>
+					</div>
+
+					<div class="specimen">
+						<span class="label">glow (custom color)</span>
+						<cyber-text effect="glow" style="--cyber-text-color: #0ff;">Cyan Glow</cyber-text>
+					</div>
+
+					<div class="specimen">
+						<span class="label">glow (large)</span>
+						<cyber-text size="large" variant="vivid" effect="glow">Amplified</cyber-text>
+					</div>
+				</div>
+
+				<h3>Sizes</h3>
+				<div class="specimens">
+					<div class="specimen">
+						<span class="label">small</span>
+						<cyber-text size="small">System Load: Nominal</cyber-text>
+						<cyber-text size="small" variant="vivid">System Load: Nominal</cyber-text>
+					</div>
+
+					<div class="specimen">
+						<span class="label">default</span>
+						<cyber-text>Grid Mode: 12-Column</cyber-text>
+						<cyber-text variant="vivid">Grid Mode: 12-Column</cyber-text>
+					</div>
+
+					<div class="specimen">
+						<span class="label">large</span>
+						<cyber-text size="large">Breakpoints: Ready</cyber-text>
+						<cyber-text size="large" variant="vivid">Breakpoints: Ready</cyber-text>
+					</div>
+				</div>
+
+				<h3>Custom Properties</h3>
+				<div class="specimens">
+					<div class="specimen">
+						<span class="label">custom color</span>
+						<cyber-text style="--cyber-text-color: #f0f;">Warning: Overload</cyber-text>
+					</div>
+
+					<div class="specimen">
+						<span class="label">custom weight</span>
+						<cyber-text variant="vivid" style="--cyber-text-weight: 400;">Light Weight Text</cyber-text>
+					</div>
+
+					<div class="specimen">
+						<span class="label">wide tracking</span>
+						<cyber-text variant="vivid" style="--cyber-text-tracking: 0.2em;">Spaced Out</cyber-text>
+					</div>
+
+					<div class="specimen">
+						<span class="label">custom size override</span>
+						<cyber-text variant="vivid" style="--cyber-text-size: 16px;">Big Custom</cyber-text>
+					</div>
+				</div>
+
+				<h3>Inline Usage</h3>
+				<div class="specimens">
+					<div class="specimen">
+						<span class="label">with cyber-dot</span>
+						<span class="inline-demo"><cyber-text variant="vivid" size="small">Status: Online</cyber-text> <cyber-dot count="1" size="small" animate="pulse"></cyber-dot></span>
+					</div>
+
+					<div class="specimen">
+						<span class="label">in a sentence</span>
+						<span class="inline-demo">Module <cyber-text variant="vivid">Active</cyber-text> and running</span>
+					</div>
+
+					<div class="specimen">
+						<span class="label">mixed variants</span>
+						<span class="inline-demo"><cyber-text>Build: 12.0.1</cyber-text> <cyber-text variant="vivid">Deployed</cyber-text></span>
+					</div>
+				</div>
+			</section>
+		</main>
+	</div>
+</Layout>
+
+<script>
+	import '@12col/cyberpunk-ui/components/cyber-dot';
+	import '@12col/cyberpunk-ui/components/cyber-text';
+</script>
+
+<style>
+	.dev-page {
+		min-height: 100vh;
+		background: #0a0a0f;
+		color: #fff;
+		font-family: var(--cyber-font);
+		padding: 2rem;
+	}
+
+	header {
+		margin-block-end: 3rem;
+	}
+
+	header a {
+		color: var(--cyber-text);
+		text-decoration: none;
+		font-size: 0.85rem;
+	}
+
+	header a:hover {
+		color: var(--cyber-text-hover);
+	}
+
+	h1 {
+		color: var(--cyber-text);
+		font-size: 1.5rem;
+		margin-block: 0.75rem 0.25rem;
+	}
+
+	header p {
+		margin: 0;
+		font-size: 0.85rem;
+		color: #fff;
+	}
+
+	code {
+		color: var(--cyber-text);
+		font-size: 0.85em;
+	}
+
+	h2 {
+		color: var(--cyber-text);
+		font-size: 1.1rem;
+		border-block-end: 1px solid #1a1a2e;
+		padding-block-end: 0.5rem;
+		margin-block-end: 0.75rem;
+	}
+
+	.description {
+		font-size: 0.85rem;
+		color: #ccc;
+		margin-block-end: 1.5rem;
+	}
+
+	var {
+		color: var(--cyber-text);
+		font-style: normal;
+	}
+
+	h3 {
+		font-size: 0.85rem;
+		color: #888;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		margin-block: 1.5rem 0.75rem;
+	}
+
+	h3:first-of-type {
+		margin-block-start: 0;
+	}
+
+	.specimens {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	.specimen {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		padding: 0.75rem 1rem;
+		border: 1px solid #1a1a2e;
+		border-radius: var(--cyber-radius);
+	}
+
+	.label {
+		font-size: 0.75rem;
+		color: #ccc;
+		min-inline-size: 10rem;
+		flex-shrink: 0;
+	}
+
+	.inline-demo {
+		color: var(--cyber-text);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5em;
+	}
+</style>

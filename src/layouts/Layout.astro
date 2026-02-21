@@ -1,9 +1,10 @@
 ---
 interface Props {
 	title?: string;
+	description?: string;
 }
 
-const { title = '12Col' } = Astro.props;
+const { title = '12Col', description = '12Col — a collection of standalone web projects' } = Astro.props;
 ---
 
 <!doctype html>
@@ -11,9 +12,12 @@ const { title = '12Col' } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content={description} />
 		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<link rel="preload" as="font" href={`${import.meta.env.BASE_URL}fonts/orbitron-latin-variable.woff2`} type="font/woff2" crossorigin />
+		<slot name="head" />
 	</head>
 	<body>
 		<slot />

@@ -1,47 +1,179 @@
 ---
-interface Props {
-    title: string;
-    subtitle?: string;
-}
+import Container from '../../main/components/container.astro';
+import { versions } from '../../../versions';
 
-const { title, subtitle } = Astro.props;
-
+const { version } = versions.cards;
 ---
 
-
 <header class="site-header">
-    <div class="container container--wide">
-        <div class="site-header__inner">
-            <h1>{title}</h1>
-            {subtitle && <p>{subtitle}</p>}
+    <div class="site-header__inner">
+        <Container>
+            <div class="site-header__primary">
+                <div class="site-header__cell site-logo">
+                    <a href={import.meta.env.BASE_URL}>Welcome to 12col</a>
+                </div>
+                <div class="site-header__cell">
+                    <a href={`${import.meta.env.BASE_URL}projects/cards/`}>Pair Up!</a>
+                </div>
+                <div class="site-header__cell--spacer"></div>
+                <div class="site-header__cell">
+                    <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="23" cy="23" r="23" fill="#80F891"/>
+                        <path d="M40.0792 20.9505C40.0792 31.0119 32.4326 39.1683 23 39.1683C13.5674 39.1683 5.92078 31.0119 5.92078 20.9505" stroke="#030404" stroke-width="2"/>
+                        <path d="M9.32999 18.6745C8.06864 20.7823 5.31889 21.267 3.18823 19.7572" stroke="#030404" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M36.67 18.6745C37.9314 20.7823 40.6811 21.267 42.8118 19.7572" stroke="#030404" stroke-width="2" stroke-linecap="round"/>
+                        <ellipse cx="29.1486" cy="14.3465" rx="2.73267" ry="5.23762" fill="#030404"/>
+                        <ellipse cx="16.8514" cy="14.3465" rx="2.73267" ry="5.23762" fill="#030404"/>
+                    </svg>
+                </div>
+                <div class="site-header__cell">
 
-            <slot />
-        </div>
+                    <div class="decorative-text-lines">
+                        <cyber-text size="small">Made by</cyber-text>
+                        <cyber-text size="small" variant="vivid">@xavortm</cyber-text>
+                        <cyber-text size="small" variant="vivid">@ydarelova</cyber-text>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="site-header__secondary" aria-hidden="true">
+                <div class="site-header__slot">
+                    <div class="decorative-text-lines">
+                        <cyber-text variant="vivid">Grid-ID: Pair Up!</cyber-text>
+                    </div>
+                    <cyber-dot count="2" size="small"></cyber-dot>
+                </div>
+
+                <div class="site-header__slot">
+                    <cyber-text variant="vivid">A Grid Full of Goodies</cyber-text>
+                </div>
+
+                <div class="site-header__slot">
+                    <cyber-dot count="2" size="small"></cyber-dot>
+                    <div class="decorative-text-lines">
+                        <cyber-text variant="vivid">v{version}</cyber-text>
+                    </div>
+                </div>
+            </div>
+        </Container>
     </div>
 </header>
 
 <style>
 
 .site-header {
-    padding-block: 0.25em;
-    border-bottom: 1px solid var(--color-stroke);
-
-    & h1 {
-        font-size: 1em;
-        border-inline-end: 1px solid var(--color-stroke);
-        padding-inline-end: 1em;
-    }
-
-    & p {
-        color: var(--color-muted);
-    }
+    --cell-padding: 10px;
+    --cell-stroke: 1px solid var(--color-stroke);
 }
 
 .site-header__inner {
-    gap: 1em;
-    display: flex;
-    align-items: center;
-    text-align: center;
+    padding-block-start: var(--cell-padding);
 }
 
+.site-header__primary {
+    display: flex;
+    border-block: var(--cell-stroke);
+    justify-content: center;
+}
+
+.site-header__cell--spacer {
+    flex: 1 1 auto;
+}
+
+.site-header__secondary {
+    display: flex;
+    justify-content: space-between;
+    margin-block-start: 10px;
+
+    & > * {
+        width: 10rem;
+        justify-content: center;
+    }
+
+    & > *:first-child {
+        justify-content: flex-start;
+        padding-inline-start: 0;
+    }
+
+    & > *:last-of-type {
+        justify-content: flex-end;
+        padding-inline-end: 0;
+    }
+}
+
+.site-header__cell {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--cell-padding);
+    border-inline-start: var(--cell-stroke);
+    flex-shrink: 0;
+
+    &:last-child {
+        padding-inline-end: 0;
+        border-inline-end: none;
+    }
+
+    &:first-child {
+        padding-inline-start: 0;
+        border-inline-start: none;
+    }
+}
+
+.site-header__slot {
+    font-size: 10px;
+    font-weight: 600;
+    padding-block: 0.5rem;
+    padding-inline: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.site-logo {
+    flex: 0 0 auto;
+
+    a {
+        --bevel-size: 1rem;
+        --padding: calc(1em / 3);
+
+        display: inline-block;
+        background-color: var(--color-primary);
+        color: var(--color-primary-inverted);
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 900;
+        font-size: 1.5rem;
+        padding-block: var(--padding);
+        padding-inline: var(--padding) calc(var(--padding) + var(--bevel-size));
+        line-height: 1.25;
+        border-radius: calc(var(--bevel-size) / 4);
+
+        clip-path: polygon(
+            0% 0%,
+            100% 0%,
+            100% calc(100% - var(--bevel-size)),
+            calc(100% - var(--bevel-size)) 100%,
+            0% 100%
+            );
+    }
+}
+
+.decorative-text-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+cyber-dot {
+    --cyber-dot-color: var(--color-primary);
+    --cyber-dot-glow: transparent;
+}
+
+
 </style>
+
+<script>
+  import "@12col/cyberpunk-ui/components/cyber-dot";
+  import "@12col/cyberpunk-ui/components/cyber-text";
+</script>

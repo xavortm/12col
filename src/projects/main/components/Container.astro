@@ -1,0 +1,12 @@
+<div class="container">
+	<slot />
+</div>
+
+<style>
+
+	.container {
+		inline-size: min(calc(100% - var(--site-gutter, 2rem)), var(--site-width, 1200px));
+		margin-inline: auto;
+	}
+
+</style>

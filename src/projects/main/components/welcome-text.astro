@@ -1,0 +1,46 @@
+---
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<section class:list={["welcome-text", className]}>
+	<div class="welcome-text__grid">
+		<h1 class="welcome-text__heading">Choose where to start</h1>
+		<p class="welcome-text__body">A curated vault of icons, games, quizzes, and delightful digital distractions - built on 12 columns of pure structure.</p>
+	</div>
+</section>
+
+<style>
+
+.welcome-text {
+	margin-block-start: 7rem;
+}
+
+.welcome-text__grid {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 2.5rem;
+	align-items: flex-end;
+}
+
+.welcome-text__heading {
+	margin: 0;
+	font-size: 4rem;
+	line-height: 1.1;
+	font-weight: 400;
+	background: -webkit-linear-gradient(0deg, var(--color-fg), var(--color-text-muted));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.welcome-text__body {
+	margin: 0;
+	line-height: 1.4;
+	font-size: 1rem;
+	color: var(--color-text-muted);
+}
+
+</style>

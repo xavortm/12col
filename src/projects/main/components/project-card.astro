@@ -1,0 +1,137 @@
+---
+
+interface Props {
+	name: string;
+	type: string;
+	status: string;
+	href: string;
+	image?: string;
+}
+
+const { name, type, status, href, image } = Astro.props;
+---
+
+<article class="project-card">
+	<cyber-frame>
+		<cyber-frame-corner slot="corner" position="all" size="small"></cyber-frame-corner>
+
+		<div slot="content" class="project-card__inner">
+
+			<div class="project-card__preview">
+				<div class="project-card__dots">
+					<cyber-dot size="tiny" count="2" class="dot-start"></cyber-dot>
+					<cyber-dot size="tiny" count="2" class="dot-end"></cyber-dot>
+				</div>
+
+				<cyber-frame appearance="cut-edges" cut-size="12">
+					<cyber-frame-corner slot="corner" variant="partial-outline" style="--cyber-frame-corner-accent: var(--color-border, #373b3e)"></cyber-frame-corner>
+					<div slot="content" class="project-card__image">
+						{image && <img src={image} alt="" width="200" />}
+					</div>
+				</cyber-frame>
+
+				<div class="project-card__dots">
+					<cyber-dot size="tiny" count="2" class="dot-start"></cyber-dot>
+					<cyber-dot size="tiny" count="2" class="dot-end"></cyber-dot>
+				</div>
+			</div>
+
+			<dl class="project-card__meta">
+				<div class="project-card__meta-row">
+					<dt>Name:</dt>
+					<dd>{name}</dd>
+				</div>
+				<div class="project-card__meta-row">
+					<dt>Type:</dt>
+					<dd>{type}</dd>
+				</div>
+				<div class="project-card__meta-row">
+					<dt>Status:</dt>
+					<dd>{status}</dd>
+				</div>
+			</dl>
+
+			<cyber-button href={href} wrap="_">get started</cyber-button>
+		</div>
+	</cyber-frame>
+</article>
+
+<style>
+
+.project-card {
+
+	& cyber-button {
+		width: 100%;
+	}
+
+	& cyber-frame-corner {
+		--cyber-frame-corner-transition-duration: 0.125s;
+		--cyber-frame-corner-transition-easing: ease-out;
+	}
+
+	&:has(cyber-button:hover) {
+
+		& cyber-frame-corner {
+			--cyber-frame-corner-offset: 8px;
+		}
+	}
+}
+
+.project-card__preview {
+
+	& .project-card__dots {
+		--cyber-dot-color: var(--color-primary);
+
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		gap: 2.5rem;
+	}
+
+	& cyber-frame {
+		margin-block: 0.25rem;
+	}
+}
+
+.project-card__image {
+	aspect-ratio: 256 / 150;
+	background-color: #030404;
+	display: grid;
+	place-items: center;
+}
+
+.project-card__inner {
+	padding: 2rem;
+}
+
+.project-card__meta {
+	margin-block: 1.5rem;
+	padding: 0;
+	font-size: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.project-card__meta-row {
+	display: grid;
+	grid-template-columns: 5ch 1fr;
+	gap: 16px;
+
+	& dt {
+		opacity: 0.5;
+	}
+
+	& dd {
+		margin: 0;
+	}
+}
+
+</style>
+
+<script>
+	import "@12col/cyberpunk-ui/components/cyber-frame";
+	import "@12col/cyberpunk-ui/components/cyber-frame-corner";
+	import "@12col/cyberpunk-ui/components/cyber-button";
+	import "@12col/cyberpunk-ui/components/cyber-dot";
+</script>

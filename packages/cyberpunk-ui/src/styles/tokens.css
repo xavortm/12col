@@ -1,0 +1,13 @@
+:root {
+	--cyber-text: #0ff;
+	--cyber-text-hover: #fff;
+	--cyber-bg: transparent;
+	--cyber-bg-hover: rgba(0, 255, 255, 0.1);
+	--cyber-border: #0ff;
+	--cyber-border-hover: #fff;
+	--cyber-glow: rgba(0, 255, 255, 0.6);
+	--cyber-glow-hover: rgba(0, 255, 255, 0.9);
+	--cyber-font: "Courier New", Courier, monospace;
+	--cyber-radius: 2px;
+	--cyber-transition: 150ms ease;
+}
