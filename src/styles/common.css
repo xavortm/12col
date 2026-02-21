@@ -2,7 +2,7 @@
 	font-family: "Orbitron";
 	font-style: normal;
 	font-weight: 400 900;
-	font-display: swap;
+	font-display: optional;
 	src: url("/12col/fonts/orbitron-latin-variable.woff2") format("woff2");
 }
 

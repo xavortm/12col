@@ -7,6 +7,8 @@ import CardGrid from '../../projects/cards/components/cards.astro';
 import Controls from '../../projects/cards/components/controls.astro';
 import VictoryModal from '../../projects/cards/components/victory-modal.astro';
 
+import Container from '../../projects/main/components/container.astro';
+
 import '@12col/cyberpunk-ui/styles/tokens';
 import '../../projects/cards/styles/cards.css';
 ---
@@ -16,19 +18,21 @@ import '../../projects/cards/styles/cards.css';
 		<SiteHeader>
 		</SiteHeader>
 		<div class="site-container__main">
-			<main class="container container--wide">
-				<Controls />
-				<p class="sr-only">
-					This memory card game uses live announcements to help you play.
-					When you enter the card grid, you'll hear its dimensions.
-					Flipping a card announces its name, and matching pairs announces your score.
-					Each match earns points times a multiplier. Matching pairs in a row
-					grows your points and multiplies your multiplier. A wrong guess
-					resets the multiplier to zero, but your points never go down.
-					The number on each card shows how many points it gives,
-					starting at 4 and dropping by one on each flip.
-				</p>
-				<CardGrid />
+			<main>
+				<Container>
+					<Controls />
+					<p class="sr-only">
+						This memory card game uses live announcements to help you play.
+						When you enter the card grid, you'll hear its dimensions.
+						Flipping a card announces its name, and matching pairs announces your score.
+						Each match earns points times a multiplier. Matching pairs in a row
+						grows your points and multiplies your multiplier. A wrong guess
+						resets the multiplier to zero, but your points never go down.
+						The number on each card shows how many points it gives,
+						starting at 4 and dropping by one on each flip.
+					</p>
+					<CardGrid />
+				</Container>
 			</main>
 		</div>
 		<SiteFooter />
@@ -43,25 +47,3 @@ import '../../projects/cards/styles/cards.css';
 	import '../../projects/cards/scripts/victory-modal.ts';
 </script>
 
-<style>
-	.site-container {
-		display: flex;
-		flex-direction: column;
-		height: 100vh;
-	}
-
-	.site-container__main {
-		flex: 1;
-		min-height: 0;
-		display: flex;
-		flex-direction: column;
-		padding-block: 1rem;
-	}
-
-	.site-container__main > .container {
-		flex: 1;
-		min-height: 0;
-		display: flex;
-		flex-direction: column;
-	}
-</style>
