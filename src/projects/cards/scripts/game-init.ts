@@ -76,7 +76,7 @@ function renderCards(packId: string, cardCount: number): void {
 			button.dataset.pair = card.alt;
 			button.setAttribute("aria-label", "Face down");
 
-			const img = button.querySelector("img");
+			const img = button.querySelector(".back img");
 			if (img) {
 				img.src = `${base}${pack.basePath}/${card.id}.svg`;
 				img.alt = card.alt;
