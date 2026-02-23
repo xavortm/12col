@@ -37,6 +37,35 @@ import '../../projects/cards/styles/cards.css';
 	<SettingsModal />
 </Layout>
 
+<style>
+	.site-container {
+		display: flex;
+		flex-direction: column;
+		height: 100dvh;
+		overflow: hidden;
+	}
+
+	.site-container__main {
+		flex: 1 1 0;
+		min-height: 0;
+		display: flex;
+	}
+
+	main {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+	}
+
+	.site-container__main :global(.container) {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+	}
+</style>
+
 <script>
 	import '../../projects/cards/scripts/game-init.ts';
 	import '../../projects/cards/scripts/cards.ts';

@@ -54,7 +54,7 @@ function renderCards(packId: string, cardCount: number): void {
 	const pack = PACKS[packId];
 	if (!pack) return;
 
-	grid.style.setProperty("--card-aspect-ratio", String(pack.aspectRatio));
+	grid.dataset.baseAspectRatio = String(pack.aspectRatio);
 
 	const allButtons = Array.from(
 		grid.querySelectorAll<HTMLButtonElement>("button"),

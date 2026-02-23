@@ -13,7 +13,7 @@ const cardPairs = [...uniqueCards, ...uniqueCards];
 
 <div class="cards-grid">
     <div class="cards-grid__inner" id="cards-grid"
-         style={`--card-aspect-ratio: ${pack.aspectRatio}`}>
+         data-base-aspect-ratio={String(pack.aspectRatio)}>
         {cardPairs.map((card) => (
             <Card
                 imgSrc={`${base}${pack.basePath}/${card.id}.svg`}
@@ -32,18 +32,30 @@ const cardPairs = [...uniqueCards, ...uniqueCards];
         min-height: 0;
 
         --card-width: 100%;
-        --card-ar: 1 / 1;
     }
 
     .cards-grid__inner {
         --card-flip-duration: 800ms;
         --cards-per-row: 4; /* Default, overridden by grid-layout.ts */
+        --grid-gap: 1rem;
 
         display: grid;
-        gap: 2rem;
+        gap: var(--grid-gap);
         grid-template-columns: repeat(var(--cards-per-row), 1fr);
         height: 100%;
-        align-content: start;
+        align-content: center;
+    }
+
+    @media (min-width: 768px) {
+        .cards-grid__inner {
+            --grid-gap: 1.25rem;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .cards-grid__inner {
+            --grid-gap: 2rem;
+        }
     }
 
     .cards-grid__inner:not([data-initialized]) {
