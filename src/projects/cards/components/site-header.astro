@@ -12,11 +12,16 @@ const { version } = versions.cards;
                 <div class="site-header__cell site-logo">
                     <a href={import.meta.env.BASE_URL}>Welcome to 12col</a>
                 </div>
-                <div class="site-header__cell">
+                <div class="site-header__cell project-name">
                     <a href={`${import.meta.env.BASE_URL}projects/cards/`}>Pair Up!</a>
                 </div>
-                <div class="site-header__cell--spacer"></div>
-                <div class="site-header__cell">
+                <div class="site-header__cell site-header__cell--spacer">
+                    <div class="decorative-text-lines">
+                        <cyber-text>flip over cards to reveal hidden symbols</cyber-text>
+                        <cyber-text>and find their identical pairs.</cyber-text>
+                    </div>
+                </div>
+                <div class="site-header__cell site-header__cell--settings">
                     <button type="button" class="button" id="settings-open">Game Settings</button>
                 </div>
                 <div class="site-header__cell">
@@ -173,6 +178,28 @@ cyber-dot {
     --cyber-dot-glow: transparent;
 }
 
+.project-name {
+
+    & a {
+        background: -webkit-linear-gradient(0deg, var(--color-fg), var(--color-text-muted));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 1.5rem;
+        text-decoration: none;
+        padding-inline: 1.75rem;
+        transition: 0.2;
+
+        &:hover {
+            transition: 0.1s;
+            transform: scale(1.1);
+        }
+    }
+}
+
+.site-header__cell--settings {
+    /* Remove for MVP */
+    display: none;
+}
 
 </style>
 
@@ -180,3 +207,4 @@ cyber-dot {
   import "@12col/cyberpunk-ui/components/cyber-dot";
   import "@12col/cyberpunk-ui/components/cyber-text";
 </script>
+
