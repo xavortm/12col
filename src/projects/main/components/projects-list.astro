@@ -39,17 +39,26 @@ import ProjectCard from './project-card.astro';
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	gap: 2rem;
 
+	.is-empty {
+		display: none;
+	}
+
 	@media (min-width: 640px) {
 		grid-template-columns: repeat(2, 1fr);
 	}
 
 	@media (min-width: 1024px) {
 		grid-template-columns: repeat(4, 1fr);
+
+		.is-empty {
+			display: block;
+		}
 	}
 
 	& cyber-frame,
 	& .project-card {
 		height: 100%;
+		min-height: 250px;
 	}
 }
 

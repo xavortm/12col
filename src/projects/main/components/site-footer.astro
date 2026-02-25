@@ -1,0 +1,206 @@
+---
+import SiteFooter from '../../../components/SiteFooter.astro';
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<SiteFooter>
+    <div class="site-footer__secondary" data-footer-lines aria-hidden="true">
+        <div class="site-footer__slot">
+            <div class="decorative-text-lines">
+                <cyber-text variant="vivid">Grid-ID: 12col</cyber-text>
+                <cyber-micro-line number="523" length="36"></cyber-micro-line>
+            </div>
+            <cyber-dot count="2" size="small"></cyber-dot>
+        </div>
+
+        <div class="site-footer__slot">
+            <cyber-text variant="vivid">A Grid Full of Goodies</cyber-text>
+        </div>
+
+        <div class="site-footer__slot">
+            <cyber-dot count="2" size="small"></cyber-dot>
+            <div class="decorative-text-lines">
+                <cyber-micro-line number="216" length="36" number-position="start"></cyber-micro-line>
+                <cyber-text variant="vivid">v01/02/2026</cyber-text>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-footer__primary">
+        <div class="site-footer__cell site-logo">
+            <a href={baseUrl}>12col</a>
+        </div>
+        <div class="site-footer__cell site-footer__cell--status">
+            <div class="decorative-text-lines">
+                <cyber-text size="small">A GRID FULL OF GOODIES</cyber-text>
+                <cyber-text size="small">GRID MODE: 12-COLUMN</cyber-text>
+            </div>
+        </div>
+        <div class="site-footer__cell site-footer__cell--globe">
+            <svg width="64" height="46" viewBox="0 0 64 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M32 0.5C40.7437 0.5 48.6392 3.04807 54.3359 7.14258C60.0333 11.2376 63.5 16.8508 63.5 23C63.5 29.1492 60.0333 34.7624 54.3359 38.8574C48.6392 42.9519 40.7437 45.5 32 45.5C23.2563 45.5 15.3608 42.9519 9.66406 38.8574C3.96671 34.7624 0.5 29.1492 0.5 23C0.5 16.8508 3.96671 11.2376 9.66406 7.14258C15.3608 3.04807 23.2563 0.5 32 0.5Z" fill="#030404" stroke="#80F992"/>
+                <path d="M32.0002 0.5C43.071 0.500137 52.136 10.5213 52.136 23C52.136 35.4787 43.071 45.4999 32.0002 45.5C20.9293 45.5 11.8645 35.4788 11.8645 23C11.8645 10.5212 20.9293 0.5 32.0002 0.5Z" stroke="#80F992"/>
+                <path d="M32.0004 0.5C47.1779 0.500175 59.3129 10.6584 59.3129 23C59.3129 35.3416 47.1779 45.4998 32.0004 45.5C16.8227 45.5 4.68689 35.3417 4.68689 23C4.68689 10.6583 16.8227 0.5 32.0004 0.5Z" stroke="#80F992"/>
+                <path d="M31.9998 0.5C33.2401 0.5 34.46 1.06672 35.6121 2.16895C36.7667 3.27359 37.8299 4.89543 38.7332 6.93848C40.539 11.0233 41.6687 16.7016 41.6687 23C41.6687 29.2984 40.539 34.9767 38.7332 39.0615C37.8299 41.1046 36.7667 42.7264 35.6121 43.8311C34.46 44.9333 33.2401 45.5 31.9998 45.5C30.7595 45.4999 29.5395 44.9332 28.3875 43.8311C27.233 42.7264 26.1705 41.1043 25.2673 39.0615C23.4615 34.9767 22.3318 29.2984 22.3318 23C22.3318 16.7016 23.4615 11.0233 25.2673 6.93848C26.1705 4.89566 27.233 3.27355 28.3875 2.16895C29.5395 1.06678 30.7595 0.500078 31.9998 0.5Z" stroke="#80F992"/>
+                <path d="M63.5 23.0004C63.4998 23.1068 63.4286 23.3103 63.0488 23.597C62.6797 23.8758 62.1033 24.166 61.3135 24.4545C59.7397 25.0293 57.4339 25.5559 54.5508 26.0013C48.7922 26.891 40.8191 27.4437 32 27.4437C23.1809 27.4437 15.2078 26.891 9.44922 26.0013C6.56608 25.5559 4.26032 25.0293 2.68652 24.4545C1.89671 24.166 1.32032 23.8758 0.951172 23.597C0.571433 23.3103 0.500182 23.1068 0.5 23.0004C0.5 22.894 0.570879 22.6899 0.951172 22.4027C1.32032 22.124 1.89671 21.8338 2.68652 21.5453C4.26032 20.9704 6.56611 20.4438 9.44922 19.9984C15.2078 19.1087 23.181 18.556 32 18.556C40.819 18.556 48.7922 19.1087 54.5508 19.9984C57.4339 20.4438 59.7397 20.9704 61.3135 21.5453C62.1033 21.8338 62.6797 22.124 63.0488 22.4027C63.4291 22.6899 63.5 22.894 63.5 23.0004Z" stroke="#80F992"/>
+                <path d="M63.5 23.0001C63.5 24.6659 62.6916 26.2981 61.1348 27.8312C59.5761 29.366 57.2947 30.7713 54.4355 31.962C48.7192 34.3427 40.7871 35.8273 32 35.8273C23.2129 35.8273 15.2808 34.3427 9.56445 31.962C6.70534 30.7713 4.42394 29.366 2.86523 27.8312C1.30837 26.2981 0.500014 24.6659 0.499999 23.0001C0.499999 21.3344 1.30839 19.7021 2.86523 18.1691C4.42393 16.6343 6.70536 15.229 9.56445 14.0382C15.2808 11.6575 23.2129 10.173 32 10.173C40.7871 10.173 48.7192 11.6575 54.4355 14.0382C57.2946 15.229 59.5761 16.6343 61.1348 18.1691C62.6916 19.7021 63.5 21.3344 63.5 23.0001Z" stroke="#80F992"/>
+                <path d="M63.5 23.0005C63.4998 28.3478 60.0659 33.2621 54.3603 36.8647C48.6611 40.4634 40.7569 42.7056 32 42.7056C23.2431 42.7056 15.3389 40.4634 9.63965 36.8647C3.93411 33.2621 0.500189 28.3478 0.499999 23.0005C0.499999 17.653 3.93395 12.738 9.63965 9.13525C15.3389 5.53661 23.2432 3.29443 32 3.29443C40.7568 3.29443 48.6611 5.53661 54.3604 9.13525C60.066 12.738 63.5 17.653 63.5 23.0005Z" stroke="#80F992"/>
+                <path d="M32 0.107422V45.8925" stroke="#80F992"/>
+            </svg>
+
+            <div class="decorative-text-lines">
+                <cyber-text size="small">CREATED BY 12COL SYSTEM</cyber-text>
+                <cyber-text size="small">MODULE_01: ICONS · MODULE_02: GAMES · MODULE_03: QUIZZES · GRID LAB</cyber-text>
+            </div>
+        </div>
+        <div class="site-footer__cell">
+            <div class="decorative-circle-string">
+                <span>12</span>
+            </div>
+        </div>
+        <div class="site-footer__cell">
+            <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="23" cy="23" r="23" fill="#80F891"/>
+                <path d="M30.3034 16.3372C28.9344 15.711 27.4805 15.2547 25.9629 15C25.7719 15.329 25.5596 15.7747 25.411 16.1249C23.7969 15.8914 22.1944 15.8914 20.6025 16.1249C20.454 15.7747 20.2311 15.329 20.0507 15C18.5225 15.2547 17.0686 15.711 15.7091 16.3372C12.9605 20.3911 12.2177 24.3495 12.5891 28.2549C14.4144 29.5815 16.1761 30.388 17.907 30.9187C18.3315 30.3456 18.7136 29.73 19.0425 29.0827C18.4164 28.8492 17.8221 28.5627 17.249 28.2231C17.3976 28.117 17.5462 28.0003 17.6842 27.8835C21.1438 29.4648 24.8911 29.4648 28.3082 27.8835C28.4568 28.0003 28.5948 28.117 28.7434 28.2231C28.1703 28.5627 27.576 28.8492 26.9499 29.0827C27.2789 29.73 27.6609 30.3456 28.0854 30.9187C29.8152 30.388 31.5875 29.5815 33.4033 28.2549C33.8596 23.7341 32.6806 19.8075 30.3034 16.3372ZM19.5201 25.8459C18.4801 25.8459 17.6311 24.9014 17.6311 23.7447C17.6311 22.5879 18.4588 21.6434 19.5201 21.6434C20.5707 21.6434 21.4303 22.5879 21.4091 23.7447C21.4091 24.9014 20.5707 25.8459 19.5201 25.8459ZM26.4936 25.8459C25.4535 25.8459 24.6034 24.9014 24.6034 23.7447C24.6034 22.5879 25.4323 21.6434 26.4936 21.6434C27.5442 21.6434 28.4038 22.5879 28.3825 23.7447C28.3825 24.9014 27.5548 25.8459 26.4936 25.8459Z" fill="#030404"/>
+            </svg>
+        </div>
+        <div class="site-footer__cell site-footer__cell--made-by">
+            <div class="decorative-text-lines">
+                <cyber-text size="small" variant="vivid">join our discord server</cyber-text>
+                <cyber-text size="small" variant="vivid">Design & Front-End space</cyber-text>
+            </div>
+        </div>
+    </div>
+</SiteFooter>
+
+<style>
+
+p {
+    margin: 0;
+}
+
+.site-footer__slot {
+    position: relative;
+
+    & cyber-micro-line {
+        position: absolute;
+    }
+
+    &:first-of-type {
+
+        & cyber-micro-line {
+            right: -6rem;
+            top: 0.25rem;
+        }
+    }
+
+    &:last-of-type {
+
+        & cyber-micro-line {
+            left: -7rem;
+            top: 0.25rem;
+        }
+    }
+}
+
+.decorative-row {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+}
+
+.sample-text {
+    gap: 1rem;
+}
+
+cyber-progress {
+    --cyber-progress-stroke: var(--color-stroke);
+    --cyber-progress-fill: var(--color-primary);
+    inline-size: 218px;
+}
+
+.decorative-circle-string {
+    border: 1px solid var(--color-fg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    width: 46px;
+
+    & span {
+        font-size: 18px;
+        font-weight: 900;
+    }
+}
+
+.site-footer__cell--globe {
+    flex-grow: 1;
+}
+
+@container site-footer (width < 640px) {
+
+    .site-logo {
+
+        & a {
+            width: 69px;
+            font-size: 12px;
+        }
+    }
+}
+
+@container site-footer (width < 440px) {
+    .site-footer__secondary {
+        .site-footer__slot:first-of-type,
+        .site-footer__slot:last-of-type {
+            & > * {
+                display: none;
+            }
+        }
+    }
+}
+
+@container site-footer (width < 1000px) {
+
+    .site-footer__cell--progress {
+        display: none;
+    }
+
+    .site-logo {
+        margin-right: auto;
+    }
+
+    .site-footer__secondary {
+
+        .site-footer__slot {
+            padding-inline: 0;
+        }
+
+        .site-footer__slot:first-of-type,
+        .site-footer__slot:last-of-type {
+            width: 5px;
+
+            & cyber-text {
+                display: none;
+            }
+        }
+    }
+}
+
+@container site-footer (width < 1264px) {
+
+    .site-footer__cell--sample-text,
+    .site-footer__cell--status {
+        display: none;
+    }
+}
+
+</style>
+
+<script>
+  import "@12col/cyberpunk-ui/components/cyber-dot";
+  import "@12col/cyberpunk-ui/components/cyber-micro-line";
+  import "@12col/cyberpunk-ui/components/cyber-progress";
+  import "@12col/cyberpunk-ui/components/cyber-text";
+</script>
