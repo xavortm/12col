@@ -8,9 +8,21 @@ import Container from "../../../projects/main/components/container.astro";
     <Container>
         <div class="site-footer__inner">
             <a href={import.meta.env.BASE_URL}>← Back to 12col</a>
-            <p class="site-footer__version"><VersionInfo project="cards" /></p>
-            <p class="site-footer__hint">Navigate with <kbd>arrows</kbd> or <kbd>hjkl</kbd></p>
         </div>
     </Container>
 </footer>
 
+
+<style>
+.site-footer {
+    padding-block: 1rem;
+}
+
+a {
+    text-decoration: none;
+
+    &:hover {
+        color: var(--color-primary);
+    }
+}
+</style>

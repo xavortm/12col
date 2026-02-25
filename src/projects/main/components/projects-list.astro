@@ -10,15 +10,68 @@ import ProjectCard from './project-card.astro';
 		href={`${import.meta.env.BASE_URL}projects/cards/`}
 		image="https://i.imgur.com/VXwifQR.png"
 	/>
+
+
+	<article class="project-card is-empty">
+		<cyber-frame>
+			<cyber-frame-corner slot="corner" position="all" size="small"></cyber-frame-corner>
+		</cyber-frame>
+	</article>
+	<article class="project-card is-empty">
+		<cyber-frame>
+			<cyber-frame-corner slot="corner" position="all" size="small"></cyber-frame-corner>
+		</cyber-frame>
+	</article>
+	<article class="project-card is-empty">
+		<cyber-frame>
+			<cyber-frame-corner slot="corner" position="all" size="small"></cyber-frame-corner>
+		</cyber-frame>
+	</article>
+
 </section>
+
 
 <style>
 
 .projects-viewer {
-	margin-block: 100px;
+	margin-block: 50px 100px;
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	gap: 2rem;
+
+	.is-empty {
+		display: none;
+	}
+
+	@media (min-width: 640px) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media (min-width: 1024px) {
+		grid-template-columns: repeat(4, 1fr);
+
+		.is-empty {
+			display: block;
+		}
+	}
+
+	& cyber-frame,
+	& .project-card {
+		height: 100%;
+		min-height: 250px;
+	}
+}
+
+.is-empty {
+	--cyber-frame-bg: transparent;
+	--cyber-frame-border-color: #333;
+	--cyber-frame-corner-accent: #666;
 }
 
 </style>
+
+<script>
+	import "@12col/cyberpunk-ui/components/cyber-frame";
+	import "@12col/cyberpunk-ui/components/cyber-frame-corner";
+</script>
+

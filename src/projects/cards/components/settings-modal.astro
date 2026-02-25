@@ -1,0 +1,20 @@
+---
+import Modal from './modal.astro';
+import CardCountSelector from './card-count-selector.astro';
+---
+
+<Modal id="settings-modal" labelledby="settings-title">
+	<div class="settings-modal">
+		<h2 id="settings-title">Game Settings</h2>
+		<CardCountSelector />
+	</div>
+</Modal>
+
+<script>
+	const button = document.getElementById('settings-open');
+	const dialog = document.getElementById('settings-modal') as HTMLDialogElement | null;
+
+	button?.addEventListener('click', () => {
+		dialog?.showModal();
+	});
+</script>

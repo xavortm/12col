@@ -31,10 +31,6 @@
 		& button[data-state="solved"] .inner {
 			transform: rotateY(180deg);
 		}
-
-		& button:hover {
-			outline: 2px solid currentColor;
-		}
 	}
 
 	.cards-grid__inner {
@@ -61,7 +57,6 @@
 		inset: 0;
 		width: 100%;
 		height: 100%;
-		border-radius: var(--radius-surface);
 		overflow: hidden;
 	}
 
@@ -69,13 +64,12 @@
 		transform: rotateY(180deg);
 	}
 
-	.cards-grid__inner .front {
-		background: rgba(255 255 255 / 2%);
-		border: 1px solid rgba(255 255 255 / 40%);
+	.cards-grid__inner .is-hidden {
+		display: none;
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
-		.cards-grid__inner > button {
+		.cards-grid__inner button {
 			transition:
 				transform 0.1s ease-in-out,
 				opacity 0.3s ease-in-out;

@@ -1,9 +1,27 @@
 ---
-// Card grid container - populated by client-side JavaScript
+import Card from './card.astro';
+import { DEFAULT_COUNT } from '../constants';
+import { DEFAULT_PACK_ID, PACKS } from '../data/packs/registry';
+
+const pack = PACKS[DEFAULT_PACK_ID];
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const maxPairs = DEFAULT_COUNT / 2;
+const uniqueCards = pack.cards.slice(0, maxPairs);
+const cardPairs = [...uniqueCards, ...uniqueCards];
 ---
 
 <div class="cards-grid">
-    <div class="cards-grid__inner" id="cards-grid"></div>
+    <div class="cards-grid__inner" id="cards-grid"
+         data-base-aspect-ratio={String(pack.aspectRatio)}>
+        {cardPairs.map((card) => (
+            <Card
+                imgSrc={`${base}${pack.basePath}/${card.id}.svg`}
+                alt={card.alt}
+                pair={card.alt}
+            />
+        ))}
+    </div>
     <div id="card-announcer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 </div>
 
@@ -12,16 +30,56 @@
         /* Fill available space so grid-layout.ts can calculate dimensions */
         flex: 1;
         min-height: 0;
+
+        --card-width: 100%;
     }
 
     .cards-grid__inner {
         --card-flip-duration: 800ms;
         --cards-per-row: 4; /* Default, overridden by grid-layout.ts */
+        --grid-gap: 1rem;
 
         display: grid;
-        gap: 1rem;
+        gap: var(--grid-gap);
         grid-template-columns: repeat(var(--cards-per-row), 1fr);
         height: 100%;
-        align-content: start;
+        align-content: center;
+    }
+
+    @media (min-width: 768px) {
+        .cards-grid__inner {
+            --grid-gap: 1.25rem;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .cards-grid__inner {
+            --grid-gap: 2rem;
+        }
+    }
+
+    .cards-grid__inner:not([data-initialized]) {
+        visibility: hidden;
+    }
+
+    .cards-grid__inner[data-waiting="true"] :global(button) {
+        cursor: not-allowed;
+    }
+
+    .cards-grid__inner:not([data-waiting="true"]) :global(button:active) {
+        transform: scale(0.97);
+    }
+
+    .cards-grid__inner :global(.is-hidden) {
+        display: none;
+    }
+
+    .cards-grid__inner :global(cyber-frame-corner) {
+        --cyber-frame-corner-transition-duration: 0.125s;
+        --cyber-frame-corner-transition-easing: ease-out;
+    }
+
+    .cards-grid__inner :global(cyber-frame:hover) :global(cyber-frame-corner) {
+        --cyber-frame-corner-offset: 8px;
     }
 </style>

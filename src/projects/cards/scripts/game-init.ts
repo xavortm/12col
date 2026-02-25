@@ -5,6 +5,8 @@ import { shuffleArray } from "./utils/shuffle";
 // Cached DOM elements
 let grid: HTMLElement | null = null;
 
+const MIN_UNIQUE_CARDS = DEFAULT_COUNT / 2;
+
 interface GameState {
 	packId: string;
 	cardCount: ValidCount;
@@ -46,52 +48,46 @@ function updateURL(state: GameState): void {
 	window.history.replaceState({}, "", url.toString());
 }
 
-function createCardHTML(imgSrc: string, alt: string): string {
-	return `
-		<button type="button" data-state="default" data-pair="${alt}" aria-label="Face down">
-			<span class="inner" aria-hidden="true">
-				<span class="front">
-				</span>
-				<span class="back">
-					<img src="${imgSrc}" alt="${alt}" />
-				</span>
-			</span>
-		</button>
-	`;
-}
-
-function shouldShuffle(): boolean {
-	const params = new URLSearchParams(window.location.search);
-	return params.get("shuffle") !== "false";
-}
-
 function renderCards(packId: string, cardCount: number): void {
 	if (!grid) return;
 
 	const pack = PACKS[packId];
-	if (!pack) {
-		console.error(`Pack "${packId}" not found`);
-		return;
-	}
+	if (!pack) return;
 
-	// Set aspect ratio CSS variable for grid layout and card styling
-	grid.style.setProperty("--card-aspect-ratio", String(pack.aspectRatio));
+	grid.dataset.baseAspectRatio = String(pack.aspectRatio);
 
+	const allButtons = Array.from(
+		grid.querySelectorAll<HTMLButtonElement>("button"),
+	);
 	const uniqueCardsNeeded = cardCount / 2;
-	const shuffle = shouldShuffle();
-	const availableCards = shuffle ? shuffleArray([...pack.cards]) : pack.cards;
+	const availableCards = shuffleArray([...pack.cards]);
 	const selectedCards = availableCards.slice(0, uniqueCardsNeeded);
+	const cardPairs = [...selectedCards, ...selectedCards];
+	const orderedCards = shuffleArray(cardPairs);
 
-	const cardPairs = selectedCards.concat(selectedCards);
+	const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
-	const orderedCards = shuffle ? shuffleArray(cardPairs) : cardPairs;
+	allButtons.forEach((button, i) => {
+		if (i < orderedCards.length) {
+			const card = orderedCards[i];
+			const wrapper = button.closest("cyber-frame");
+			if (wrapper) wrapper.classList.remove("is-hidden");
+			button.dataset.state = "default";
+			button.dataset.pair = card.alt;
+			button.setAttribute("aria-label", "Face down");
 
-	const base = import.meta.env.BASE_URL.replace(/\/$/, ""); // Remove trailing slash
-	grid.innerHTML = orderedCards
-		.map((card) =>
-			createCardHTML(`${base}${pack.basePath}/${card.id}.svg`, card.alt),
-		)
-		.join("");
+			const img = button.querySelector(".back img");
+			if (img) {
+				img.src = `${base}${pack.basePath}/${card.id}.svg`;
+				img.alt = card.alt;
+			}
+		} else {
+			const wrapper = button.closest("cyber-frame");
+			if (wrapper) wrapper.classList.add("is-hidden");
+		}
+	});
+
+	grid.setAttribute("data-initialized", "");
 }
 
 function updateCountSelector(cardCount: ValidCount): void {
@@ -148,10 +144,15 @@ function setupPackSelector(): void {
 	) as HTMLSelectElement | null;
 	if (!select) return;
 
+	// Only include packs with enough cards to fill the max count
+	const eligiblePacks = PACK_LIST.filter(
+		(pack) => pack.cards.length >= MIN_UNIQUE_CARDS,
+	);
+
 	// Populate options client-side
-	select.innerHTML = PACK_LIST.map(
-		(pack) => `<option value="${pack.id}">${pack.name}</option>`,
-	).join("");
+	select.innerHTML = eligiblePacks
+		.map((pack) => `<option value="${pack.id}">${pack.name}</option>`)
+		.join("");
 
 	select.addEventListener("change", () => {
 		const currentState = getStateFromURL();

@@ -1,0 +1,117 @@
+---
+---
+
+<header class="site-header">
+	<div class="site-header__inner">
+		<slot />
+	</div>
+</header>
+
+<style is:global>
+.site-header {
+	--cell-padding: 10px;
+	--cell-stroke: 1px solid var(--color-stroke);
+
+	container: site-header / inline-size;
+}
+
+.site-header .site-header__inner {
+	padding-block-start: var(--cell-padding);
+}
+
+.site-header .site-header__primary {
+	display: flex;
+	border-block: var(--cell-stroke);
+}
+
+.site-header .site-header__secondary {
+	display: flex;
+	justify-content: space-between;
+	margin-block-start: 10px;
+}
+
+.site-header .site-header__secondary > * {
+	width: 10rem;
+	justify-content: center;
+}
+
+.site-header .site-header__secondary > *:first-child {
+	justify-content: flex-start;
+	padding-inline-start: 0;
+}
+
+.site-header .site-header__secondary > *:last-of-type {
+	justify-content: flex-end;
+	padding-inline-end: 0;
+}
+
+.site-header .site-header__cell {
+	display: inline-flex;
+	align-items: center;
+	padding: var(--cell-padding);
+	border-inline-start: var(--cell-stroke);
+	flex-shrink: 0;
+}
+
+.site-header .site-header__cell:last-child {
+	padding-inline-end: 0;
+	border-inline-end: none;
+}
+
+.site-header .site-header__cell:first-child {
+	padding-inline-start: 0;
+	border-inline-start: none;
+}
+
+.site-header .site-header__slot {
+	font-size: 10px;
+	font-weight: 600;
+	padding-block: 0.5rem;
+	padding-inline: 2rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.site-header .site-logo {
+	flex: 0 0 auto;
+
+	
+}
+
+.site-header .site-logo a {
+	--bevel-size: 1rem;
+	--padding: calc(1em / 3);
+
+	display: inline-block;
+	background-color: var(--color-primary);
+	color: var(--color-primary-inverted);
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: 900;
+	font-size: 1.5rem;
+	padding-block: var(--padding);
+	padding-inline: var(--padding) calc(var(--padding) + var(--bevel-size));
+	line-height: 1.25;
+	border-radius: calc(var(--bevel-size) / 4);
+
+	clip-path: polygon(
+		0% 0%,
+		100% 0%,
+		100% calc(100% - var(--bevel-size)),
+		calc(100% - var(--bevel-size)) 100%,
+		0% 100%
+	);
+}
+
+.site-header .decorative-text-lines {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.site-header cyber-dot {
+	--cyber-dot-color: var(--color-primary);
+	--cyber-dot-glow: transparent;
+}
+</style>

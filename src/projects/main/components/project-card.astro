@@ -26,7 +26,7 @@ const { name, type, status, href, image } = Astro.props;
 				<cyber-frame appearance="cut-edges" cut-size="12">
 					<cyber-frame-corner slot="corner" variant="partial-outline" style="--cyber-frame-corner-accent: var(--color-border, #373b3e)"></cyber-frame-corner>
 					<div slot="content" class="project-card__image">
-						{image && <img src={image} alt="" width="200" />}
+						{image && <img src={image} alt={`Preview of ${name}`} width="200" />}
 					</div>
 				</cyber-frame>
 

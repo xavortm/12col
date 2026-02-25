@@ -273,7 +273,7 @@ class CardsGame {
 		if (!this.grid) return { cols: 0, rows: 0 };
 
 		const cols = getCardsPerRow(this.grid);
-		const cardCount = this.grid.children.length;
+		const cardCount = getAllCards().length;
 		const rows = Math.ceil(cardCount / cols);
 
 		return { cols, rows };

@@ -1,0 +1,125 @@
+---
+import cardBackSrc from "../assets/card-backs/default.svg";
+
+interface Props {
+	imgSrc: string;
+	alt: string;
+	pair: string;
+}
+
+const { imgSrc, alt, pair } = Astro.props;
+---
+
+<cyber-frame>
+	<cyber-frame-corner slot="corner" position="all" size="small"></cyber-frame-corner>
+	<button slot="content" type="button" data-state="default" data-pair={pair} aria-label="Face down">
+		<span class="inner" aria-hidden="true">
+			<span class="front">
+				<img src={cardBackSrc.src} alt="" />
+			</span>
+			<span class="back">
+				<img src={imgSrc} alt={alt} />
+			</span>
+		</span>
+	</button>
+</cyber-frame>
+
+<script>
+	import "@12col/cyberpunk-ui/components/cyber-frame";
+	import "@12col/cyberpunk-ui/components/cyber-frame-corner";
+</script>
+
+<style>
+cyber-frame {
+	--cyber-frame-corner-accent: white;
+}
+
+button {
+	width: var(--card-width);
+	aspect-ratio: var(--card-aspect-ratio, 1);
+	display: block;
+	appearance: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+	cursor: pointer;
+	border-radius: var(--radius-surface);
+	perspective: 1000px;
+}
+
+button:focus-visible {
+	outline: 2px solid currentColor;
+}
+
+button img {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+button[data-state="default"] .inner {
+	transform: rotateY(0deg);
+}
+
+button[data-state="open"] .inner,
+button[data-state="solved"] .inner {
+	transform: rotateY(180deg);
+}
+
+.inner {
+	display: block;
+	transform-style: preserve-3d;
+	position: relative;
+	aspect-ratio: var(--card-aspect-ratio, 1);
+}
+
+.front,
+.back {
+	backface-visibility: hidden;
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.front {
+	display: grid;
+	place-items: center;
+	container-type: size;
+
+	& img {
+		width: 50cqmin;
+		height: 50cqmin;
+		object-fit: contain;
+	}
+}
+
+.back {
+	transform: rotateY(180deg);
+	display: grid;
+	place-items: center;
+
+	& img {
+		max-height: 70%;
+		max-width: 70%;
+	}
+}
+
+button.is-hidden {
+	display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	button {
+		transition:
+			transform 0.1s ease-in-out,
+			opacity 0.3s ease-in-out;
+	}
+
+	.inner {
+		transition: transform var(--card-flip-duration);
+	}
+}
+</style>

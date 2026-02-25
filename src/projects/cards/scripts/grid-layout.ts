@@ -1,109 +1,107 @@
-// Grid layout calculator - determines optimal column count to fit all cards
-// Sets --cards-per-row CSS variable, letting CSS handle the actual sizing
+// Grid layout calculator - determines optimal column count and aspect ratio
+// to fit all cards within the viewport. Sets --cards-per-row and
+// --card-aspect-ratio CSS variables, letting CSS handle the actual sizing.
 
 // Cached DOM elements
 let container: HTMLElement | null = null;
 let grid: HTMLElement | null = null;
 
-export interface GridConfig {
-	aspectRatio: number; // card width / height (e.g., 1 for square, 4/3 for landscape)
-	gapPx: number;
+export interface FittedLayout {
+	columns: number;
+	adjustedAspectRatio: number;
 }
 
-const DEFAULT_ASPECT_RATIO = 1;
-const GAP_PX = 16; // 1rem = 16px
-
-export function calculateOptimalColumns(
+export function calculateFittedLayout(
 	containerWidth: number,
 	containerHeight: number,
 	cardCount: number,
-	config: GridConfig,
-): number {
-	if (cardCount === 0) return 1;
+	baseAspectRatio: number,
+	gapPx: number,
+): FittedLayout {
+	if (cardCount === 0)
+		return { columns: 1, adjustedAspectRatio: baseAspectRatio };
 
-	const { aspectRatio, gapPx } = config;
+	const minAR = baseAspectRatio * 0.4;
+	const maxAR = baseAspectRatio * 2.5;
 
-	// Get all column counts that evenly divide the card count (no orphan rows)
-	const validColumnCounts: number[] = [];
+	let bestScore = Infinity;
+	let bestLayout: FittedLayout = {
+		columns: 1,
+		adjustedAspectRatio: baseAspectRatio,
+	};
+
 	for (let cols = 1; cols <= cardCount; cols++) {
-		if (cardCount % cols === 0) {
-			validColumnCounts.push(cols);
-		}
-	}
+		// Only allow perfect grids — no incomplete rows
+		if (cardCount % cols !== 0) continue;
 
-	// Find minimum columns that fits vertically (maximizes card size while fitting)
-	for (const cols of validColumnCounts) {
 		const rows = cardCount / cols;
 
-		// Calculate card dimensions based on available width
-		const totalHorizontalGap = gapPx * (cols - 1);
-		const cardWidth = (containerWidth - totalHorizontalGap) / cols;
-		const cardHeight = cardWidth / aspectRatio;
+		const cardWidth = (containerWidth - gapPx * (cols - 1)) / cols;
+		const cardHeight = (containerHeight - gapPx * (rows - 1)) / rows;
 
-		// Calculate total grid height
-		const totalVerticalGap = gapPx * (rows - 1);
-		const gridHeight = rows * cardHeight + totalVerticalGap;
+		if (cardWidth <= 0 || cardHeight <= 0) continue;
 
-		// If this configuration fits, use it (maximizes card size)
-		if (gridHeight <= containerHeight) {
-			return cols;
+		const neededAR = cardWidth / cardHeight;
+
+		if (neededAR < minAR || neededAR > maxAR) continue;
+
+		const arDeviation = Math.abs(Math.log(neededAR / baseAspectRatio));
+		const score = arDeviation;
+
+		if (score < bestScore) {
+			bestScore = score;
+			bestLayout = { columns: cols, adjustedAspectRatio: neededAR };
 		}
 	}
 
-	// If nothing fits, use max columns (smallest cards, single row)
-	return cardCount;
+	return bestLayout;
 }
 
 function updateGridLayout(): void {
 	if (!container || !grid) return;
 
-	const cardCount = grid.children.length;
+	const cardCount = grid.querySelectorAll<HTMLButtonElement>(
+		"cyber-frame:not(.is-hidden) button",
+	).length;
 	if (cardCount === 0) return;
 
-	// Get available dimensions from the container
 	const rect = container.getBoundingClientRect();
-	const containerWidth = rect.width;
-	const containerHeight = rect.height;
+	if (rect.width === 0 || rect.height === 0) return;
 
-	// Skip if container has no dimensions yet
-	if (containerWidth === 0 || containerHeight === 0) return;
+	const baseAspectRatio = Number.parseFloat(
+		grid.dataset.baseAspectRatio || "1",
+	);
 
-	// Read aspect ratio from CSS variable (set by game-init based on pack)
-	const aspectRatioVar = grid.style.getPropertyValue("--card-aspect-ratio");
-	const aspectRatio = aspectRatioVar
-		? Number.parseFloat(aspectRatioVar)
-		: DEFAULT_ASPECT_RATIO;
+	// Read gap from computed styles (responsive via CSS)
+	const computedGap = Number.parseFloat(getComputedStyle(grid).rowGap) || 16;
 
-	const columns = calculateOptimalColumns(
-		containerWidth,
-		containerHeight,
+	const { columns, adjustedAspectRatio } = calculateFittedLayout(
+		rect.width,
+		rect.height,
 		cardCount,
-		{ aspectRatio, gapPx: GAP_PX },
+		baseAspectRatio,
+		computedGap,
 	);
 
 	grid.style.setProperty("--cards-per-row", String(columns));
+	grid.style.setProperty("--card-aspect-ratio", String(adjustedAspectRatio));
 }
 
 function initGridLayout(): void {
-	// Cache DOM elements
 	container = document.querySelector<HTMLElement>(".cards-grid");
 	grid = document.getElementById("cards-grid");
 
 	if (!container) return;
 
-	// Observe container size changes
 	const resizeObserver = new ResizeObserver(() => {
 		updateGridLayout();
 	});
 	resizeObserver.observe(container);
 
-	// Also update when cards change (game init fires this event)
 	window.addEventListener("game:init", () => {
-		// Small delay to ensure DOM is updated
 		requestAnimationFrame(updateGridLayout);
 	});
 
-	// Initial calculation
 	updateGridLayout();
 }
 

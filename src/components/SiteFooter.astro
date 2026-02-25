@@ -1,0 +1,117 @@
+---
+---
+
+<footer class="site-footer">
+	<div class="site-footer__inner">
+		<slot />
+	</div>
+</footer>
+
+<style is:global>
+.site-footer {
+	--cell-padding: 10px;
+	--cell-stroke: 1px solid var(--color-stroke);
+
+	container: site-footer / inline-size;
+}
+
+.site-footer .site-footer__inner {
+	padding-block-end: var(--cell-padding);
+}
+
+.site-footer .site-footer__primary {
+	display: flex;
+	border-block: var(--cell-stroke);
+}
+
+.site-footer .site-footer__secondary {
+	display: flex;
+	justify-content: space-between;
+	margin-block-end: 10px;
+}
+
+.site-footer .site-footer__secondary > * {
+	width: 10rem;
+	justify-content: center;
+}
+
+.site-footer .site-footer__secondary > *:first-child {
+	justify-content: flex-start;
+	padding-inline-start: 0;
+}
+
+.site-footer .site-footer__secondary > *:last-of-type {
+	justify-content: flex-end;
+	padding-inline-end: 0;
+}
+
+.site-footer .site-footer__cell {
+	display: inline-flex;
+	align-items: center;
+	padding: var(--cell-padding);
+	border-inline-start: var(--cell-stroke);
+	flex-shrink: 0;
+}
+
+.site-footer .site-footer__cell:last-child {
+	padding-inline-end: 0;
+	border-inline-end: none;
+}
+
+.site-footer .site-footer__cell:first-child {
+	padding-inline-start: 0;
+	border-inline-start: none;
+}
+
+.site-footer .site-footer__slot {
+	font-size: 10px;
+	font-weight: 600;
+	padding-block: 0.5rem;
+	padding-inline: 2rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.site-footer .site-logo {
+	flex: 0 0 auto;
+
+	
+}
+
+.site-footer .site-logo a {
+	--bevel-size: 1rem;
+	--padding: calc(1em / 3);
+
+	display: inline-block;
+	background-color: var(--color-fg);
+	color: var(--color-primary-inverted);
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: 900;
+	font-size: 1.5rem;
+	padding-block: var(--padding);
+	padding-inline: var(--padding) calc(var(--padding) + var(--bevel-size));
+	line-height: 1.25;
+	border-radius: calc(var(--bevel-size) / 4);
+
+	clip-path: polygon(
+		0% 0%,
+		100% 0%,
+		100% calc(100% - var(--bevel-size)),
+		calc(100% - var(--bevel-size)) 100%,
+		0% 100%
+	);
+}
+
+.site-footer .decorative-text-lines {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.site-footer cyber-dot {
+	--cyber-dot-color: var(--color-primary);
+	--cyber-dot-glow: transparent;
+}
+</style>

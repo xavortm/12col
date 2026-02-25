@@ -17,6 +17,7 @@ const { class: className } = Astro.props;
 
 .welcome-text {
 	margin-block-start: 7rem;
+	container: welcome-text / inline-size;
 }
 
 .welcome-text__grid {
@@ -24,11 +25,19 @@ const { class: className } = Astro.props;
 	grid-template-columns: auto 1fr;
 	gap: 2.5rem;
 	align-items: flex-end;
+
+	@container welcome-text (width < 1330px) {
+		grid-template-columns: 2fr 1fr;
+	}
+
+	@container welcome-text (width < 1330px) {
+		grid-template-columns: 1fr;
+	}
 }
 
 .welcome-text__heading {
 	margin: 0;
-	font-size: 4rem;
+	font-size: clamp(2rem, 8cqi, 4rem);
 	line-height: 1.1;
 	font-weight: 400;
 	background: -webkit-linear-gradient(0deg, var(--color-fg), var(--color-text-muted));

@@ -6,6 +6,7 @@ import SiteFooter from '../../projects/cards/components/site-footer.astro';
 import CardGrid from '../../projects/cards/components/cards.astro';
 import Controls from '../../projects/cards/components/controls.astro';
 import VictoryModal from '../../projects/cards/components/victory-modal.astro';
+import SettingsModal from '../../projects/cards/components/settings-modal.astro';
 
 import Container from '../../projects/main/components/container.astro';
 
@@ -33,7 +34,37 @@ import '../../projects/cards/styles/cards.css';
 		<SiteFooter />
 	</div>
 	<VictoryModal />
+	<SettingsModal />
 </Layout>
+
+<style>
+	.site-container {
+		display: flex;
+		flex-direction: column;
+		height: 100dvh;
+		overflow: hidden;
+	}
+
+	.site-container__main {
+		flex: 1 1 0;
+		min-height: 0;
+		display: flex;
+	}
+
+	main {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+	}
+
+	.site-container__main :global(.container) {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+	}
+</style>
 
 <script>
 	import '../../projects/cards/scripts/game-init.ts';
